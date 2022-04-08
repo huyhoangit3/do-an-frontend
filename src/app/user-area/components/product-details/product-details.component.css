@@ -115,3 +115,7 @@ body{
 .bg-soft-success {
   background-color: rgba(35,197,143,.25)!important;
 }
+.card:hover {
+  transition: .2s;
+  transform: scale(1.03);
+}
