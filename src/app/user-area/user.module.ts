@@ -9,6 +9,9 @@ import {FooterComponent} from "./components/footer/footer.component";
 import { SupportComponent } from './components/support/support.component';
 import { CartComponent } from './components/cart/cart.component';
 import { SignupComponent } from './components/signup/signup.component';
+import { NgToastModule } from 'ng-angular-popup';
+import { CommonModule } from '@angular/common';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,10 @@ import { SignupComponent } from './components/signup/signup.component';
     SignupComponent
   ],
   imports: [
-    UserRoutingModule
+    CommonModule,
+    UserRoutingModule,
+    NgToastModule,
+    NgxPaginationModule
   ],
   bootstrap: [UserComponent]
 })

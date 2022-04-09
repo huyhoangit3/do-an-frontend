@@ -1,6 +1,3 @@
-body{
-
-}
 .container {
   background:#eee;
   margin-top: 30px;
@@ -384,6 +381,9 @@ body{
 }
 .card-wrapper {
   margin: 30px -15px;
+}
+.form-quantity {
+  box-shadow: none;
 }
 @media (max-width: 576px) {
   .card-wrapper .jp-card-container {

@@ -15,7 +15,7 @@ import { LoginComponent } from './shared/components/login/login.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    UserModule
+    UserModule,
   ],
   providers: [AuthGuardService],
   bootstrap: [AppComponent]

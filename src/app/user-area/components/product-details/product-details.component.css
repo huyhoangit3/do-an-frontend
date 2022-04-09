@@ -119,3 +119,6 @@ body{
   transition: .2s;
   transform: scale(1.03);
 }
+.quantity {
+  box-shadow: none;
+}

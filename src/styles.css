@@ -1,3 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 body {background-color: #e8e5e5
 }
+.my-pagination .ngx-pagination .current{
+    background: #563d7c;  
+}

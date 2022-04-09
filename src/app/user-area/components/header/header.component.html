@@ -10,45 +10,42 @@
       <ul class="navbar-nav mr-auto">
         <li class="nav-item" [routerLinkActive]="['active']">
           <a class="nav-link" [routerLink]="['/home']">
-            <i class="fa-solid fa-house"></i> Home
+            <i class="fa-solid fa-house"></i> Trang chủ
           </a>
         </li>
 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
              aria-haspopup="true" aria-expanded="false">
-            Category
+            Danh mục
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Something else here</a>
+            <a class="dropdown-item" href="#">Danh mục 1</a>
+            <a class="dropdown-item" href="#">Danh mục 2</a>
+            <a class="dropdown-item" href="#">Danh mục 3</a>
+            <a class="dropdown-item" href="#">Danh mục 4</a>
           </div>
         </li>
 
         <li class="nav-item"  [routerLinkActive]="['active']">
           <a class="nav-link" [routerLink]="['/support']">
-            <i class="fa-solid fa-headset"></i> Support</a>
+            <i class="fa-solid fa-headset"></i> Hỗ trợ</a>
         </li>
         <li class="nav-item" [routerLinkActive]="['active']">
           <a class="nav-link" [routerLink]="['/support']">
-          <i class="fa-solid fa-people-group"></i> About us</a>
+          <i class="fa-solid fa-people-group"></i> Về chúng tôi</a>
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2 txt-search" type="search" placeholder="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0">
-          <i class="fa-solid fa-magnifying-glass"></i> Search
-        </button>
+        <input class="form-control mr-sm-2 txt-search" type="search" placeholder="Nhập từ khóa tìm kiếm">
       </form>
       <div>
         <button class="btn btn-outline-info my-2 my-sm-0 mx-3" [routerLink]="['login']">
-          <i class="fa-solid fa-right-to-bracket"></i> Login
+          <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập
         </button>
 
         <button class="btn btn-outline-primary my-2 my-sm-0" [routerLink]="['signup']">
-          <i class="fa-solid fa-user"></i> Signup
+          <i class="fa-solid fa-user"></i> Đăng ký
         </button>
       </div>
       <div class="ml-3" style="cursor: pointer" [routerLink]="['cart']">

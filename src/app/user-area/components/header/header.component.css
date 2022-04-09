@@ -20,10 +20,11 @@
 }
 
 .txt-search {
-  width: 100px;
+  width: 160px;
   border: none;
   box-shadow: none;
   border-radius: 20px;
+  text-overflow: ellipsis;
 }
 
 .txt-search:focus {

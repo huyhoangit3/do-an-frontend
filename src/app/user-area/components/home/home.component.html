@@ -1,7 +1,37 @@
 <section style="background-color: #eee;">
   <div class="container">
+    <div class="row my-3">
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-4">
+            <select class="form-control">
+              <option value="abc" selected>Tìm theo danh mục</option>
+              <option value="abc">ABC</option>
+              <option value="def">DEF</option>
+              </select>
+          </div>
+          <div class="col-md-4">
+            <select class="form-control">
+              <option value="abc" selected>Tìm theo giá bán</option>
+              <option value="abc">ABC</option>
+              <option value="def">DEF</option>
+              </select>
+          </div>
+          <div class="col-md-4">
+            <select class="form-control">
+              <option value="abc" selected>Tìm theo loại hương</option>
+              <option value="abc">ABC</option>
+              <option value="def">DEF</option>
+              </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <pagination-controls class="my-pagination" (pageChange)="p = $event"></pagination-controls>
+      </div>
+    </div>
     <div class="row justify-content-center">
-      <div class="col-md-3 col-lg-3 col-xl-3 my-3">
+      <div *ngFor="let i of arr | paginate: {itemsPerPage: 20, currentPage: p}" class="col-md-3 col-lg-3 col-xl-3 my-3">
         <div class="card text-black" [routerLink]="['/products', 'details']">
             <img
             src="https://tinhdaulachampa.net/upload/202204/PR0547_tinh-dau-go-dan-huong-sandalwood-nguyen-chat-lachampa.jpg"
@@ -10,130 +40,23 @@
           />
           <div class="card-body">
             <div class="text-center">
-              <h5 class="card-title font-weight-bold">Tinh dầu gỗ đàn hương</h5>
+              <h5 class="card-title font-weight-bold">Tinh dầu gỗ đàn hương {{ i }}</h5>
             </div>
             <div>
               <div class="d-flex justify-content-between">
-                <span>Giá</span><span>200.000 VNĐ</span>
+                <span><b>Giá</b></span><span>200.000 VNĐ</span>
               </div>
             </div>
             <div class="d-flex justify-content-between mt-4">
-              <button class="btn btn-outline-primary w-100" style="border-radius: 20px;">Add to cart</button>
+              <button type="button" class="btn btn-outline-primary w-100" style="border-radius: 20px;" (click)="onAddToCart();$event.stopPropagation()"><i class="fa-solid fa-cart-plus fa-xl"></i></button>
             </div>
           </div>
         </div>
       </div>
-      
-      <div class="col-md-3 col-lg-3 col-xl-3 my-3">
-        <div class="card text-black" [routerLink]="['/products', 'details']">
-            <img
-            src="https://tinhdaulachampa.net/upload/202204/PR0547_tinh-dau-go-dan-huong-sandalwood-nguyen-chat-lachampa.jpg"
-            class="card-img-top mx-auto d-block" style="width: 240px; height: 240px;"
-            alt="Apple Computer"
-          />
-          <div class="card-body">
-            <div class="text-center">
-              <h5 class="card-title font-weight-bold">Tinh dầu gỗ đàn hương</h5>
-            </div>
-            <div>
-              <div class="d-flex justify-content-between">
-                <span>Giá</span><span>200.000 VNĐ</span>
-              </div>
-            </div>
-            <div class="d-flex justify-content-between mt-4">
-              <button class="btn btn-outline-primary w-100" style="border-radius: 20px;">Add to cart</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-lg-3 col-xl-3 my-3">
-        <div class="card text-black" [routerLink]="['/products', 'details']">
-            <img
-            src="https://tinhdaulachampa.net/upload/202204/PR0547_tinh-dau-go-dan-huong-sandalwood-nguyen-chat-lachampa.jpg"
-            class="card-img-top mx-auto d-block" style="width: 240px; height: 240px;"
-            alt="Apple Computer"
-          />
-          <div class="card-body">
-            <div class="text-center">
-              <h5 class="card-title font-weight-bold">Tinh dầu gỗ đàn hương</h5>
-            </div>
-            <div>
-              <div class="d-flex justify-content-between">
-                <span>Giá</span><span>200.000 VNĐ</span>
-              </div>
-            </div>
-            <div class="d-flex justify-content-between mt-4">
-              <button class="btn btn-outline-primary w-100" style="border-radius: 20px;">Add to cart</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-lg-3 col-xl-3 my-3">
-        <div class="card text-black" [routerLink]="['/products', 'details']">
-            <img
-            src="https://tinhdaulachampa.net/upload/202204/PR0547_tinh-dau-go-dan-huong-sandalwood-nguyen-chat-lachampa.jpg"
-            class="card-img-top mx-auto d-block" style="width: 240px; height: 240px;"
-            alt="Apple Computer"
-          />
-          <div class="card-body">
-            <div class="text-center">
-              <h5 class="card-title font-weight-bold">Tinh dầu gỗ đàn hương</h5>
-            </div>
-            <div>
-              <div class="d-flex justify-content-between">
-                <span>Giá</span><span>200.000 VNĐ</span>
-              </div>
-            </div>
-            <div class="d-flex justify-content-between mt-4">
-              <button class="btn btn-outline-primary w-100" style="border-radius: 20px;">Add to cart</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-lg-3 col-xl-3 my-3">
-        <div class="card text-black" [routerLink]="['/products', 'details']">
-            <img
-            src="https://tinhdaulachampa.net/upload/202204/PR0547_tinh-dau-go-dan-huong-sandalwood-nguyen-chat-lachampa.jpg"
-            class="card-img-top mx-auto d-block" style="width: 240px; height: 240px;"
-            alt="Apple Computer"
-          />
-          <div class="card-body">
-            <div class="text-center">
-              <h5 class="card-title font-weight-bold">Tinh dầu gỗ đàn hương</h5>
-            </div>
-            <div>
-              <div class="d-flex justify-content-between">
-                <span>Giá</span><span>200.000 VNĐ</span>
-              </div>
-            </div>
-            <div class="d-flex justify-content-between mt-4">
-              <button class="btn btn-outline-primary w-100" style="border-radius: 20px;">Add to cart</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-lg-3 col-xl-3 my-3">
-        <div class="card text-black" [routerLink]="['/products', 'details']">
-            <img
-            src="https://tinhdaulachampa.net/upload/202204/PR0547_tinh-dau-go-dan-huong-sandalwood-nguyen-chat-lachampa.jpg"
-            class="card-img-top mx-auto d-block" style="width: 240px; height: 240px;"
-            alt="Apple Computer"
-          />
-          <div class="card-body">
-            <div class="text-center">
-              <h5 class="card-title font-weight-bold">Tinh dầu gỗ đàn hương</h5>
-            </div>
-            <div>
-              <div class="d-flex justify-content-between">
-                <span>Giá</span><span>200.000 VNĐ</span>
-              </div>
-            </div>
-            <div class="d-flex justify-content-between mt-4">
-              <button class="btn btn-outline-primary w-100" style="border-radius: 20px;">Add to cart</button>
-            </div>
-          </div>
-        </div>
-      </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+      <pagination-controls class="my-pagination" (pageChange)="p = $event" previousLabel="Previous"
+      nextLabel="Next"></pagination-controls>
     </div>
   </div>
 </section>
