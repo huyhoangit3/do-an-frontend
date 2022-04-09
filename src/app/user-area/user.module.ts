@@ -12,6 +12,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { NgToastModule } from 'ng-angular-popup';
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     FooterComponent,
     SupportComponent,
     CartComponent,
-    SignupComponent
+    SignupComponent,
+    ProfileComponent
   ],
   imports: [
     CommonModule,

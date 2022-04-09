@@ -6,11 +6,13 @@ import {AppComponent} from './app.component';
 import {UserModule} from "./user-area/user.module";
 import {AuthGuardService} from "./core/services/auth/auth-guard.service";
 import { LoginComponent } from './shared/components/login/login.component';
+import { NotfoundComponent } from './shared/components/notfound/notfound.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    NotfoundComponent,
   ],
   imports: [
     BrowserModule,

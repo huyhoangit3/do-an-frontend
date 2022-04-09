@@ -20,16 +20,19 @@
 }
 
 .txt-search {
-  width: 160px;
+  width: 300px;
   border: none;
   box-shadow: none;
   border-radius: 20px;
   text-overflow: ellipsis;
 }
 
-.txt-search:focus {
+/* .txt-search:focus {
   transition: .4s;
   width: 300px;
   box-shadow: none;
+} */
+.dropdown-menu {
+  right: 0;
 }
 

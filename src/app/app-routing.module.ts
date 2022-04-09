@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {AdminComponent} from "./admin-area/admin.component";
-import {AuthGuardService} from "./core/services/auth/auth-guard.service";
+import { AdminComponent } from "./admin-area/admin.component";
+import { AuthGuardService } from "./core/services/auth/auth-guard.service";
+import { UserComponent } from './user-area/user.component';
 
 
 const routes: Routes = [{
@@ -15,6 +16,10 @@ const routes: Routes = [{
   // prevent unauthorized user load lazy modules.
   canActivate: [AuthGuardService]
 
+},
+{
+  path: '',
+  component: UserComponent
 }];
 
 @NgModule({

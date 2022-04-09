@@ -1,8 +1,8 @@
 <nav class="navbar navbar-expand-lg bd-navbar navbar-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">SHOPEE</a>
+    <img src="https://tinhdaulachampa.net/templates/themes/img/logo-hsv.svg" alt="logo" style="width: 65px; height: 65px;">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -16,7 +16,7 @@
 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-             aria-haspopup="true" aria-expanded="false">
+            aria-haspopup="true" aria-expanded="false">
             Danh mục
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -27,28 +27,43 @@
           </div>
         </li>
 
-        <li class="nav-item"  [routerLinkActive]="['active']">
+        <li class="nav-item" [routerLinkActive]="['active']">
           <a class="nav-link" [routerLink]="['/support']">
             <i class="fa-solid fa-headset"></i> Hỗ trợ</a>
         </li>
         <li class="nav-item" [routerLinkActive]="['active']">
           <a class="nav-link" [routerLink]="['/support']">
-          <i class="fa-solid fa-people-group"></i> Về chúng tôi</a>
+            <i class="fa-solid fa-people-group"></i> Về chúng tôi</a>
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2 txt-search" type="search" placeholder="Nhập từ khóa tìm kiếm">
       </form>
       <div>
-        <button class="btn btn-outline-info my-2 my-sm-0 mx-3" [routerLink]="['login']">
+        <button *ngIf="false" class="btn btn-outline-info my-2 my-sm-0 mx-3" [routerLink]="['login']">
           <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập
         </button>
 
-        <button class="btn btn-outline-primary my-2 my-sm-0" [routerLink]="['signup']">
+        <button *ngIf="false" class="btn btn-outline-primary my-2 my-sm-0" [routerLink]="['signup']">
           <i class="fa-solid fa-user"></i> Đăng ký
         </button>
+        <!-- Avatar -->
+        <div *ngIf="true" class="dropdown">
+          <a style="color: white; padding-right: 0;" class="nav-link dropdown-toggle" href="#"
+            id="account-navbarDropdown1" role="button" data-toggle="dropdown">
+            <img
+              src="https://www.w3schools.com/howto/img_avatar2.png"
+              class="rounded-circle" height="37" alt="Avatar" loading="lazy" />
+          </a>
+          <div class="dropdown-menu" aria-labelledby="account-navbarDropdown">
+            <a class="dropdown-item" [routerLink]="['profile']">Tài khoản</a>
+            <a class="dropdown-item" href="#">Đơn hàng của tôi</a>
+            <a class="dropdown-item" href="#">Đổi mật khẩu</a>
+            <a class="dropdown-item" href="#">Đăng xuất</a>
+          </div>
+        </div>
       </div>
-      <div class="ml-3" style="cursor: pointer" [routerLink]="['cart']">
+      <div class="ml-3" style="cursor: pointer; margin-right: 20px;" [routerLink]="['cart']">
         <i class="fa-solid fa-cart-plus fa-2x text-light"></i>
         <span class="position-absolute top-0 start-100
         translate-middle badge rounded-pill bg-success text-light">9</span>
