@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { NgToastService } from 'ng-angular-popup';
+import {Component, OnInit} from '@angular/core';
+import {NgToastService} from 'ng-angular-popup';
 
 @Component({
   selector: 'user-home',
@@ -10,14 +10,18 @@ export class HomeComponent implements OnInit {
   p: number = 1
   arr: number[] = []
 
-  constructor(private toast: NgToastService) { }
+  constructor(private toast: NgToastService) {
+  }
 
   ngOnInit(): void {
     this.arr = [...Array(50).keys()];
   }
+
   onAddToCart() {
-    this.toast.success({detail:"INFO",summary:'Your Info Message', 
-    sticky:false, duration: 1500, position: 'br'})
+    this.toast.success({
+      detail: "INFO", summary: 'Your Info Message',
+      sticky: false, duration: 1500, position: 'br'
+    })
 
   }
 }

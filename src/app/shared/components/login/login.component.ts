@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { NgToastService } from 'ng-angular-popup';
+import {Component, OnInit} from '@angular/core';
+import {NgToastService} from 'ng-angular-popup';
 
 @Component({
   selector: 'app-login',
@@ -8,13 +8,14 @@ import { NgToastService } from 'ng-angular-popup';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private toast: NgToastService) { }
+  constructor(private toast: NgToastService) {
+  }
 
   ngOnInit(): void {
   }
 
   onLogin() {
-    this.toast.info({detail:"INFO",summary:'Your Info Message',sticky:false, duration: 3000, position: 'br'})
+    this.toast.info({detail: "INFO", summary: 'Your Info Message', sticky: false, duration: 3000, position: 'br'})
   }
 
 }

@@ -1,8 +1,9 @@
 <nav class="navbar navbar-expand-lg bd-navbar navbar-dark">
   <div class="container-fluid">
-    <img src="https://tinhdaulachampa.net/templates/themes/img/logo-hsv.svg" alt="logo" style="width: 65px; height: 65px;">
+    <img src="https://tinhdaulachampa.net/templates/themes/img/logo-hsv.svg" alt="logo"
+         style="width: 65px; height: 65px;">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -16,7 +17,7 @@
 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
+             aria-haspopup="true" aria-expanded="false">
             Danh mục
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -50,14 +51,14 @@
         <!-- Avatar -->
         <div *ngIf="true" class="dropdown">
           <a style="color: white; padding-right: 0;" class="nav-link dropdown-toggle" href="#"
-            id="account-navbarDropdown1" role="button" data-toggle="dropdown">
+             id="account-navbarDropdown1" role="button" data-toggle="dropdown">
             <img
               src="https://www.w3schools.com/howto/img_avatar2.png"
-              class="rounded-circle" height="37" alt="Avatar" loading="lazy" />
+              class="rounded-circle" height="37" alt="Avatar" loading="lazy"/>
           </a>
           <div class="dropdown-menu" aria-labelledby="account-navbarDropdown">
             <a class="dropdown-item" [routerLink]="['profile']">Tài khoản</a>
-            <a class="dropdown-item" href="#">Đơn hàng của tôi</a>
+            <a class="dropdown-item" [routerLink]="['orders']">Đơn hàng của tôi</a>
             <a class="dropdown-item" href="#">Đổi mật khẩu</a>
             <a class="dropdown-item" href="#">Đăng xuất</a>
           </div>

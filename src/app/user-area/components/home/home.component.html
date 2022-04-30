@@ -8,21 +8,21 @@
               <option value="abc" selected>Tìm theo danh mục</option>
               <option value="abc">ABC</option>
               <option value="def">DEF</option>
-              </select>
+            </select>
           </div>
           <div class="col-md-4">
             <select class="form-control">
               <option value="abc" selected>Tìm theo giá bán</option>
               <option value="abc">ABC</option>
               <option value="def">DEF</option>
-              </select>
+            </select>
           </div>
           <div class="col-md-4">
             <select class="form-control">
               <option value="abc" selected>Tìm theo loại hương</option>
               <option value="abc">ABC</option>
               <option value="def">DEF</option>
-              </select>
+            </select>
           </div>
         </div>
       </div>
@@ -33,9 +33,9 @@
     <div class="row justify-content-center">
       <div *ngFor="let i of arr | paginate: {itemsPerPage: 20, currentPage: p}" class="col-md-3 col-lg-3 col-xl-3 my-3">
         <div class="card text-black" [routerLink]="['/products', 'details']">
-            <img
+          <img
             src="https://tinhdaulachampa.net/upload/202204/PR0547_tinh-dau-go-dan-huong-sandalwood-nguyen-chat-lachampa.jpg"
-            class="card-img-top mx-auto d-block" style="width: 240px; height: 240px;"
+            class="card-img-top mx-auto d-block"
             alt="Apple Computer"
           />
           <div class="card-body">
@@ -48,7 +48,9 @@
               </div>
             </div>
             <div class="d-flex justify-content-between mt-4">
-              <button type="button" class="btn btn-outline-primary w-100" style="border-radius: 20px;" (click)="onAddToCart();$event.stopPropagation()"><i class="fa-solid fa-cart-plus fa-xl"></i></button>
+              <button type="button" class="btn btn-outline-primary w-100" style="border-radius: 20px;"
+                      (click)="onAddToCart();$event.stopPropagation()"><i class="fa-solid fa-cart-plus fa-xl"></i>
+              </button>
             </div>
           </div>
         </div>
@@ -56,7 +58,7 @@
     </div>
     <div class="row d-flex justify-content-center">
       <pagination-controls class="my-pagination" (pageChange)="p = $event" previousLabel="Previous"
-      nextLabel="Next"></pagination-controls>
+                           nextLabel="Next"></pagination-controls>
     </div>
   </div>
 </section>
