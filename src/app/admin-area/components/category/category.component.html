@@ -1,14 +1,16 @@
 <div class="event-schedule-area-two bg-color pad100" style="min-height: 600px;">
     <div class="container">
         <div class="d-flex mb-2">
-            <div> <button class="btn btn-success">
+            <div>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#categoryModal">
                     <i class="fa-solid fa-plus"></i>
-                    Thêm danh mục</button></div>&nbsp;
+                    Thêm danh mục
+                </button>
+            </div>&nbsp;
             <div><button class="btn btn-warning">
                     <i class="fa-solid fa-file-excel"></i>
                     Xuất excel</button></div>
-            <div class="ml-auto"><input type="text" class="form-control"
-                placeholder="Nhập tên danh mục"></div>
+            <div class="ml-auto"><input type="text" class="form-control" placeholder="Nhập tên danh mục"></div>
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -98,6 +100,33 @@
                 <div class="primary-btn text-center">
                     <a href="#" class="btn btn-danger">Quay lại</a>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thêm danh mục mới</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Tên danh mục <span style="color: red;">(*)</span></label>
+                        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Nhập tên danh mục mới">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary">Lưu</button>
             </div>
         </div>
     </div>

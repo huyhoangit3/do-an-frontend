@@ -8,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 export class CategoryComponent implements OnInit {
 
   currentTime: any = new Date()
-  constructor() { }
 
+
+  constructor() { }
   ngOnInit(): void {
+
   }
+
+
 
 }

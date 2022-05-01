@@ -19,7 +19,7 @@ import {NotfoundComponent} from './shared/components/notfound/notfound.component
     BrowserModule,
     AppRoutingModule,
     UserModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [AuthGuardService],
   bootstrap: [AppComponent]
