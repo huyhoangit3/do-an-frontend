@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {LoginComponent} from "../shared/components/login/login.component";
 import {NotfoundComponent} from '../shared/components/notfound/notfound.component';
 import {CartComponent} from "./components/cart/cart.component";
+import { DemoComponent } from './components/demo/demo.component';
 import {HomeComponent} from './components/home/home.component';
 import {OrderDetailsComponent} from './components/order-details/order-details.component';
 import {OrderComponent} from './components/order/order.component';
@@ -26,7 +27,8 @@ const routes: Routes = [
       {path: 'profile', component: ProfileComponent},
       {path: 'orders', component: OrderComponent},
       {path: 'orders/details/:id', component: OrderDetailsComponent},
-      {path: '', redirectTo: 'home', pathMatch: 'full'},
+      {path: 'demo', component: DemoComponent},
+      {path: '', redirectTo: 'demo', pathMatch: 'full'},
       {
         path: '**',
         component: NotfoundComponent

@@ -3,6 +3,7 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
+import {HttpClientModule} from '@angular/common/http'
 import {UserModule} from "./user-area/user.module";
 import {AuthGuardService} from "./core/services/auth/auth-guard.service";
 import {LoginComponent} from './shared/components/login/login.component';
@@ -18,6 +19,7 @@ import {NotfoundComponent} from './shared/components/notfound/notfound.component
     BrowserModule,
     AppRoutingModule,
     UserModule,
+    HttpClientModule
   ],
   providers: [AuthGuardService],
   bootstrap: [AppComponent]

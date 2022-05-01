@@ -1,7 +1,7 @@
 <div class="container-fluid bg-light">
   <div class="row">
     <!-- Related products section-->
-    <div class="col-md-3 mt-4">
+    <div class="col-md-3 mt-3">
       <div class="card">
         <div class="card-body">
           <h4 class="header-title mb-4">Sản phẩm bán chạy</h4>
@@ -23,7 +23,7 @@
     <!-- End related products section-->
     <!-- Product details section-->
     <div class="col-md-9">
-      <div class="container my-5">
+      <div class="container my-3">
         <div class="row gx-4 gx-lg-5 align-items-center">
           <div class="col-md-5"><img
             src="https://tinhdaulachampa.net/upload/202204/PR0547_tinh-dau-go-dan-huong-sandalwood-nguyen-chat-lachampa.jpg"
@@ -61,27 +61,26 @@
 
   <div class="row">
     <!-- Related items section-->
-    <div class="container">
-      <h2 class="fw-bolder mb-4">Sản phẩm cùng loại</h2>
+    <div class="container-fluid">
+      <h3 class="mb-4 pl-5">Sản phẩm cùng loại</h3>
       <div class="row justify-content-center">
-        <div *ngFor="let i of arr" class="col-md-3 col-lg-3 col-xl-3 my-3">
+        <div *ngFor="let i of arr" class="col-12 col-md-2 col-lg-2 col-xl-2 my-3" style="padding: 0; margin: 0 10px;">
           <div class="card text-black" [routerLink]="['/products', 'details']">
-            <img
+            <img style="padding: 5px;"
               src="https://tinhdaulachampa.net/upload/202204/PR0547_tinh-dau-go-dan-huong-sandalwood-nguyen-chat-lachampa.jpg"
               class="card-img-top mx-auto d-block"
               alt="Apple Computer"
             />
+            <hr>
             <div class="card-body">
               <div class="text-center">
-                <h5 class="card-title font-weight-bold">Tinh dầu gỗ đàn hương</h5>
+                <p class="card-title">Tinh dầu gỗ đàn hương {{ i }}</p>
+                <span><b>200.000 VNĐ</b></span>
               </div>
-              <div>
-                <div class="d-flex justify-content-between">
-                  <span>Giá</span><span>200.000 VNĐ</span>
-                </div>
-              </div>
-              <div class="d-flex justify-content-between mt-4">
-                <button class="btn btn-outline-primary w-100" style="border-radius: 20px;">Add to cart</button>
+              <div class="d-flex justify-content-between my-1">
+                <button type="button" class="btn btn-outline-primary w-100" style="border-radius: 20px;"
+                        (click)="onAddToCart();$event.stopPropagation()"> <i class="fa-solid fa-cart-plus fa-xl"></i>
+                </button>
               </div>
             </div>
           </div>

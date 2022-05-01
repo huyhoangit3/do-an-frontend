@@ -4,6 +4,13 @@
   box-shadow: 0 2px 4px rgb(126 142 177 / 10%);
 }
 
+.card-body {
+  padding: 5px 10px;
+}
+hr {
+  margin: 0;
+}
+
 .card {
   position: relative;
   display: -webkit-box;

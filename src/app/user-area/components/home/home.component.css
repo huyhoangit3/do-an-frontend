@@ -15,3 +15,9 @@
 .btn, .form-control {
   box-shadow: none;
 }
+.card-body {
+  padding: 5px 10px;
+}
+hr {
+  margin: 0;
+}

@@ -1,0 +1,4 @@
+<h3>File upload test</h3>
+<input type="file" (change)="onChooseFile($event)"><br>
+<img [src]="imageSrc" *ngIf="imageSrc" style="height: 200px; width:200px"><br>
+<button (click)="onUploadFile()" class="btn btn-primary">Upload</button>
