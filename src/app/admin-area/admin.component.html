@@ -1,1 +1,71 @@
-<app-admin-sidebar></app-admin-sidebar>
+<div class="wrapper">
+    <!-- Sidebar  -->
+    <nav id="sidebar" [ngClass]="isActive === true ? 'active' : ''">
+      <div class="sidebar-header text-center">
+        <h3>Admin dashboard</h3>
+        <strong>AD</strong>
+      </div>
+  
+      <ul class="list-unstyled components">
+        <li class="active" [routerLink]="['home']">
+          <a>
+            <i class="fas fa-home"></i>
+            Dashboard
+          </a>
+        </li>
+        <li [routerLink]="['categories']">
+          <a>
+            <i class="fa-solid fa-c"></i>
+            Danh mục
+          </a>
+        </li>
+        <li [routerLink]="['products']">
+          <a>
+            <i class="fa-brands fa-product-hunt"></i>
+            Sản phẩm
+          </a>
+        </li>
+        <li [routerLink]="['invoices']">
+          <a>
+            <i class="fa-solid fa-file-invoice-dollar"></i>
+            Đơn hàng
+          </a>
+        </li>
+        <li [routerLink]="['accounts']">
+          <a>
+            <i class="fa-solid fa-user-group"></i>
+            Tài khoản
+          </a>
+        </li>
+      </ul>
+    </nav>
+  
+    <!-- Page Content  -->
+    <div id="content" class="mt-1">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding: 0;">
+        <div class="container-fluid">
+          <button type="button" id="sidebarCollapse" class="btn btn-info" (click)="onToggleSidebar()">
+            <i class="fa-solid fa-angles-left"></i>
+            
+          </button>
+          <div *ngIf="true" class="dropdown" style="position: relative; right: 50px;">
+            <div class="dropdown-menu">
+              <a class="dropdown-item" [routerLink]="['profile']">Tài khoản</a>
+              <a class="dropdown-item" [routerLink]="['orders']">Đơn hàng của tôi</a>
+              <a class="dropdown-item" href="#">Đổi mật khẩu</a>
+              <a class="dropdown-item" href="#">Đăng xuất</a>
+            </div>
+            <a style="color: #4668f0; padding-right: 40px;" class="nav-link dropdown-toggle" href="#"
+               id="account-navbarDropdown1" role="button" data-toggle="dropdown">
+              <img
+                src="https://www.w3schools.com/howto/img_avatar2.png"
+                class="rounded-circle" height="37" alt="Avatar" loading="lazy"/>
+            </a>
+          </div>
+        </div>
+      </nav>
+  
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  

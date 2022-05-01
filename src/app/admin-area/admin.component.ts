@@ -6,5 +6,15 @@ import {Component} from '@angular/core';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent {
+  isActive = false
 
+  constructor() {
+  }
+
+  ngOnInit(): void {
+  }
+
+  onToggleSidebar() {
+    this.isActive = !this.isActive
+  }
 }
