@@ -1,4 +1,4 @@
-<div class="event-schedule-area-two bg-color" style="min-height: 600px;">
+<div class="event-schedule-area-two bg-color">
     <div class="container">
         <div class="d-flex mb-2">
             <div>
@@ -28,15 +28,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="table-info">
-                            <td class="text-center align-middle">1</td>
-                            <td class="text-center align-middle"><img style="width: 80px; height: 80px;"
-                                    src="https://tinhdaulachampa.net/upload/202204/PR0547_tinh-dau-go-dan-huong-sandalwood-nguyen-chat-lachampa.jpg"
-                                    class="card-img-top mx-auto d-block" alt="Tinh dầu" /></td>
-                            <td class="text-center align-middle">Tinh dầu đàn Hương</td>
-                            <td class="text-center align-middle">Kim Anh</td>
-                            <td class="text-center align-middle">200.000 VNĐ</td>
-                            <td class="text-center align-middle">Loại 1</td>
+                        <tr class="table-info" *ngFor="let product of products">
+                            <td class="text-center align-middle">{{ product.id }}</td>
+                            <td class="text-center align-middle"><img style="width: 70px; height: 70px; border-radius: 7px;"
+                                    [src]="product.imgUrl | image" class="card-img-top mx-auto d-block" alt="Anh minh hoa" />
+                            </td>
+                            <td class="text-center align-middle"> {{ product.name }} </td>
+                            <td class="text-center align-middle">{{ product.producer }}</td>
+                            <td class="text-center align-middle">{{ product.price }}</td>
+                            <td class="text-center align-middle">{{ product.quality }}</td>
                             <td class="text-center align-middle">
                                 <button class="btn btn-primary">
                                     <i class="fa-solid fa-pen"></i>
@@ -46,62 +46,6 @@
                                     Xóa</button>
                             </td>
                         </tr>
-                        <tr class="table-info">
-                            <td class="text-center align-middle">1</td>
-                            <td class="text-center align-middle"><img style="width: 80px; height: 80px;"
-                                    src="https://tinhdaulachampa.net/upload/202204/PR0547_tinh-dau-go-dan-huong-sandalwood-nguyen-chat-lachampa.jpg"
-                                    class="card-img-top mx-auto d-block" alt="Tinh dầu" /></td>
-                            <td class="text-center align-middle">Tinh dầu đàn Hương</td>
-                            <td class="text-center align-middle">Kim Anh</td>
-                            <td class="text-center align-middle">200.000 VNĐ</td>
-                            <td class="text-center align-middle">Loại 1</td>
-                            <td class="text-center align-middle">
-                                <button class="btn btn-primary">
-                                    <i class="fa-solid fa-pen"></i>
-                                    Cập nhật</button>&nbsp;
-                                <button class="btn btn-danger">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                    Xóa</button>
-                            </td>
-                        </tr>
-                        <tr class="table-info">
-                            <td class="text-center align-middle">1</td>
-                            <td class="text-center align-middle"><img style="width: 80px; height: 80px;"
-                                    src="https://tinhdaulachampa.net/upload/202204/PR0547_tinh-dau-go-dan-huong-sandalwood-nguyen-chat-lachampa.jpg"
-                                    class="card-img-top mx-auto d-block" alt="Tinh dầu" /></td>
-                            <td class="text-center align-middle">Tinh dầu đàn Hương</td>
-                            <td class="text-center align-middle">Kim Anh</td>
-                            <td class="text-center align-middle">200.000 VNĐ</td>
-                            <td class="text-center align-middle">Loại 1</td>
-                            <td class="text-center align-middle">
-                                <button class="btn btn-primary">
-                                    <i class="fa-solid fa-pen"></i>
-                                    Cập nhật</button>&nbsp;
-                                <button class="btn btn-danger">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                    Xóa</button>
-                            </td>
-                        </tr>
-                        <tr class="table-info">
-                            <td class="text-center align-middle">1</td>
-                            <td class="text-center align-middle"><img style="width: 80px; height: 80px;"
-                                    src="https://tinhdaulachampa.net/upload/202204/PR0547_tinh-dau-go-dan-huong-sandalwood-nguyen-chat-lachampa.jpg"
-                                    class="card-img-top mx-auto d-block" alt="Tinh dầu" /></td>
-                            <td class="text-center align-middle">Tinh dầu đàn Hương</td>
-                            <td class="text-center align-middle">Kim Anh</td>
-                            <td class="text-center align-middle">200.000 VNĐ</td>
-                            <td class="text-center align-middle">Loại 1</td>
-                            <td class="text-center align-middle">
-                                <button class="btn btn-primary">
-                                    <i class="fa-solid fa-pen"></i>
-                                    Cập nhật</button>&nbsp;
-                                <button class="btn btn-danger">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                    Xóa</button>
-                            </td>
-                        </tr>
-
-
                     </tbody>
                 </table>
                 <div class="primary-btn text-center">
@@ -131,7 +75,8 @@
                                 <label for="formGroupExampleInput">Danh mục <span style="color: red;">(*)</span></label>
                                 <select class="form-control form-control-sm" formControlName="categoryId">
                                     <option [ngValue]="null" disabled>Chọn danh mục</option>
-                                    <option *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}
+                                    <option *ngFor="let category of categories" [ngValue]="category.id">
+                                        {{category.name}}
                                     </option>
                                 </select>
                             </div>
@@ -142,7 +87,7 @@
                             <div class="form-group">
                                 <label for="formGroupExampleInput">Tên sản phẩm <span
                                         style="color: red;">(*)</span></label>
-                                <input type="text" class="form-control form-control-sm"
+                                <input type="text" formControlName="name" class="form-control form-control-sm"
                                     placeholder="Nhập tên sản phẩm mới">
                             </div>
 
@@ -152,15 +97,18 @@
                         <div class="col-7">
                             <div class="form-group">
                                 <label for="formGroupExampleInput">Giá bán <span style="color: red;">(*)</span></label>
-                                <input type="number" class="form-control form-control-sm" placeholder="Nhập giá bán">
+                                <input type="number" formControlName="price" class="form-control form-control-sm"
+                                    placeholder="Nhập giá bán">
                             </div>
                             <div class="form-group">
                                 <label for="formGroupExampleInput">Số lượng <span style="color: red;">(*)</span></label>
-                                <input type="number" class="form-control form-control-sm" placeholder="Nhập số lượng">
+                                <input type="number" formControlName="quantity" class="form-control form-control-sm"
+                                    placeholder="Nhập số lượng">
                             </div>
                             <div class="form-group">
                                 <label for="formGroupExampleInput">Mùi hương</label>
-                                <input type="text" class="form-control form-control-sm" placeholder="Nhập mùi hương">
+                                <input type="text" formControlName="fragrant" class="form-control form-control-sm"
+                                    placeholder="Nhập mùi hương">
                             </div>
                         </div>
                         <div class="col-5">
@@ -179,14 +127,15 @@
                             <div class="form-group">
                                 <label for="formGroupExampleInput">Chất lượng <span
                                         style="color: red;">(*)</span></label>
-                                <input type="text" class="form-control form-control-sm" placeholder="Nhập chất lượng">
+                                <input type="text" formControlName="quality" class="form-control form-control-sm"
+                                    placeholder="Nhập chất lượng">
                             </div>
                         </div>
                         <div class="col-5">
                             <div class="form-group">
                                 <label for="formGroupExampleInput">Trọng lượng <span
                                         style="color: red;">(*)</span></label>
-                                <input type="number" class="form-control form-control-sm"
+                                <input type="number" formControlName="weight" class="form-control form-control-sm"
                                     placeholder="Nhập trọng lượng">
                             </div>
                         </div>
@@ -196,7 +145,8 @@
                             <div class="form-group">
                                 <label for="formGroupExampleInput">Nhà sản xuất <span
                                         style="color: red;">(*)</span></label>
-                                <input type="text" class="form-control form-control-sm" placeholder="Nhập nhà sản xuất">
+                                <input type="text" formControlName="producer" class="form-control form-control-sm"
+                                    placeholder="Nhập nhà sản xuất">
                             </div>
                         </div>
                     </div>
@@ -206,8 +156,8 @@
                             <div class="form-group">
                                 <label for="exampleFormControlTextarea1">Mô tả <span
                                         style="color: red;">(*)</span></label>
-                                <textarea placeholder="Nhập mô tả sản phẩm" class="form-control form-control-sm"
-                                    rows="3"></textarea>
+                                <textarea placeholder="Nhập mô tả sản phẩm" formControlName="description"
+                                    class="form-control form-control-sm" rows="3"></textarea>
                             </div>
                         </div>
                     </div>
@@ -216,7 +166,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-primary">Lưu</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                    (click)="onAddProduct()">Thêm</button>
             </div>
         </div>
     </div>

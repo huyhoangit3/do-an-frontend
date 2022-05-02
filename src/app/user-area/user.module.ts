@@ -15,7 +15,6 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import {ProfileComponent} from './components/profile/profile.component';
 import {OrderComponent} from './components/order/order.component';
 import {OrderDetailsComponent} from './components/order-details/order-details.component';
-import { DemoComponent } from './components/demo/demo.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +30,6 @@ import { DemoComponent } from './components/demo/demo.component';
     ProfileComponent,
     OrderComponent,
     OrderDetailsComponent,
-    DemoComponent
   ],
   imports: [
     CommonModule,

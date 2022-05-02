@@ -8,6 +8,7 @@ import {UserModule} from "./user-area/user.module";
 import {AuthGuardService} from "./core/services/auth/auth-guard.service";
 import {LoginComponent} from './shared/components/login/login.component';
 import {NotfoundComponent} from './shared/components/notfound/notfound.component';
+import { ImagePipe } from './core/pipes/image.pipe';
 
 @NgModule({
   declarations: [

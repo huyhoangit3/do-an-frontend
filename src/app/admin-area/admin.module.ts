@@ -10,6 +10,7 @@ import { InvoiceComponent } from './components/invoice/invoice.component';
 import { AccountComponent } from './components/account/account.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ImagePipe } from '../core/pipes/image.pipe';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     CategoryComponent,
     InvoiceComponent,
     AccountComponent,
+    ImagePipe
   ],
   imports: [
     AdminRoutingModule,
