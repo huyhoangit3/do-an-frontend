@@ -2,7 +2,8 @@
     <div class="container">
         <div class="d-flex mb-2">
             <div>
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#productModal">
+                <button type="button" class="btn btn-success" (click)="onAddButtonClicked()" data-toggle="modal"
+                    data-target="#productModal">
                     <i class="fa-solid fa-plus"></i>
                     Thêm sản phẩm
                 </button>
@@ -30,10 +31,8 @@
                         <tr class="table-info">
                             <td class="text-center align-middle">1</td>
                             <td class="text-center align-middle"><img style="width: 80px; height: 80px;"
-                                src="https://tinhdaulachampa.net/upload/202204/PR0547_tinh-dau-go-dan-huong-sandalwood-nguyen-chat-lachampa.jpg"
-                                class="card-img-top mx-auto d-block"
-                                alt="Tinh dầu"
-                              /></td>
+                                    src="https://tinhdaulachampa.net/upload/202204/PR0547_tinh-dau-go-dan-huong-sandalwood-nguyen-chat-lachampa.jpg"
+                                    class="card-img-top mx-auto d-block" alt="Tinh dầu" /></td>
                             <td class="text-center align-middle">Tinh dầu đàn Hương</td>
                             <td class="text-center align-middle">Kim Anh</td>
                             <td class="text-center align-middle">200.000 VNĐ</td>
@@ -50,10 +49,8 @@
                         <tr class="table-info">
                             <td class="text-center align-middle">1</td>
                             <td class="text-center align-middle"><img style="width: 80px; height: 80px;"
-                                src="https://tinhdaulachampa.net/upload/202204/PR0547_tinh-dau-go-dan-huong-sandalwood-nguyen-chat-lachampa.jpg"
-                                class="card-img-top mx-auto d-block"
-                                alt="Tinh dầu"
-                              /></td>
+                                    src="https://tinhdaulachampa.net/upload/202204/PR0547_tinh-dau-go-dan-huong-sandalwood-nguyen-chat-lachampa.jpg"
+                                    class="card-img-top mx-auto d-block" alt="Tinh dầu" /></td>
                             <td class="text-center align-middle">Tinh dầu đàn Hương</td>
                             <td class="text-center align-middle">Kim Anh</td>
                             <td class="text-center align-middle">200.000 VNĐ</td>
@@ -70,10 +67,8 @@
                         <tr class="table-info">
                             <td class="text-center align-middle">1</td>
                             <td class="text-center align-middle"><img style="width: 80px; height: 80px;"
-                                src="https://tinhdaulachampa.net/upload/202204/PR0547_tinh-dau-go-dan-huong-sandalwood-nguyen-chat-lachampa.jpg"
-                                class="card-img-top mx-auto d-block"
-                                alt="Tinh dầu"
-                              /></td>
+                                    src="https://tinhdaulachampa.net/upload/202204/PR0547_tinh-dau-go-dan-huong-sandalwood-nguyen-chat-lachampa.jpg"
+                                    class="card-img-top mx-auto d-block" alt="Tinh dầu" /></td>
                             <td class="text-center align-middle">Tinh dầu đàn Hương</td>
                             <td class="text-center align-middle">Kim Anh</td>
                             <td class="text-center align-middle">200.000 VNĐ</td>
@@ -90,10 +85,8 @@
                         <tr class="table-info">
                             <td class="text-center align-middle">1</td>
                             <td class="text-center align-middle"><img style="width: 80px; height: 80px;"
-                                src="https://tinhdaulachampa.net/upload/202204/PR0547_tinh-dau-go-dan-huong-sandalwood-nguyen-chat-lachampa.jpg"
-                                class="card-img-top mx-auto d-block"
-                                alt="Tinh dầu"
-                              /></td>
+                                    src="https://tinhdaulachampa.net/upload/202204/PR0547_tinh-dau-go-dan-huong-sandalwood-nguyen-chat-lachampa.jpg"
+                                    class="card-img-top mx-auto d-block" alt="Tinh dầu" /></td>
                             <td class="text-center align-middle">Tinh dầu đàn Hương</td>
                             <td class="text-center align-middle">Kim Anh</td>
                             <td class="text-center align-middle">200.000 VNĐ</td>
@@ -107,8 +100,8 @@
                                     Xóa</button>
                             </td>
                         </tr>
-                        
-                    
+
+
                     </tbody>
                 </table>
                 <div class="primary-btn text-center">
@@ -120,8 +113,8 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+<div class="modal fade" style="font-size: small;" id="productModal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -131,56 +124,79 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form [formGroup]="productForm">
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="formGroupExampleInput">Tên sản phẩm <span style="color: red;">(*)</span></label>
-                                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Nhập tên sản phẩm mới">
+                                <label for="formGroupExampleInput">Danh mục <span style="color: red;">(*)</span></label>
+                                <select class="form-control form-control-sm" formControlName="categoryId">
+                                    <option [ngValue]="null" disabled>Chọn danh mục</option>
+                                    <option *ngFor="let category of categories" [ngValue]="category.id">{{category.name}}
+                                    </option>
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="formGroupExampleInput">Tên sản phẩm <span
+                                        style="color: red;">(*)</span></label>
+                                <input type="text" class="form-control form-control-sm"
+                                    placeholder="Nhập tên sản phẩm mới">
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-7">
                             <div class="form-group">
                                 <label for="formGroupExampleInput">Giá bán <span style="color: red;">(*)</span></label>
-                                <input type="number" class="form-control" id="formGroupExampleInput" placeholder="Nhập giá bán">
+                                <input type="number" class="form-control form-control-sm" placeholder="Nhập giá bán">
                             </div>
                             <div class="form-group">
                                 <label for="formGroupExampleInput">Số lượng <span style="color: red;">(*)</span></label>
-                                <input type="number" class="form-control" id="formGroupExampleInput" placeholder="Nhập số lượng">
+                                <input type="number" class="form-control form-control-sm" placeholder="Nhập số lượng">
+                            </div>
+                            <div class="form-group">
+                                <label for="formGroupExampleInput">Mùi hương</label>
+                                <input type="text" class="form-control form-control-sm" placeholder="Nhập mùi hương">
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-5">
                             <div class="form-group">
                                 <label for="formGroupExampleInput">Hình ảnh <span style="color: red;">(*)</span></label>
                                 <div>
-                                    <img src="https://bitsofco.de/content/images/2018/12/broken-1.png" style="width: 130px; height: 130px;" alt="not found">
+                                    <img [src]="imageSrc" style="width: 170px; height: 170px;" alt="file uploaded">
                                 </div>
-                                <input type="file" class="mt-2">
+                                <input type="file" class="mt-2" (change)="onChooseFile($event)">
                             </div>
-                            
+
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-7">
                             <div class="form-group">
-                                <label for="formGroupExampleInput">Chất lượng <span style="color: red;">(*)</span></label>
-                                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Nhập chất lượng">
+                                <label for="formGroupExampleInput">Chất lượng <span
+                                        style="color: red;">(*)</span></label>
+                                <input type="text" class="form-control form-control-sm" placeholder="Nhập chất lượng">
                             </div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-5">
                             <div class="form-group">
-                                <label for="formGroupExampleInput">Trọng lượng <span style="color: red;">(*)</span></label>
-                                <input type="number" class="form-control" id="formGroupExampleInput" placeholder="Nhập trọng lượng">
+                                <label for="formGroupExampleInput">Trọng lượng <span
+                                        style="color: red;">(*)</span></label>
+                                <input type="number" class="form-control form-control-sm"
+                                    placeholder="Nhập trọng lượng">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="formGroupExampleInput">Nhà sản xuất <span style="color: red;">(*)</span></label>
-                                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Nhập nhà sản xuất">
+                                <label for="formGroupExampleInput">Nhà sản xuất <span
+                                        style="color: red;">(*)</span></label>
+                                <input type="text" class="form-control form-control-sm" placeholder="Nhập nhà sản xuất">
                             </div>
                         </div>
                     </div>
@@ -188,12 +204,14 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="exampleFormControlTextarea1">Mô tả</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                              </div>
+                                <label for="exampleFormControlTextarea1">Mô tả <span
+                                        style="color: red;">(*)</span></label>
+                                <textarea placeholder="Nhập mô tả sản phẩm" class="form-control form-control-sm"
+                                    rows="3"></textarea>
+                            </div>
                         </div>
                     </div>
-                    
+
                 </form>
             </div>
             <div class="modal-footer">

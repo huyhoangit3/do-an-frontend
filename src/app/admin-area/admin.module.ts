@@ -8,6 +8,8 @@ import {ProductsComponent} from './components/products/products.component';
 import { CategoryComponent } from './components/category/category.component';
 import { InvoiceComponent } from './components/invoice/invoice.component';
 import { AccountComponent } from './components/account/account.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,10 @@ import { AccountComponent } from './components/account/account.component';
   ],
   imports: [
     AdminRoutingModule,
-    CommonModule
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgxPaginationModule
   ],
 
   bootstrap: [AdminComponent]

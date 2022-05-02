@@ -1,37 +1,37 @@
 <div class="wrapper">
     <!-- Sidebar  -->
-    <nav id="sidebar" [ngClass]="isActive === true ? 'active' : ''">
+    <nav id="sidebar" [ngClass]="isSidebarCollapsed === true ? 'active' : ''">
       <div class="sidebar-header text-center">
         <h3>Admin dashboard</h3>
         <strong>AD</strong>
       </div>
   
       <ul class="list-unstyled components">
-        <li class="active" [routerLink]="['home']">
+        <li [ngClass]="this.sidebarIndex === 1 ? 'active' : ''" [routerLink]="['home']" (click)="this.sidebarIndex=1">
           <a>
             <i class="fas fa-home"></i>
             Dashboard
           </a>
         </li>
-        <li [routerLink]="['categories']">
+        <li [ngClass]="this.sidebarIndex === 2 ? 'active' : ''" [routerLink]="['categories']" (click)="this.sidebarIndex=2">
           <a>
             <i class="fa-solid fa-c"></i>
             Danh mục
           </a>
         </li>
-        <li [routerLink]="['products']">
+        <li [ngClass]="this.sidebarIndex === 3 ? 'active' : ''" [routerLink]="['products']" (click)="this.sidebarIndex=3">
           <a>
             <i class="fa-brands fa-product-hunt"></i>
             Sản phẩm
           </a>
         </li>
-        <li [routerLink]="['invoices']">
+        <li [ngClass]="this.sidebarIndex === 4 ? 'active' : ''" [routerLink]="['invoices']" (click)="this.sidebarIndex=4">
           <a>
             <i class="fa-solid fa-file-invoice-dollar"></i>
             Đơn hàng
           </a>
         </li>
-        <li [routerLink]="['accounts']">
+        <li [ngClass]="this.sidebarIndex === 5 ? 'active' : ''" [routerLink]="['accounts']" (click)="this.sidebarIndex=5">
           <a>
             <i class="fa-solid fa-user-group"></i>
             Tài khoản
@@ -45,8 +45,8 @@
       <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding: 0;">
         <div class="container-fluid">
           <button type="button" id="sidebarCollapse" class="btn btn-info" (click)="onToggleSidebar()">
-            <i class="fa-solid fa-angles-left"></i>
-            
+            <i *ngIf="!isSidebarCollapsed" class="fa-solid fa-angles-left"></i>
+            <i *ngIf="isSidebarCollapsed" class="fa-solid fa-angles-right"></i>
           </button>
           <div *ngIf="true" class="dropdown" style="position: relative; right: 50px;">
             <div class="dropdown-menu">

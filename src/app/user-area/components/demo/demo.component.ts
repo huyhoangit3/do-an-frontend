@@ -18,28 +18,20 @@ export class DemoComponent implements OnInit {
 
   onChooseFile(event: any) {
     this.uploadedFile = event.target.files[0];
-
     const reader = new FileReader();
-    
     if(event.target.files && event.target.files.length) {
       const [file] = event.target.files;
       reader.readAsDataURL(file);
-    
       reader.onload = () => {
-   
         this.imageSrc = reader.result as string;
       };
-   
     }
   }
   onUploadFile() {
-    const fileFormData = new FormData()
-    fileFormData.append('file', this.uploadedFile, this.uploadedFile.name)
-    this.fileService.uploadFile(fileFormData).subscribe(
+    this.fileService.uploadFile(this.uploadedFile).subscribe(
       {
         error: (err) => console.log('Upload file failed!'),
         complete: () => console.log('Upload successfully')
-        
       }
     )
   }

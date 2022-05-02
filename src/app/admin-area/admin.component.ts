@@ -6,7 +6,9 @@ import {Component} from '@angular/core';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent {
-  isActive = false
+
+  isSidebarCollapsed = false
+  sidebarIndex = 1
 
   constructor() {
   }
@@ -15,6 +17,6 @@ export class AdminComponent {
   }
 
   onToggleSidebar() {
-    this.isActive = !this.isActive
+    this.isSidebarCollapsed = !this.isSidebarCollapsed
   }
 }

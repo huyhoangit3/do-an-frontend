@@ -2,7 +2,7 @@
     <div class="container">
         <div class="d-flex mb-2">
             <div>
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#categoryModal">
+                <button type="button" (click)="onAddButtonClicked()" class="btn btn-success" data-toggle="modal" data-target="#categoryModal">
                     <i class="fa-solid fa-plus"></i>
                     Thêm danh mục
                 </button>
@@ -10,7 +10,10 @@
             <div><button class="btn btn-warning">
                     <i class="fa-solid fa-file-excel"></i>
                     Xuất excel</button></div>
-            <div class="ml-auto"><input type="text" class="form-control" placeholder="Nhập tên danh mục"></div>
+            <div class="ml-auto">
+                <input type="text" name="searchKeyword" class="form-control" [formControl]="searchKeyword"
+                    placeholder="Nhập tên danh mục">
+            </div>
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -25,72 +28,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="table-info">
-                            <th>1</th>
-                            <td>Tinh dầu từ hoa</td>
-                            <td>{{ currentTime | date }}</td>
-                            <td>{{ currentTime | date }}</td>
+                        <tr *ngFor="let category of categories | paginate: {itemsPerPage, currentPage}"
+                            class="table-info">
+                            <th>{{ category.id }}</th>
+                            <td>{{ category.name }}</td>
+                            <td>{{ category.createAt |date }}</td>
+                            <td>{{ category.modifiedAt | date }}</td>
                             <td>
-                                <button class="btn btn-primary">
+                                <button class="btn btn-primary" data-toggle="modal" data-target="#categoryModal"
+                                    (click)="onUpdateButtonClicked(category.id)">
                                     <i class="fa-solid fa-pen"></i>
                                     Cập nhật</button>&nbsp;
-                                <button class="btn btn-danger">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                    Xóa</button>
-                            </td>
-                        </tr>
-                        <tr class="table-info">
-                            <th>1</th>
-                            <td>Tinh dầu từ hoa</td>
-                            <td>{{ currentTime | date }}</td>
-                            <td>{{ currentTime | date }}</td>
-                            <td>
-                                <button class="btn btn-primary">
-                                    <i class="fa-solid fa-pen"></i>
-                                    Cập nhật</button>&nbsp;
-                                <button class="btn btn-danger">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                    Xóa</button>
-                            </td>
-                        </tr>
-                        <tr class="table-info">
-                            <th>1</th>
-                            <td>Tinh dầu từ hoa</td>
-                            <td>{{ currentTime | date }}</td>
-                            <td>{{ currentTime | date }}</td>
-                            <td>
-                                <button class="btn btn-primary">
-                                    <i class="fa-solid fa-pen"></i>
-                                    Cập nhật</button>&nbsp;
-                                <button class="btn btn-danger">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                    Xóa</button>
-                            </td>
-                        </tr>
-                        <tr class="table-info">
-                            <th>1</th>
-                            <td>Tinh dầu từ hoa</td>
-                            <td>{{ currentTime | date }}</td>
-                            <td>{{ currentTime | date }}</td>
-                            <td>
-                                <button class="btn btn-primary">
-                                    <i class="fa-solid fa-pen"></i>
-                                    Cập nhật</button>&nbsp;
-                                <button class="btn btn-danger">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                    Xóa</button>
-                            </td>
-                        </tr>
-                        <tr class="table-info">
-                            <th>1</th>
-                            <td>Tinh dầu từ hoa</td>
-                            <td>{{ currentTime | date }}</td>
-                            <td>{{ currentTime | date }}</td>
-                            <td>
-                                <button class="btn btn-primary">
-                                    <i class="fa-solid fa-pen"></i>
-                                    Cập nhật</button>&nbsp;
-                                <button class="btn btn-danger">
+                                <button class="btn btn-danger" data-toggle="modal" data-target="#confirmModal"
+                                (click)="onDeleteButtonClicked(category.id)">
                                     <i class="fa-solid fa-trash-can"></i>
                                     Xóa</button>
                             </td>
@@ -98,14 +48,16 @@
                     </tbody>
                 </table>
                 <div class="primary-btn text-center">
-                    <a href="#" class="btn btn-danger">Quay lại</a>
+                    <pagination-controls class="my-pagination" (pageChange)="currentPage = $event"
+                        previousLabel="Previous" nextLabel="Next"></pagination-controls>
                 </div>
+
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal -->
+<!-- Edit Modal -->
 <div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -117,16 +69,50 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form [formGroup]="categoryForm">
                     <div class="form-group">
                         <label for="formGroupExampleInput">Tên danh mục <span style="color: red;">(*)</span></label>
-                        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Nhập tên danh mục mới">
+                        <input type="text" class="form-control" formControlName="name"
+                            placeholder="Nhập tên danh mục mới">
+                        <div *ngIf="!name?.valid && (name?.dirty ||name?.touched)">
+                            <span [hidden]="!name?.errors?.['required']" style="color: red; font-size: small;">
+                                Tên danh mục là bắt buộc
+                            </span>
+                        </div>
                     </div>
+
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-primary">Lưu</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="onCancelModal()">Hủy</button>
+                <button type="button" class="btn btn-primary" *ngIf="modalMode === 'add'" data-dismiss="modal" [disabled]="!categoryForm.valid"
+                    (click)="onSaveCategory()">Thêm</button>
+                <button type="button" class="btn btn-primary" *ngIf="modalMode === 'update'" data-dismiss="modal" [disabled]="!categoryForm.valid"
+                    (click)="onUpdateCategory()">Cập nhật</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Confirm Modal -->
+<div class="modal fade" id="confirmModal" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cảnh báo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6>Bạn có chắc chắc muốn xóa danh mục này?</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal" (click)="onCancelModal()">Hủy</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"
+                    (click)="onDeleteCategory()">Đồng ý</button>
             </div>
         </div>
     </div>

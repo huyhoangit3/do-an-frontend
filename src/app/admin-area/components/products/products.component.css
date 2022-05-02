@@ -3,3 +3,18 @@ td {
     text-align: center;
     justify-content: center;
 }
+label { 
+    margin-bottom: 4px;
+}
+.form-group {
+    margin-bottom: 8px;
+}
+.modal-header {
+    padding: 8px 16px
+}
+.modal-body {
+    padding: 8px 16px
+}
+.modal-footer {
+    padding: 8px 16px
+}
