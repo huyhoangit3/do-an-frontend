@@ -11,6 +11,7 @@ import { AccountComponent } from './components/account/account.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ImagePipe } from '../core/pipes/image.pipe';
+import { NgToastModule } from 'ng-angular-popup';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ImagePipe } from '../core/pipes/image.pipe';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    NgToastModule,
     NgxPaginationModule
   ],
 

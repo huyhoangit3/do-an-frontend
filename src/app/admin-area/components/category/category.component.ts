@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, filter, map, Observable, of, Subscription, switchMap, tap } from 'rxjs';
+import { NgToastService } from 'ng-angular-popup';
+import { debounceTime, distinctUntilChanged, map, Subscription, switchMap, tap } from 'rxjs';
 import { CategoryService } from 'src/app/core/services/category.service';
 import { Category } from 'src/app/models/category.model';
 
@@ -11,24 +12,26 @@ import { Category } from 'src/app/models/category.model';
 })
 export class CategoryComponent implements OnInit, OnDestroy {
 
-  categoryForm!: FormGroup
-  categories!: Category[]
-  category!: Category
-  categoriesSubscription!: Subscription
-  categorySubscription!: Subscription
-  categoryUpdateSubscription!: Subscription
-  categoryDeleteSubscription!: Subscription
-  searchSubscription!: Subscription
+  // category form
+  categoryForm: FormGroup
+  // list of all categories
+  categories: Category[]
+  // this variable is used to stored category will be updated 
+  category: Category
+  searchSubscription: Subscription
+  // search form control
   searchKeyword = new FormControl('')
-  modalMode = ''
-  deletedCategory!: number
+  // decide what modal will be display
+  modalMode = 'add'
+  // id of category will be deleted.
+  deletedCategoryId: number
 
   currentPage = 1
   itemsPerPage = 5
 
 
   constructor(private formBuilder: FormBuilder,
-    private categoryService: CategoryService) { }
+    private categoryService: CategoryService, private toast: NgToastService) { }
 
   ngOnInit(): void {
 
@@ -51,95 +54,127 @@ export class CategoryComponent implements OnInit, OnDestroy {
         }
       })
     ).subscribe({
-      next: data => this.categories = data
+      next: data => this.categories = data,
+      error: err => console.log(`Errors occurred when searching category: ${err.message}`)
+
     })
   }
 
   getAllCategories() {
-    this.categoriesSubscription = this.categoryService.getAllCategories().subscribe({
-      next: (data) => this.categories = data,
-      error: (err) => console.log('Errors occured: ' + err.message),
-      complete: () => console.log('fetch successfully')
+    this.categoryService.getAllCategories().then(
+      res => {
+        this.categories = res
+        console.log('All categories are fetched')
+      }
+    ).catch(err => {
+      console.log(`Can not get list of categories: ${err.message}`)
+      this.toast.error({
+        detail: "Cảnh báo", summary: 'Lỗi không thể lấy danh sách danh mục',
+        sticky: false, duration: 3000, position: 'br'
+      })
     })
   }
 
-
-  onUpdateButtonClicked(categoryId: number | undefined) {
-    this.modalMode = 'update'
-    if (categoryId) {
-      this.categorySubscription = this.categoryService.getCategoryById(categoryId)
-        .subscribe({
-          next: (data) => {
-            this.category = data
-            this.categoryForm.patchValue({ name: this.category.name })
-          },
-          error: (err) => console.log('Errors occured: ' + err.message),
-          complete: () => console.log('fetch successfully')
-        })
-    }
-
-  }
-
-  onCancelModal() {
-    this.categoryForm.patchValue({ name: '' })
-  }
-
-  onSaveCategory() {
-    this.categoryService.addCategory(this.categoryForm.value).subscribe({
-      next: () => this.getAllCategories(),
-      error: (err) => console.log('Errors occured: ' + err.message),
-      complete: () => console.log('add category successfully')
-    })
-  }
-
-  onDeleteButtonClicked(categoryId: number | undefined) {
-    if (categoryId) {
-      this.deletedCategory = categoryId
-    }
-  }
-
+  // start add feature
   onAddButtonClicked() {
     this.modalMode = 'add'
     this.categoryForm.reset()
   }
+  onSaveCategory() {
 
-  onDeleteCategory() {
-    this.categoryDeleteSubscription = this.categoryService.deleteCategory(this.deletedCategory)
-      .subscribe({
-        next: () => this.getAllCategories(),
-        error: (err) => console.log('Errors occured: ' + err.message)
+    this.categoryService.addCategory(this.categoryForm.value).then(
+      res => {
+        this.getAllCategories()
+        this.toast.success({
+          detail: "Thông báo", summary: 'Thêm thành công',
+          sticky: false, duration: 3000, position: 'br'
+        })
+        console.log('New category has added')
+      }
+    ).catch(err => {
+      console.log(`Errors occurred when adding new category: ${err.message}`)
+      this.toast.error({
+        detail: "Cảnh báo", summary: 'Lỗi xảy ra khi thêm mới danh mục',
+        sticky: false, duration: 3000, position: 'br'
       })
+    })
+  }
+  // end add feature
+
+
+  //start update feature
+  onUpdateButtonClicked(categoryId: number) {
+    this.modalMode = 'update'
+
+    this.categoryService.getCategoryById(categoryId).then(
+      res => {
+        this.category = res
+        console.log(`Category with id = ${categoryId} has fetched`)
+        this.categoryForm.patchValue({ name: this.category.name })
+      }
+    ).catch(err => {
+      console.log(`Errors occurred when fetching category has id = ${categoryId}: ${err.message}`)
+      this.toast.error({
+        detail: "Cảnh báo", summary: 'Lỗi xảy ra khi lấy danh mục bởi id',
+        sticky: false, duration: 3000, position: 'br'
+      })
+    })
   }
 
   onUpdateCategory() {
-    if (this.category.id) {
-      this.categoryUpdateSubscription = this.categoryService.updateCategory(this.category.id, this.categoryForm.value)
-        .subscribe({
-          next: () => {
-            this.getAllCategories()
-            this.categoryForm.reset()
-          },
-          error: (err) => console.log('Errors occured: ' + err.message),
-          complete: () => console.log('update category successfully')
+
+    this.categoryService.updateCategory(this.category.id, this.categoryForm.value)
+      .then(res => {
+        this.getAllCategories()
+        this.toast.success({
+          detail: "Thông báo", summary: 'Cập nhật thành công',
+          sticky: false, duration: 3000, position: 'br'
         })
-    }
+        console.log(`Category with id = ${this.category.id} has updated`)
+      }).catch(err => {
+        console.log(`Errors occurred when updating category has id = ${this.category.id}: ${err.message}`)
+        this.toast.error({
+          detail: "Cảnh báo", summary: 'Lỗi xảy ra khi cập nhật danh mục',
+          sticky: false, duration: 3000, position: 'br'
+        })
+      })
   }
+  // end update feature
+
+
+  // start delete feature
+
+  onDeleteButtonClicked(categoryId: number) {
+    this.deletedCategoryId = categoryId
+  }
+
+  onDeleteCategory() {
+    this.categoryService.deleteCategory(this.deletedCategoryId)
+      .then(res => {
+        this.getAllCategories()
+        this.toast.success({
+          detail: "Thông báo", summary: 'Xóa thành công',
+          sticky: false, duration: 3000, position: 'br'
+        })
+        console.log(`Category with id = ${this.deletedCategoryId} has deleted`)
+      }).catch(err => {
+        console.log(`Errors occurred when deleting category has id = ${this.deletedCategoryId}: ${err.message}`)
+        this.toast.error({
+          detail: "Cảnh báo", summary: 'Lỗi xảy ra khi xóa danh mục',
+          sticky: false, duration: 3000, position: 'br'
+        })
+      })
+  }
+
+  // start delete feature
+
+
   get name() {
     return this.categoryForm.get('name')
   }
 
   ngOnDestroy(): void {
-    this.categoriesSubscription.unsubscribe()
-    if(this.categorySubscription) {
-      this.categorySubscription.unsubscribe()
-    }
-    if(this.categoryUpdateSubscription) {
-      this.categoryUpdateSubscription.unsubscribe()
-    }
-    if(this.categoryDeleteSubscription) {
-      this.categoryDeleteSubscription.unsubscribe()
-    }
-    if(this.searchSubscription) {
+    if (this.searchSubscription) {
       this.searchSubscription.unsubscribe()
     }
   }

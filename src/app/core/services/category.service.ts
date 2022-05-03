@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { Category } from 'src/app/models/category.model';
 import { environment } from 'src/environments/environment';
 
@@ -13,28 +13,27 @@ export class CategoryService {
 
   constructor(private http: HttpClient) { }
 
-  getAllCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(CATEGORY_API_URL)
+  getAllCategories(): Promise<Category[]> {
+    return firstValueFrom(this.http.get<Category[]>(CATEGORY_API_URL))
   }
 
-  addCategory(category: Category): Observable<Category> {
-    return this.http.post<Category>(CATEGORY_API_URL, category)
+  addCategory(category: Category): Promise<Category> {
+    return firstValueFrom(this.http.post<Category>(CATEGORY_API_URL, category))
   }
   findCategoryByName(keyword: string): Observable<Category[]> {
-    let queryParams = new HttpParams();
-    queryParams = queryParams.append('keyword', keyword);
+    let queryParams = new HttpParams()
+    queryParams = queryParams.append('keyword', keyword)
     return this.http.get<Category[]>(CATEGORY_API_URL + '/search', { params: queryParams })
   }
-  getCategoryById(categoryId: number): Observable<Category> {
-    return this.http.get<Category>(`${CATEGORY_API_URL}/${categoryId}`)
+  getCategoryById(categoryId: number): Promise<Category> {
+    return firstValueFrom(this.http.get<Category>(`${CATEGORY_API_URL}/${categoryId}`))
   }
 
-  updateCategory(categoryId: number, category: Category): Observable<Category> {
-
-    return this.http.put<Category>(`${CATEGORY_API_URL}/${categoryId}`, category)
+  updateCategory(categoryId: number, category: Category): Promise<Category> {
+    return firstValueFrom(this.http.put<Category>(`${CATEGORY_API_URL}/${categoryId}`, category))
   }
 
-  deleteCategory(categoryId: number): Observable<void> {
-    return this.http.delete<void>(`${CATEGORY_API_URL}/${categoryId}`)
+  deleteCategory(categoryId: number): Promise<void> {
+    return firstValueFrom(this.http.delete<void>(`${CATEGORY_API_URL}/${categoryId}`))
   }
 }

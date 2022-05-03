@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { Product } from 'src/app/models/product.model';
 import { environment } from 'src/environments/environment';
 
@@ -13,17 +13,24 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  getAllProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(PRODUCT_API_URL)
+  getAllProducts(): Promise<Product[]> {
+    return firstValueFrom(this.http.get<Product[]>(PRODUCT_API_URL))
   }
-
-  addProduct(product: Product): Observable<Product> {
-    return this.http.post<Product>(PRODUCT_API_URL, product)
+  getProductById(productId: number): Observable<Product> {
+    return this.http.get<Product>(`${PRODUCT_API_URL}/${productId}`)
   }
-  updateProduct(productId: number, product: Product): Observable<Product> {
-    return this.http.put<Product>(`${PRODUCT_API_URL}/${productId}`, product)
+  findProductsByName(keyword: string): Observable<Product[]> {
+    let queryParams = new HttpParams()
+    queryParams = queryParams.append('keyword', keyword)
+    return this.http.get<Product[]>(`${PRODUCT_API_URL}/search`, { params: queryParams })
   }
-  deleteProduct(productId: number): Observable<void> {
-    return this.http.delete<void>(`${PRODUCT_API_URL}/${productId}`)
+  addProduct(product: Product): Promise<Product> {
+    return firstValueFrom(this.http.post<Product>(PRODUCT_API_URL, product))
+  }
+  updateProduct(productId: number, product: Product): Promise<Product> {
+    return firstValueFrom(this.http.put<Product>(`${PRODUCT_API_URL}/${productId}`, product))
+  }
+  deleteProduct(productId: number): Promise<void> {
+    return firstValueFrom(this.http.delete<void>(`${PRODUCT_API_URL}/${productId}`))
   }
 }

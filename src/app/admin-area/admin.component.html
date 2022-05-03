@@ -1,6 +1,6 @@
 <div class="wrapper">
     <!-- Sidebar  -->
-    <nav id="sidebar" [ngClass]="isSidebarCollapsed === true ? 'active' : ''">
+    <nav id="sidebar" style="overflow-y: hidden;" [ngClass]="isSidebarCollapsed === true ? 'active' : ''">
       <div class="sidebar-header text-center">
         <h3>Admin dashboard</h3>
         <strong>AD</strong>
@@ -68,4 +68,5 @@
       <router-outlet></router-outlet>
     </div>
   </div>
+  <lib-ng-toast></lib-ng-toast>
   
