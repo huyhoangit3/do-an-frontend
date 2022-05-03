@@ -23,6 +23,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   product!: Product
   choseFile!: string
   productsSubscription!: Subscription
+  productUpdateSubscription!: Subscription
   productForm!: FormGroup
   productAddSubscription!: Subscription
   productDeleteSubscription!: Subscription
@@ -102,9 +103,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
     }
   }
 
-  onBtnCancelClicked() {
-  }
-
   getAllProducts() {
     this.productsSubscription = this.productService.getAllProducts().subscribe({
       next: (data) => this.products = data,
@@ -113,22 +111,13 @@ export class ProductsComponent implements OnInit, OnDestroy {
     })
   }
 
-  onUploadFile() {
-    this.fileService.uploadFile(this.uploadedFile).subscribe(
-      {
-        next: (data) => this.productForm.patchValue({ imgUrl: data.filename }),
-        error: (err) => console.log('Upload file failed!'),
-        complete: () => console.log('Upload successfully')
-      }
-    )
-  }
   onAddProduct() {
-    this.fileService.uploadFile(this.uploadedFile).subscribe(
+    this.fileSubscription = this.fileService.uploadFile(this.uploadedFile).subscribe(
       {
         next: (data) => {
           this.productForm.patchValue({ imgUrl: data.filename })
           console.log(this.productForm.value)
-          this.productService.addProduct(this.productForm.value).subscribe({
+          this.productAddSubscription = this.productService.addProduct(this.productForm.value).subscribe({
             next: () => this.getAllProducts(),
             error: (err) => console.log('Errors occured: ' + err.message),
             complete: () => console.log('add successfully')
@@ -142,12 +131,12 @@ export class ProductsComponent implements OnInit, OnDestroy {
   onUpdateProduct() {
     console.log(this.imageSrc);
     if (this.choseFile !== this.product.imgUrl) {
-      this.fileService.uploadFile(this.uploadedFile).subscribe(
+      this.fileSubscription = this.fileService.uploadFile(this.uploadedFile).subscribe(
         {
           next: (data) => {
             if (this.product.id) {
               this.productForm.patchValue({ imgUrl: data.filename })
-              this.productService.updateProduct(this.product.id, this.productForm.value).subscribe({
+              this.productUpdateSubscription = this.productService.updateProduct(this.product.id, this.productForm.value).subscribe({
                 next: () => this.getAllProducts(),
                 error: (err) => console.log('Errors occured: ' + err.message),
                 complete: () => console.log('add successfully')
@@ -160,7 +149,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
       )
     } else {
       if (this.product.id) {
-        this.productService.updateProduct(this.product.id, this.productForm.value).subscribe({
+        this.productUpdateSubscription = this.productService.updateProduct(this.product.id, this.productForm.value).subscribe({
           next: () => this.getAllProducts(),
           error: (err) => console.log('Errors occured: ' + err.message),
           complete: () => console.log('add successfully')
@@ -169,8 +158,8 @@ export class ProductsComponent implements OnInit, OnDestroy {
     }
   }
 
-  onDeleteBtnClicked(productId: number| undefined) {
-    if(productId) {
+  onDeleteBtnClicked(productId: number | undefined) {
+    if (productId) {
       this.deletedProductId = productId
     }
   }
@@ -188,6 +177,12 @@ export class ProductsComponent implements OnInit, OnDestroy {
       this.categoriesSubscription.unsubscribe()
     }
     if (this.fileSubscription) {
+      this.fileSubscription.unsubscribe()
+    }
+    if (this.productAddSubscription) {
+      this.fileSubscription.unsubscribe()
+    }
+    if (this.productUpdateSubscription) {
       this.fileSubscription.unsubscribe()
     }
   }
