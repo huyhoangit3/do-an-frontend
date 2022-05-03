@@ -1,8 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { CategoryService } from 'src/app/core/services/category.service';
-import { FileUploadService } from 'src/app/core/services/file-storage/file-upload.service';
+import { FileUploadService } from 'src/app/core/services/file-storage/file-storage.service';
 import { ProductService } from 'src/app/core/services/product.service';
 import { Category } from 'src/app/models/category.model';
 import { Product } from 'src/app/models/product.model';
@@ -14,19 +14,27 @@ import { Product } from 'src/app/models/product.model';
 })
 export class ProductsComponent implements OnInit, OnDestroy {
 
-  currentTime: any = new Date()
+  modalMode = 'add'
 
   categories!: Category[]
   categoriesSubscription!: Subscription
 
   products!: Product[]
+  product!: Product
+  choseFile!: string
   productsSubscription!: Subscription
   productForm!: FormGroup
   productAddSubscription!: Subscription
+  productDeleteSubscription!: Subscription
 
   uploadedFile!: File
   fileSubscription!: Subscription
-  imageSrc = 'https://bitsofco.de/content/images/2018/12/broken-1.png'
+  imageSrc = 'http://localhost:8080/api/files/notfound.png'
+
+  currentPage = 1
+  itemsPerPage = 5
+
+  deletedProductId!: number
 
   constructor(private fileService: FileUploadService, private categoryService:
     CategoryService, private formBuilder: FormBuilder,
@@ -37,22 +45,41 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
     this.getAllProducts()
     this.productForm = this.formBuilder.group({
-      categoryId: [],
-      name: [''],
-      producer: [''],
-      weight: [],
+      name: ['', Validators.required],
+      producer: ['', Validators.required],
+      weight: ['', Validators.required],
       fragrant: [''],
-      price: [],
-      quantity: [],
-      quality: [''],
-      description: [''],
-      imgUrl: ['']
+      price: ['', Validators.required],
+      quantity: ['', Validators.required],
+      quality: ['', Validators.required],
+      description: ['', Validators.required],
+      sold: [0],
+      imgUrl: [''],
+      category: this.formBuilder.group({
+        id: ['', Validators.required],
+        name: ['']
+      })
     })
   }
 
+
   onAddButtonClicked() {
+    this.productForm.reset()
+    this.productForm.get('category')?.reset()
+    this.imageSrc = 'http://localhost:8080/api/files/notfound.png'
     this.getAllCategories()
+    this.modalMode = 'add'
   }
+
+  onUpdateBtnClicked(product: Product) {
+    this.getAllCategories()
+    this.product = product
+    this.choseFile = this.product.imgUrl
+    this.productForm.patchValue(product)
+    this.imageSrc = 'http://localhost:8080/api/files/' + product.imgUrl
+    this.modalMode = 'update'
+  }
+
 
   getAllCategories() {
     this.categoriesSubscription = this.categoryService.getAllCategories().subscribe({
@@ -67,11 +94,15 @@ export class ProductsComponent implements OnInit, OnDestroy {
     const reader = new FileReader();
     if (event.target.files && event.target.files.length) {
       const [file] = event.target.files;
+      this.choseFile = file.name
       reader.readAsDataURL(file);
       reader.onload = () => {
         this.imageSrc = reader.result as string;
       };
     }
+  }
+
+  onBtnCancelClicked() {
   }
 
   getAllProducts() {
@@ -92,8 +123,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
     )
   }
   onAddProduct() {
-
-
     this.fileService.uploadFile(this.uploadedFile).subscribe(
       {
         next: (data) => {
@@ -110,6 +139,48 @@ export class ProductsComponent implements OnInit, OnDestroy {
       }
     )
   }
+  onUpdateProduct() {
+    console.log(this.imageSrc);
+    if (this.choseFile !== this.product.imgUrl) {
+      this.fileService.uploadFile(this.uploadedFile).subscribe(
+        {
+          next: (data) => {
+            if (this.product.id) {
+              this.productForm.patchValue({ imgUrl: data.filename })
+              this.productService.updateProduct(this.product.id, this.productForm.value).subscribe({
+                next: () => this.getAllProducts(),
+                error: (err) => console.log('Errors occured: ' + err.message),
+                complete: () => console.log('add successfully')
+              })
+            }
+          },
+          error: (err) => console.log('Upload file failed!'),
+          complete: () => console.log('Upload successfully')
+        }
+      )
+    } else {
+      if (this.product.id) {
+        this.productService.updateProduct(this.product.id, this.productForm.value).subscribe({
+          next: () => this.getAllProducts(),
+          error: (err) => console.log('Errors occured: ' + err.message),
+          complete: () => console.log('add successfully')
+        })
+      }
+    }
+  }
+
+  onDeleteBtnClicked(productId: number| undefined) {
+    if(productId) {
+      this.deletedProductId = productId
+    }
+  }
+  onDeleteProduct() {
+    this.productDeleteSubscription = this.productService.deleteProduct(this.deletedProductId)
+      .subscribe({
+        next: () => this.getAllProducts(),
+        error: (err) => console.log('Errors occured: ' + err.message)
+      })
+  }
 
   ngOnDestroy(): void {
     this.productsSubscription.unsubscribe()
@@ -119,5 +190,37 @@ export class ProductsComponent implements OnInit, OnDestroy {
     if (this.fileSubscription) {
       this.fileSubscription.unsubscribe()
     }
+  }
+
+
+  get categoryId() {
+    return this.productForm.get('category')?.get('id')
+  }
+  get name() {
+    return this.productForm.get('name')
+  }
+  get producer() {
+    return this.productForm.get('producer')
+  }
+  get weight() {
+    return this.productForm.get('weight')
+  }
+  get fragrant() {
+    return this.productForm.get('fragrant')
+  }
+  get price() {
+    return this.productForm.get('price')
+  }
+  get quantity() {
+    return this.productForm.get('quantity')
+  }
+  get quality() {
+    return this.productForm.get('quality')
+  }
+  get description() {
+    return this.productForm.get('description')
+  }
+  get imgUrl() {
+    return this.productForm.get('imgUrl')
   }
 }

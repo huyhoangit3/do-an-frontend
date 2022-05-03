@@ -1,6 +1,7 @@
+import { Category } from "./category.model";
+
 export interface Product {
     id?: number,
-    categoryId?: number,
     name: string,
     producer: string,
     weight: number,
@@ -12,5 +13,6 @@ export interface Product {
     description: string,
     imgUrl: string,
     createAt?: Date,
-    modifiedAt?: Date
+    modifiedAt?: Date,
+    category: Category
 }

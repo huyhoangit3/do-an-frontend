@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class ImagePipe implements PipeTransform {
 
   transform(value: string, ...args: unknown[]): string {
-    return `http://localhost:8080/images/${value}`;
+    return `http://localhost:8080/api/files/${value}`;
   }
 
 }

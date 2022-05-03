@@ -28,20 +28,24 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="table-info" *ngFor="let product of products">
+                        <tr class="table-info" *ngFor="let product of products | paginate: {itemsPerPage, currentPage}">
                             <td class="text-center align-middle">{{ product.id }}</td>
-                            <td class="text-center align-middle"><img style="width: 70px; height: 70px; border-radius: 7px;"
-                                    [src]="product.imgUrl | image" class="card-img-top mx-auto d-block" alt="Anh minh hoa" />
+                            <td class="text-center align-middle"><img
+                                    style="width: 70px; height: 70px; border-radius: 7px;"
+                                    [src]="product.imgUrl | image" class="card-img-top mx-auto d-block"
+                                    alt="Anh minh hoa" />
                             </td>
                             <td class="text-center align-middle"> {{ product.name }} </td>
                             <td class="text-center align-middle">{{ product.producer }}</td>
                             <td class="text-center align-middle">{{ product.price }}</td>
                             <td class="text-center align-middle">{{ product.quality }}</td>
                             <td class="text-center align-middle">
-                                <button class="btn btn-primary">
+                                <button class="btn btn-primary" (click)="onUpdateBtnClicked(product)"
+                                    data-toggle="modal" data-target="#productModal">
                                     <i class="fa-solid fa-pen"></i>
                                     Cập nhật</button>&nbsp;
-                                <button class="btn btn-danger">
+                                <button class="btn btn-danger" (click)="onDeleteBtnClicked(product.id)"
+                                data-toggle="modal" data-target="#confirmModal">
                                     <i class="fa-solid fa-trash-can"></i>
                                     Xóa</button>
                             </td>
@@ -49,7 +53,8 @@
                     </tbody>
                 </table>
                 <div class="primary-btn text-center">
-                    <a href="#" class="btn btn-danger">Quay lại</a>
+                    <pagination-controls class="my-pagination" (pageChange)="currentPage = $event"
+                        previousLabel="Previous" nextLabel="Next"></pagination-controls>
                 </div>
             </div>
         </div>
@@ -71,14 +76,20 @@
                 <form [formGroup]="productForm">
                     <div class="row">
                         <div class="col-12">
-                            <div class="form-group">
+                            <div class="form-group" formGroupName="category">
                                 <label for="formGroupExampleInput">Danh mục <span style="color: red;">(*)</span></label>
-                                <select class="form-control form-control-sm" formControlName="categoryId">
+                                <select class="form-control form-control-sm" formControlName="id">
                                     <option [ngValue]="null" disabled>Chọn danh mục</option>
                                     <option *ngFor="let category of categories" [ngValue]="category.id">
                                         {{category.name}}
                                     </option>
                                 </select>
+                                <div *ngIf="!categoryId?.valid && (categoryId?.dirty ||categoryId?.touched)">
+                                    <span [hidden]="!categoryId?.errors?.['required']"
+                                        style="color: red; font-size: small;">
+                                        Tên danh mục là bắt buộc
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -89,6 +100,11 @@
                                         style="color: red;">(*)</span></label>
                                 <input type="text" formControlName="name" class="form-control form-control-sm"
                                     placeholder="Nhập tên sản phẩm mới">
+                                <div *ngIf="!name?.valid && (name?.dirty ||name?.touched)">
+                                    <span [hidden]="!name?.errors?.['required']" style="color: red; font-size: small;">
+                                        Tên sản phẩm là bắt buộc
+                                    </span>
+                                </div>
                             </div>
 
                         </div>
@@ -99,11 +115,22 @@
                                 <label for="formGroupExampleInput">Giá bán <span style="color: red;">(*)</span></label>
                                 <input type="number" formControlName="price" class="form-control form-control-sm"
                                     placeholder="Nhập giá bán">
+                                <div *ngIf="!price?.valid && (price?.dirty ||price?.touched)">
+                                    <span [hidden]="!price?.errors?.['required']" style="color: red; font-size: small;">
+                                        Giá bán là bắt buộc
+                                    </span>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="formGroupExampleInput">Số lượng <span style="color: red;">(*)</span></label>
                                 <input type="number" formControlName="quantity" class="form-control form-control-sm"
                                     placeholder="Nhập số lượng">
+                                <div *ngIf="!quantity?.valid && (quantity?.dirty ||quantity?.touched)">
+                                    <span [hidden]="!quantity?.errors?.['required']"
+                                        style="color: red; font-size: small;">
+                                        Số lượng là bắt buộc
+                                    </span>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="formGroupExampleInput">Mùi hương</label>
@@ -115,9 +142,13 @@
                             <div class="form-group">
                                 <label for="formGroupExampleInput">Hình ảnh <span style="color: red;">(*)</span></label>
                                 <div>
-                                    <img [src]="imageSrc" style="width: 170px; height: 170px;" alt="file uploaded">
+                                    <img [src]="imageSrc" class="border border-success rounded"
+                                        style="width: 170px; height: 170px;" alt="file uploaded">
                                 </div>
-                                <input type="file" class="mt-2" (change)="onChooseFile($event)">
+                                <input type="file" id="selectedFile" style="display: none;"
+                                    (change)="onChooseFile($event)">
+                                <input type="button" value="Chọn file" class="mt-2"
+                                    onclick="document.getElementById('selectedFile').click();" />
                             </div>
 
                         </div>
@@ -129,6 +160,12 @@
                                         style="color: red;">(*)</span></label>
                                 <input type="text" formControlName="quality" class="form-control form-control-sm"
                                     placeholder="Nhập chất lượng">
+                                <div *ngIf="!quality?.valid && (quality?.dirty ||quality?.touched)">
+                                    <span [hidden]="!quality?.errors?.['required']"
+                                        style="color: red; font-size: small;">
+                                        Chất lượng là bắt buộc
+                                    </span>
+                                </div>
                             </div>
                         </div>
                         <div class="col-5">
@@ -137,6 +174,12 @@
                                         style="color: red;">(*)</span></label>
                                 <input type="number" formControlName="weight" class="form-control form-control-sm"
                                     placeholder="Nhập trọng lượng">
+                                <div *ngIf="!weight?.valid && (weight?.dirty ||weight?.touched)">
+                                    <span [hidden]="!weight?.errors?.['required']"
+                                        style="color: red; font-size: small;">
+                                        Trọng lượng là bắt buộc
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -147,6 +190,12 @@
                                         style="color: red;">(*)</span></label>
                                 <input type="text" formControlName="producer" class="form-control form-control-sm"
                                     placeholder="Nhập nhà sản xuất">
+                                <div *ngIf="!producer?.valid && (producer?.dirty ||producer?.touched)">
+                                    <span [hidden]="!producer?.errors?.['required']"
+                                        style="color: red; font-size: small;">
+                                        Nhà sản xuất là bắt buộc
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -158,6 +207,12 @@
                                         style="color: red;">(*)</span></label>
                                 <textarea placeholder="Nhập mô tả sản phẩm" formControlName="description"
                                     class="form-control form-control-sm" rows="3"></textarea>
+                                <div *ngIf="!description?.valid && (description?.dirty ||description?.touched)">
+                                    <span [hidden]="!description?.errors?.['required']"
+                                        style="color: red; font-size: small;">
+                                        Mô tả là bắt buộc
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -165,9 +220,36 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal"
-                    (click)="onAddProduct()">Thêm</button>
+                <button type="button" class="btn btn-secondary" (click)="onBtnCancelClicked()"
+                    data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-primary" *ngIf="modalMode === 'add'" data-dismiss="modal"
+                    (click)="onAddProduct()" [disabled]="!productForm.valid">Thêm</button>
+                <button type="button" class="btn btn-primary" *ngIf="modalMode === 'update'" data-dismiss="modal"
+                    (click)="onUpdateProduct()" [disabled]="!productForm.valid">Cập nhật</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Confirm Modal -->
+<div class="modal fade" id="confirmModal" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cảnh báo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6>Bạn có chắc chắc muốn xóa sản phẩm này?</h6>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal"
+                    (click)="onDeleteProduct()">Đồng ý</button>
             </div>
         </div>
     </div>
