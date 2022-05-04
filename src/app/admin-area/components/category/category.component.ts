@@ -31,7 +31,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
 
   constructor(private formBuilder: FormBuilder,
-    private categoryService: CategoryService, private toast: NgToastService) { }
+    public categoryService: CategoryService, private toast: NgToastService) { }
 
   ngOnInit(): void {
 
@@ -56,14 +56,13 @@ export class CategoryComponent implements OnInit, OnDestroy {
     ).subscribe({
       next: data => this.categories = data,
       error: err => console.log(`Errors occurred when searching category: ${err.message}`)
-
     })
   }
 
   getAllCategories() {
     this.categoryService.getAllCategories().then(
       res => {
-        this.categories = res
+        this.categoryService.categories = res
         console.log('All categories are fetched')
       }
     ).catch(err => {

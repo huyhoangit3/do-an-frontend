@@ -20,11 +20,8 @@
              aria-haspopup="true" aria-expanded="false">
             Danh mục
           </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Danh mục 1</a>
-            <a class="dropdown-item" href="#">Danh mục 2</a>
-            <a class="dropdown-item" href="#">Danh mục 3</a>
-            <a class="dropdown-item" href="#">Danh mục 4</a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 300px; cursor: pointer;">
+            <a *ngFor="let category of categoryService.categories" class="dropdown-item">{{ category?.name }}</a>
           </div>
         </li>
 
@@ -38,7 +35,7 @@
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2 txt-search" type="search" placeholder="Nhập từ khóa tìm kiếm">
+        <input class="form-control mr-sm-2 txt-search" type="search" [formControl]="searchControl" placeholder="Nhập từ khóa tìm kiếm">
       </form>
       <div>
         <button *ngIf="false" class="btn btn-outline-info my-2 my-sm-0 mx-3" [routerLink]="['login']">

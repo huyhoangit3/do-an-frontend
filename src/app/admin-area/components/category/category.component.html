@@ -20,15 +20,15 @@
                 <table class="table table-hover">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col">Mã danh mục</th>
-                            <th scope="col">Tên danh mục</th>
-                            <th scope="col">Ngày tạo</th>
-                            <th scope="col">Ngày cập nhật</th>
-                            <th scope="col">Hành động</th>
+                            <th>Mã danh mục</th>
+                            <th>Tên danh mục</th>
+                            <th>Ngày tạo</th>
+                            <th>Ngày cập nhật</th>
+                            <th>Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let category of categories | paginate: {itemsPerPage, currentPage}"
+                        <tr *ngFor="let category of categoryService.categories| paginate: {itemsPerPage, currentPage}"
                             class="table-info">
                             <th>{{ category.id }}</th>
                             <td>{{ category.name }}</td>

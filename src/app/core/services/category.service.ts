@@ -11,6 +11,8 @@ const CATEGORY_API_URL = environment.baseApiUrl + '/categories'
 })
 export class CategoryService {
 
+  categories: Category[] = []
+
   constructor(private http: HttpClient) { }
 
   getAllCategories(): Promise<Category[]> {

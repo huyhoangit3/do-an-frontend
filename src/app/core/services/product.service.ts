@@ -11,13 +11,15 @@ const PRODUCT_API_URL = environment.baseApiUrl + '/products'
 })
 export class ProductService {
 
+  products: Product[] = []
+
   constructor(private http: HttpClient) { }
 
   getAllProducts(): Promise<Product[]> {
     return firstValueFrom(this.http.get<Product[]>(PRODUCT_API_URL))
   }
-  getProductById(productId: number): Observable<Product> {
-    return this.http.get<Product>(`${PRODUCT_API_URL}/${productId}`)
+  getProductById(productId: number): Promise<Product> {
+    return firstValueFrom(this.http.get<Product>(`${PRODUCT_API_URL}/${productId}`))
   }
   findProductsByName(keyword: string): Observable<Product[]> {
     let queryParams = new HttpParams()

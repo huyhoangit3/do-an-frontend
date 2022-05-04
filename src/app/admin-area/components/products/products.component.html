@@ -11,7 +11,7 @@
             <div><button class="btn btn-warning">
                     <i class="fa-solid fa-file-excel"></i>
                     Xuất excel</button></div>
-            <div class="ml-auto"><input type="text" class="form-control" placeholder="Nhập từ khóa tìm kiếm"></div>
+            <div class="ml-auto"><input type="text" class="form-control" [formControl]="searchKeyword" placeholder="Nhập từ khóa tìm kiếm"></div>
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -28,10 +28,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="table-info" *ngFor="let product of products | paginate: {itemsPerPage, currentPage}">
+                        <tr class="table-info" *ngFor="let product of productService.products| paginate: {itemsPerPage, currentPage}">
                             <td class="text-center align-middle">{{ product.id }}</td>
                             <td class="text-center align-middle"><img
-                                    style="width: 70px; height: 70px; border-radius: 7px;"
+                                    style="width: 65px; height: 65px; border-radius: 7px;"
                                     [src]="product.imgUrl | image" class="card-img-top mx-auto d-block"
                                     alt="Anh minh hoa" />
                             </td>
@@ -40,7 +40,7 @@
                             <td class="text-center align-middle">{{ product.price }}</td>
                             <td class="text-center align-middle">{{ product.quality }}</td>
                             <td class="text-center align-middle">
-                                <button class="btn btn-primary" (click)="onUpdateBtnClicked(product)"
+                                <button class="btn btn-primary" (click)="onUpdateBtnClicked(product.id)"
                                     data-toggle="tooltip" title="Chỉnh sửa" data-toggle="modal"
                                     data-target="#productModal">
                                     <i class="fa-solid fa-pen"></i>
@@ -59,7 +59,7 @@
                 </table>
                 <div class="primary-btn text-center">
                     <pagination-controls class="my-pagination" (pageChange)="currentPage = $event"
-                        previousLabel="Previous" nextLabel="Next"></pagination-controls>
+                        previousLabel="Trước" nextLabel="Sau"></pagination-controls>
                 </div>
             </div>
         </div>

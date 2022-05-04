@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ImagePipe } from '../core/pipes/image.pipe';
 import { NgToastModule } from 'ng-angular-popup';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -21,15 +22,12 @@ import { NgToastModule } from 'ng-angular-popup';
     CategoryComponent,
     InvoiceComponent,
     AccountComponent,
-    ImagePipe
+    
   ],
   imports: [
     AdminRoutingModule,
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgToastModule,
-    NgxPaginationModule
+    SharedModule
   ],
 
   bootstrap: [AdminComponent]

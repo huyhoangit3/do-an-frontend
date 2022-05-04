@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
-import { Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, Subscription, switchMap, tap } from 'rxjs';
 import { CategoryService } from 'src/app/core/services/category.service';
 import { FileUploadService } from 'src/app/core/services/file-storage/file-storage.service';
 import { ProductService } from 'src/app/core/services/product.service';
@@ -13,7 +13,7 @@ import { Product } from 'src/app/models/product.model';
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
-export class ProductsComponent implements OnInit {
+export class ProductsComponent implements OnInit, OnDestroy {
   // decide what modal will be display
   modalMode = 'add'
 
@@ -26,6 +26,9 @@ export class ProductsComponent implements OnInit {
   product: Product
   // this variable is used to stored name of chosen file
   chosenFile: string
+  // search form control
+  searchKeyword = new FormControl('')
+  searchSubscription: Subscription
 
   // form group for product
   productForm: FormGroup
@@ -40,9 +43,9 @@ export class ProductsComponent implements OnInit {
   // id of product will be deleted.
   deletedProductId: number
 
-  constructor(private fileService: FileUploadService, private categoryService:
+  constructor(private fileService: FileUploadService, public categoryService:
     CategoryService, private formBuilder: FormBuilder,
-    private productService: ProductService, private toast: NgToastService) {
+    public productService: ProductService, private toast: NgToastService) {
   }
 
   ngOnInit(): void {
@@ -65,12 +68,39 @@ export class ProductsComponent implements OnInit {
         name: ['']
       })
     })
+
+    this.searchSubscription = this.searchKeyword.valueChanges.pipe(
+      tap(() => this.currentPage = 1),
+      map(key => key.trim()),
+      debounceTime(200),
+      distinctUntilChanged(),
+      switchMap(key => {
+        if (key == '') {
+          return this.productService.getAllProducts()
+        } else {
+          return this.productService.findProductsByName(key)
+        }
+      })
+    ).subscribe({
+      next: res => {
+        this.productService.products = res
+        if(res.length === 0) {
+          setTimeout(() => {
+            this.toast.error({
+              detail: "Thông báo", summary: 'Không tìm thấy sản phẩm nào',
+              sticky: false, duration: 2000, position: 'br'
+            })
+          }, 500)
+        }
+      },
+      error: err => console.log(`Errors occurred when searching products: ${err.message}`)
+    })
   }
 
   // start fetch all items
   getAllCategories() {
     this.categoryService.getAllCategories().then(res => {
-      this.categories = res
+      this.categoryService.categories = res
       console.log('All categories are fetched')
     }
     ).catch(err => {
@@ -84,7 +114,7 @@ export class ProductsComponent implements OnInit {
 
   getAllProducts() {
     this.productService.getAllProducts().then(res => {
-      this.products = res
+      this.productService.products = res
       console.log('All products are fetched')
     }).catch(err => {
       console.log(`Can not get list of products: ${err.message}`)
@@ -137,12 +167,12 @@ export class ProductsComponent implements OnInit {
 
 
   // start update feature
-  onUpdateBtnClicked(product: Product) {
+  async onUpdateBtnClicked(productId: number) {
     this.getAllCategories()
-    this.product = product
+    this.product = await this.productService.getProductById(productId)
     this.chosenFile = this.product.imgUrl
-    this.productForm.patchValue(product)
-    this.imageSrc = 'http://localhost:8080/api/files/' + product.imgUrl
+    this.productForm.patchValue(this.product)
+    this.imageSrc = 'http://localhost:8080/api/files/' + this.product.imgUrl
     this.modalMode = 'update'
   }
 
@@ -218,6 +248,12 @@ export class ProductsComponent implements OnInit {
     })
   }
   // end delete feature
+
+  ngOnDestroy(): void {
+      if(this.searchSubscription) {
+        this.searchSubscription.unsubscribe()
+      }
+  }
 
   get categoryId() {
     return this.productForm.get('category')?.get('id')
