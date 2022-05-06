@@ -18,6 +18,9 @@ export class ProductService {
   getAllProducts(): Promise<Product[]> {
     return firstValueFrom(this.http.get<Product[]>(PRODUCT_API_URL))
   }
+  getTopProducts(): Promise<Product[]> {
+    return firstValueFrom(this.http.get<Product[]>(`${PRODUCT_API_URL}/top-products`))
+  }
   getProductById(productId: number): Promise<Product> {
     return firstValueFrom(this.http.get<Product>(`${PRODUCT_API_URL}/${productId}`))
   }
@@ -25,6 +28,11 @@ export class ProductService {
     let queryParams = new HttpParams()
     queryParams = queryParams.append('keyword', keyword)
     return this.http.get<Product[]>(`${PRODUCT_API_URL}/search`, { params: queryParams })
+  }
+  findProductsByCategoryId(categoryId: number): Promise<Product[]> {
+    let queryParams = new HttpParams()
+    queryParams = queryParams.append('categoryId', categoryId)
+    return firstValueFrom(this.http.get<Product[]>(`${PRODUCT_API_URL}`, { params: queryParams }))
   }
   addProduct(product: Product): Promise<Product> {
     return firstValueFrom(this.http.post<Product>(PRODUCT_API_URL, product))
