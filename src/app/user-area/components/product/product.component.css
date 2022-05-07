@@ -2,3 +2,22 @@
   transition: .2s;
   transform: scale(1.03);
 }
+
+.container {
+  margin-top: 25px;
+}
+
+.btn:active {
+  border: none;
+  box-shadow: none;
+}
+
+.btn, .form-control {
+  box-shadow: none;
+}
+.card-body {
+  padding: 5px 10px;
+}
+hr {
+  margin: 0;
+}

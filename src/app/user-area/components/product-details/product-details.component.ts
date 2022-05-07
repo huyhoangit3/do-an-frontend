@@ -1,6 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 import { Subscription } from 'rxjs';
+import { CartService } from 'src/app/core/services/cart.service';
 import { ProductService } from 'src/app/core/services/product.service';
 import { Product } from 'src/app/models/product.model';
 
@@ -11,25 +13,27 @@ import { Product } from 'src/app/models/product.model';
 })
 export class ProductDetailsComponent implements OnInit, OnDestroy {
 
-  product!: Product
+  @ViewChild('ipQuantity1') ipQuantity1: ElementRef
+  product: Product
   relatedProducts: Product[]
   hotProducts: Product[]
   activatedRouteSub: Subscription
 
+  
+
   constructor(private activatedRoute: ActivatedRoute,
-    private productService: ProductService) {
+    private productService: ProductService,
+    private toast: NgToastService,
+    public cartService: CartService) {
   }
 
   ngOnInit(): void {
-  activatedRouteSub: Subscription
+    activatedRouteSub: Subscription
     this.activatedRouteSub = this.activatedRoute.paramMap.subscribe({
       next: params => this.productService
         .getProductById(Number(params.get('id')))
         .then(res => {
           this.product = res
-          // this.relatedProducts = this.productService.products.filter(product => {
-          //   return product.id !== this.product.id && product.category.id === this.product.category.id
-          // })
           this.productService.findProductsByCategoryId(res.category.id).then(res => {
             this.relatedProducts = res.filter(p => p.id !== this.product.id)
           }).catch(err => console.log(`Error occurs when fetching products with categoryId = ${this.product.id}`)
@@ -44,17 +48,17 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     }).catch(err => {
       console.log(`Error occurs when fetching top products`)
     })
-
   }
+
+  onAddToCart(product: Product, quantity: number) {
+      
+      this.cartService.addToCart(product, quantity)
+    
+  }
+
   ngOnDestroy(): void {
     if (this.activatedRouteSub) {
       this.activatedRouteSub.unsubscribe()
     }
   }
-
-
-  onAddToCart() {
-
-  }
-
 }

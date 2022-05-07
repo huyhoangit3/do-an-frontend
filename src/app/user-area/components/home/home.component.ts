@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgToastService } from 'ng-angular-popup';
+import { CartService } from 'src/app/core/services/cart.service';
 import { CategoryService } from 'src/app/core/services/category.service';
 import { ProductService } from 'src/app/core/services/product.service';
+import { Product } from 'src/app/models/product.model';
 
 @Component({
   selector: 'user-home',
@@ -15,17 +17,10 @@ export class HomeComponent implements OnInit {
 
   constructor(private toast: NgToastService,
     public productService: ProductService,
-    public categoryService: CategoryService) {
+    private cartService: CartService) {
   }
 
   ngOnInit(): void {
-
-    this.categoryService.getAllCategories().then(res => {
-      this.categoryService.categories = res
-    }).catch(err => {
-      console.log(`Errors occurred when fetching all categories ${err.message}`);
-    })
-
     this.productService.getAllProducts().then(res => {
       this.productService.products = res
     }).catch(err => {
@@ -33,11 +28,11 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  onAddToCart() {
+  onAddToCart(product: Product, quantity: number) {
     this.toast.success({
-      detail: "INFO", summary: 'Your Info Message',
+      detail: "Thông báo", summary: 'Đã thêm vào giỏ hàng',
       sticky: false, duration: 1500, position: 'br'
     })
-
+    this.cartService.addToCart(product, quantity)
   }
 }

@@ -1,107 +1,90 @@
-<div class="container">
-  <!-- Alert-->
-  <!--  <div class="alert alert-info alert-dismissible fade show text-center mb-30"><span class="alert-close" data-dismiss="alert"></span><i class="fe-icon-award"></i>&nbsp;&nbsp;With this purchase you will earn <strong>2,549</strong> Reward Points.</div>-->
-  <!-- Start Cart Item-->
-  <div class="cart-item d-md-flex justify-content-between"><span class="remove-item"><i class="fa fa-times"></i></span>
-    <div class="px-3 my-3">
-      <a class="cart-item-product" href="#">
-        <div class="cart-item-product-thumb"><img
-          src="https://tinhdaulachampa.net/upload/202204/PR0547_tinh-dau-go-dan-huong-sandalwood-nguyen-chat-lachampa.jpg"
-          alt="Product"></div>
-        <div class="cart-item-product-info">
-          <h4 class="cart-item-product-title">Canon EOS M50 Mirrorless Camera</h4><span><strong>Type:</strong> Mirrorless</span><span><strong>Color:</strong> Black</span>
+<div class="row">
+  <div class="col-8" style="padding-left: 20px;">
+    <div *ngIf="cartService.items.length !== 0;else hideCart" class="container" style="min-height: 75vh;">
+      <div *ngFor="let item of cartService.items" class="cart-item d-md-flex justify-content-between">
+        <span class="remove-item" (click)="onRemoveItem(item.product.id)"><i class="fa fa-times"></i></span>
+        <div class="px-2 my-1">
+          <a class="cart-item-product">
+            <div class="cart-item-product-thumb"><img [src]="item.product.imgUrl | image" alt="Product"></div>
+            <div class="cart-item-product-info">
+              <h4 class="cart-item-product-title" style="cursor: pointer;"
+                [routerLink]="['/products', item.product.id, 'details']">{{ item.product.name }}</h4>
+              <span style="font-size: 14px;"><strong>Nhà sản xuất:</strong> {{ item.product.producer }}</span>
+              <span style="font-size: 14px;"><strong>Chất lượng:</strong> {{ item.product.quality }}</span>
+            </div>
+          </a>
         </div>
-      </a>
-    </div>
-    <div class="px-3 my-3 text-center">
-      <div class="cart-item-label">Số lượng</div>
-      <div class="count-input">
-        <input type="number" class="form-control form-quantity" value="1" min="1" max="10">
+        <div class="px-2 my-2 text-center">
+          <div class="cart-item-label">Số lượng</div>
+          <div style="display: inline-flex;">
+            <input class="form-control quantity" #ipQuantity 
+              type="number" [(ngModel)]="item.quantity"  min="1" [max]="item.product.quantity"
+              style="max-width: 5rem; font-size: 13px;" />
+            <span style="display: inline-block; font-size: 20px; padding: 0 5px">/</span>
+            <input class="form-control quantity me-3" type="text" [value]="item.product.quantity"
+              style="max-width: 4rem; font-size: 13px;" disabled />
+          </div>
+
+        </div>
+        <div class="px-2 my-2 text-center">
+          <div class="cart-item-label">Đơn giá</div>
+          <span style="font-size: 15px;" class=""> {{ item.product.price | number: '4.0'}} VNĐ</span>
+        </div>
+        <div class="px-2 my-2 text-center">
+          <div class="cart-item-label">Thành tiền</div>
+          <span style="font-size: 15px;" class="">{{ $any(ipQuantity.value) * item.product.price | number: '4.0'}}
+            VNĐ</span>
+        </div>
+      </div>
+
+      <!-- Coupon + Subtotal-->
+      <div class="d-sm-flex justify-content-between align-items-center text-center text-sm-left">
+        <div class="w-75">
+          <button class="btn btn-info w-25" [routerLink]="['/']">Tiếp tục mua sắm</button>
+          <button class="btn btn-danger ml-3 w-25" (click)="onRemoveAllItems()">Xóa giỏ hàng</button>
+        </div>
+        <div class="py-2"><span class="d-inline-block align-middle text-sm font-weight-bold mr-2">Tổng cộng:</span><span
+            class="d-inline-block align-middle text-xl font-weight-medium">{{ getTotalPrice() | number: '4.0'}}
+            VNĐ</span></div>
       </div>
     </div>
-    <div class="px-3 my-3 text-center">
-      <div class="cart-item-label">Đơn giá</div>
-      <span class="text-xl font-weight-medium">$910.00</span>
-    </div>
-    <div class="px-3 my-3 text-center">
-      <div class="cart-item-label">Thành tiền</div>
-      <span class="text-xl font-weight-medium">$35.00</span>
-    </div>
+    
   </div>
-  <!-- End Cart Item-->
-  <!-- Start Cart Item-->
-  <div class="cart-item d-md-flex justify-content-between"><span class="remove-item"><i class="fa fa-times"></i></span>
-    <div class="px-3 my-3">
-      <a class="cart-item-product" href="#">
-        <div class="cart-item-product-thumb"><img
-          src="https://tinhdaulachampa.net/upload/202204/PR0547_tinh-dau-go-dan-huong-sandalwood-nguyen-chat-lachampa.jpg"
-          alt="Product"></div>
-        <div class="cart-item-product-info">
-          <h4 class="cart-item-product-title">Canon EOS M50 Mirrorless Camera</h4><span><strong>Type:</strong> Mirrorless</span><span><strong>Color:</strong> Black</span>
-        </div>
-      </a>
-    </div>
-    <div class="px-3 my-3 text-center">
-      <div class="cart-item-label">Số lượng</div>
-      <div class="count-input">
-        <input type="number" class="form-control form-quantity" value="1" min="1" max="10">
+  <div class="col-4">
+    <div class="card mt-4" style="width: 25rem;">
+      <div class="card-body">
+        <form>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Họ và tên</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Nhập họ tên">
+            <small *ngIf="false" id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+              else.</small>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Số điện thoại</label>
+            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Nhập số điện thoại">
+          </div>
+          <div class="form-group">
+            <label>Địa chỉ nhận hàng</label>
+            <textarea class="form-control" rows="3" placeholder="Nhập địa chỉ nhận hàng"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Ghi chú</label>
+            <textarea class="form-control" rows="3" placeholder="Nhập ghi chú"></textarea>
+          </div>
+          <button class="btn btn-success">Đặt hàng</button>
+        </form>
       </div>
     </div>
-    <div class="px-3 my-3 text-center">
-      <div class="cart-item-label">Đơn giá</div>
-      <span class="text-xl font-weight-medium">$910.00</span>
-    </div>
-    <div class="px-3 my-3 text-center">
-      <div class="cart-item-label">Thành tiền</div>
-      <span class="text-xl font-weight-medium">$35.00</span>
-    </div>
-  </div>
-  <!-- End Cart Item-->
-  <!-- Start Cart Item-->
-  <div class="cart-item d-md-flex justify-content-between"><span class="remove-item"><i class="fa fa-times"></i></span>
-    <div class="px-3 my-3">
-      <a class="cart-item-product" href="#">
-        <div class="cart-item-product-thumb"><img
-          src="https://tinhdaulachampa.net/upload/202204/PR0547_tinh-dau-go-dan-huong-sandalwood-nguyen-chat-lachampa.jpg"
-          alt="Product"></div>
-        <div class="cart-item-product-info">
-          <h4 class="cart-item-product-title">Canon EOS M50 Mirrorless Camera</h4><span><strong>Type:</strong> Mirrorless</span><span><strong>Color:</strong> Black</span>
-        </div>
-      </a>
-    </div>
-    <div class="px-3 my-3 text-center">
-      <div class="cart-item-label">Số lượng</div>
-      <div class="count-input">
-        <input type="number" class="form-control form-quantity" value="1" min="1" max="10">
-      </div>
-    </div>
-    <div class="px-3 my-3 text-center">
-      <div class="cart-item-label">Đơn giá</div>
-      <span class="text-xl font-weight-medium">$910.00</span>
-    </div>
-    <div class="px-3 my-3 text-center">
-      <div class="cart-item-label">Thành tiền</div>
-      <span class="text-xl font-weight-medium">$35.00</span>
-    </div>
-  </div>
-  <!-- End Cart Item-->
-  <!-- Coupon + Subtotal-->
-  <div class="d-sm-flex justify-content-between align-items-center text-center text-sm-left">
-
-    <div class="py-2"><span
-      class="d-inline-block align-middle text-sm text-muted font-weight-medium text-uppercase mr-2">Tổng cộng:</span><span
-      class="d-inline-block align-middle text-xl font-weight-medium">$188.50</span></div>
-  </div>
-  <!-- Buttons-->
-  <hr class="my-2">
-  <div class="row pt-3 pb-5 mb-2">
-    <div class="col-sm-6 mb-3">
-      <button class="btn btn-danger w-100">Xóa giỏ hàng</button>
-    </div>
-    <div class="col-sm-6 mb-3">
-      <button class="btn btn-success w-100">Đặt hàng</button>
-    </div>
-  </div>
-
-
 </div>
+</div>
+
+<ng-template class="container" #hideCart>
+  <div class="container" style="min-height: 75vh;">
+    <div style="text-align: center;">
+      <img style="width: 330px; height: 330px;" src="https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-2130356-1800917.png" alt="">
+      <h4>Bạn chưa có sản phẩm nào trong giỏ hàng:((</h4>
+      <button class="btn btn-primary" [routerLink]="['/']">Tiếp tục mua sắm</button>
+    </div>  
+  </div>
+</ng-template>

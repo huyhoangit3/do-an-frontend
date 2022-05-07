@@ -283,8 +283,8 @@
 
 .cart-item {
   position: relative;
-  margin-bottom: 30px;
-  padding: 0 50px 0 10px;
+  margin-bottom: 7px;
+  padding: 0 20px 0 10px;
   background-color: #fff;
   box-shadow: 0 12px 20px 1px rgba(64, 64, 64, .09);
 }
@@ -292,10 +292,9 @@
 .cart-item .cart-item-label {
   display: block;
   margin-bottom: 15px;
-  color: #8c8c8c;
-  font-size: 13px;
+  color: black;
+  font-size: 15px;
   font-weight: 600;
-  text-transform: uppercase;
 }
 
 .cart-item .cart-item-product {
@@ -310,12 +309,13 @@
 }
 
 .cart-item .cart-item-product-thumb {
-  width: 110px;
+  width: 100px;
 }
 
 .cart-item .cart-item-product-thumb > img {
   display: block;
   width: 100%;
+  border-radius: 10px;
 }
 
 .cart-item .cart-item-product-info {
@@ -471,4 +471,11 @@
   .card-wrapper .jp-card {
     min-width: 250px !important;
   }
+}
+
+label { 
+  margin-bottom: 4px;
+}
+.form-group {
+  margin-bottom: 8px;
 }

@@ -21,7 +21,7 @@
             Danh mục
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="min-width: 300px; cursor: pointer;">
-            <a *ngFor="let category of categoryService.categories" class="dropdown-item">{{ category?.name }}</a>
+            <a *ngFor="let category of categoryService.categories" [routerLink]="['products']" [queryParams]="{categoryId: category.id}" class="dropdown-item">{{ category?.name }}</a>
           </div>
         </li>
 
@@ -64,7 +64,7 @@
       <div class="ml-3" style="cursor: pointer; margin-right: 20px;" [routerLink]="['cart']">
         <i class="fa-solid fa-cart-plus fa-2x text-light"></i>
         <span class="position-absolute top-0 start-100
-        translate-middle badge rounded-pill bg-danger text-light">9</span>
+        translate-middle badge rounded-pill bg-danger text-light">{{ cartService.items.length}}</span>
       </div>
     </div>
   </div>
