@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, map, Subscription, switchMap, tap } from 'rxjs';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { CartService } from 'src/app/core/services/cart.service';
 import { CategoryService } from 'src/app/core/services/category.service';
 import { ProductService } from 'src/app/core/services/product.service';
@@ -15,7 +16,9 @@ export class HeaderComponent implements OnInit {
   searchControl = new FormControl('')
   
   constructor(public productService: ProductService,
-    public categoryService: CategoryService, public cartService: CartService) {
+    public categoryService: CategoryService, 
+    public cartService: CartService,
+    public authService: AuthService) {
   }
 
   ngOnInit(): void {

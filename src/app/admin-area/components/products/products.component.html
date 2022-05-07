@@ -85,7 +85,7 @@
                                 <label for="formGroupExampleInput">Danh mục <span style="color: red;">(*)</span></label>
                                 <select class="form-control form-control-sm" formControlName="id">
                                     <option [ngValue]="null" disabled>Chọn danh mục</option>
-                                    <option *ngFor="let category of categories" [ngValue]="category.id">
+                                    <option *ngFor="let category of categoryService.categories" [ngValue]="category.id">
                                         {{category.name}}
                                     </option>
                                 </select>

@@ -17,8 +17,8 @@
         <div class="px-2 my-2 text-center">
           <div class="cart-item-label">Số lượng</div>
           <div style="display: inline-flex;">
-            <input class="form-control quantity" #ipQuantity 
-              type="number" [(ngModel)]="item.quantity"  min="1" [max]="item.product.quantity"
+            <input class="form-control quantity" #ipQuantity (ngModelChange)="onQuantityChange(item.product.id, $event, ipQuantity)"
+              type="number" [(ngModel)]="item.quantity" min="1" [max]="item.product.quantity"
               style="max-width: 5rem; font-size: 13px;" />
             <span style="display: inline-block; font-size: 20px; padding: 0 5px">/</span>
             <input class="form-control quantity me-3" type="text" [value]="item.product.quantity"
@@ -31,8 +31,8 @@
           <span style="font-size: 15px;" class=""> {{ item.product.price | number: '4.0'}} VNĐ</span>
         </div>
         <div class="px-2 my-2 text-center">
-          <div class="cart-item-label">Thành tiền</div>
-          <span style="font-size: 15px;" class="">{{ $any(ipQuantity.value) * item.product.price | number: '4.0'}}
+          <div class="cart-item-label">Tổng</div>
+          <span style="font-size: 15px;" class="">{{ item.quantity * item.product.price | number: '4.0'}}
             VNĐ</span>
         </div>
       </div>
@@ -43,8 +43,8 @@
           <button class="btn btn-info w-25" [routerLink]="['/']">Tiếp tục mua sắm</button>
           <button class="btn btn-danger ml-3 w-25" (click)="onRemoveAllItems()">Xóa giỏ hàng</button>
         </div>
-        <div class="py-2"><span class="d-inline-block align-middle text-sm font-weight-bold mr-2">Tổng cộng:</span><span
-            class="d-inline-block align-middle text-xl font-weight-medium">{{ getTotalPrice() | number: '4.0'}}
+        <div class="py-2"><span class="d-inline-block align-middle text-sm font-weight-bold">Thành tiền: </span><span
+            class="d-inline-block align-middle text-xl font-weight-medium ml-1"> {{ getTotalPrice() | number: '4.0'}}
             VNĐ</span></div>
       </div>
     </div>

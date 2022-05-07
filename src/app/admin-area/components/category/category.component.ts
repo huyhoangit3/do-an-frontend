@@ -14,8 +14,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
   // category form
   categoryForm: FormGroup
-  // list of all categories
-  categories: Category[]
   // this variable is used to stored category will be updated 
   category: Category
   searchSubscription: Subscription
@@ -54,7 +52,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
         }
       })
     ).subscribe({
-      next: data => this.categories = data,
+      next: data => this.categoryService.categories = data,
       error: err => console.log(`Errors occurred when searching category: ${err.message}`)
     })
   }

@@ -9,8 +9,8 @@ import { CartService } from 'src/app/core/services/cart.service';
 })
 export class CartComponent implements OnInit, AfterViewInit {
 
-  constructor(public cartService: CartService, 
-    private toast: NgToastService ) {
+  constructor(public cartService: CartService,
+    private toast: NgToastService) {
   }
 
   ngOnInit(): void {
@@ -24,24 +24,20 @@ export class CartComponent implements OnInit, AfterViewInit {
     this.cartService.removeAllItems()
   }
 
-  onQuantityChange(productId, event) {
+  onQuantityChange(productId, event, ipQuantity) {
     this.cartService.items.forEach(item => {
-      if(item.product.id === productId) {
-        let quantityNum = Number(event.target.value)
-        if(quantityNum > item.product.quantity) {
+      if (item.product.id === productId) {
+        let quantityNum = Number(event)
+        if (quantityNum > item.product.quantity) {
           item.quantity = item.product.quantity
+          ipQuantity.value = item.product.quantity
           this.toast.error({
             detail: "Cảnh báo", summary: 'Số lượng sản phẩm còn lại không đủ!',
             sticky: false, duration: 2000, position: 'br'
           })
-          setTimeout(() => {
-            window.location.reload()
-          }, 2000)
-          
         } else {
           item.quantity = quantityNum
         }
-        
         this.cartService.setCartToLocalStorage()
       }
     })

@@ -38,15 +38,15 @@
         <input class="form-control mr-sm-2 txt-search" type="search" [formControl]="searchControl" placeholder="Nhập từ khóa tìm kiếm">
       </form>
       <div>
-        <button *ngIf="false" class="btn btn-outline-info my-2 my-sm-0 mx-3" [routerLink]="['login']">
+        <button *ngIf="!authService.isLoggedIn()" class="btn btn-outline-info my-2 my-sm-0 mx-3" [routerLink]="['login']">
           <i class="fa-solid fa-right-to-bracket"></i> Đăng nhập
         </button>
 
-        <button *ngIf="false" class="btn btn-outline-primary my-2 my-sm-0" [routerLink]="['signup']">
+        <button *ngIf="!authService.isLoggedIn()" class="btn btn-outline-primary my-2 my-sm-0" [routerLink]="['signup']">
           <i class="fa-solid fa-user"></i> Đăng ký
         </button>
         <!-- Avatar -->
-        <div *ngIf="true" class="dropdown">
+        <div *ngIf="authService.isLoggedIn()" class="dropdown">
           <a style="color: white; padding-right: 0;" class="nav-link dropdown-toggle" href="#"
              id="account-navbarDropdown1" role="button" data-toggle="dropdown">
             <img
