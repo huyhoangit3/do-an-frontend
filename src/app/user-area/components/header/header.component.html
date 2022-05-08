@@ -54,10 +54,10 @@
               class="rounded-circle" height="37" alt="Avatar" loading="lazy"/>
           </a>
           <div class="dropdown-menu" aria-labelledby="account-navbarDropdown">
-            <a class="dropdown-item" [routerLink]="['profile']">Tài khoản</a>
-            <a class="dropdown-item" [routerLink]="['orders']">Đơn hàng của tôi</a>
-            <a class="dropdown-item" href="#">Đổi mật khẩu</a>
-            <a class="dropdown-item" href="#">Đăng xuất</a>
+            <a class="dropdown-item" style="cursor: pointer;" [routerLink]="['profile']">Tài khoản</a>
+            <a class="dropdown-item" style="cursor: pointer;" [routerLink]="['orders']">Đơn hàng của tôi</a>
+            <a class="dropdown-item" style="cursor: pointer;" href="#">Đổi mật khẩu</a>
+            <a class="dropdown-item" style="cursor: pointer;" (click)="onLogout()">Đăng xuất</a>
           </div>
         </div>
       </div>

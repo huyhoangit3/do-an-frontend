@@ -1,4 +1,6 @@
 import {Component} from '@angular/core';
+import { Router } from '@angular/router';
+import { TokenStorageService } from '../core/services/auth/token-storage.service';
 
 @Component({
   selector: 'app-admin-home',
@@ -10,7 +12,8 @@ export class AdminComponent {
   isSidebarCollapsed = false
   sidebarIndex = 1
 
-  constructor() {
+  constructor(private router: Router, 
+    private tokenStorageService: TokenStorageService) {
   }
 
   ngOnInit(): void {
@@ -18,5 +21,9 @@ export class AdminComponent {
 
   onToggleSidebar() {
     this.isSidebarCollapsed = !this.isSidebarCollapsed
+  }
+  onLogout() {
+    this.tokenStorageService.signOut()
+    this.router.navigate(['/'])
   }
 }

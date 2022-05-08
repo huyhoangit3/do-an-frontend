@@ -8,7 +8,7 @@ import { FormGroup } from '@angular/forms';
 const AUTH_API_URL = environment.baseApiUrl + '/auth'
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
 
@@ -20,15 +20,15 @@ export class AuthService {
     return firstValueFrom(this.http.post(`${AUTH_API_URL}/signup`, signUpForm.value))
   }
 
-  generateToken(loginForm: FormGroup): Observable<any> {
-    return this.http.post(`${environment.baseApiUrl}/auth/signin`, loginForm.value)
+  generateToken(loginForm: FormGroup): Promise<any> {
+    return firstValueFrom(this.http.post(`${environment.baseApiUrl}/auth/signin`, loginForm.value))
   }
 
   isLoggedIn(): boolean {
     let token = this.tokenStorageService.getToken()
     return token === null ? false : true
   }
-  getCurrentUser(): Observable<any> {
-    return this.http.get(`${environment.baseApiUrl}/auth/current-user`)
+  getCurrentUser(): Promise<any> {
+    return firstValueFrom(this.http.get(`${environment.baseApiUrl}/auth/current-user`))
   }
 }

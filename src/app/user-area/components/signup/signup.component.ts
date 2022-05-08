@@ -36,7 +36,7 @@ export class SignupComponent implements OnInit {
     
   }
   onRegisterUser() {
-    this.signUpForm.patchValue({imgUrl: 'demo.jpg'})
+    this.signUpForm.patchValue({imgUrl: 'demo1.jpg'})
     this.authService.signUp(this.signUpForm).then(res => {
       this.router.navigate(['login'])
       this.toast.success({

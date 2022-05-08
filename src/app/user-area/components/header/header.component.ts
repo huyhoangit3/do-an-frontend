@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { debounceTime, distinctUntilChanged, map, Subscription, switchMap, tap } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
+import { TokenStorageService } from 'src/app/core/services/auth/token-storage.service';
 import { CartService } from 'src/app/core/services/cart.service';
 import { CategoryService } from 'src/app/core/services/category.service';
 import { ProductService } from 'src/app/core/services/product.service';
@@ -18,7 +20,9 @@ export class HeaderComponent implements OnInit {
   constructor(public productService: ProductService,
     public categoryService: CategoryService, 
     public cartService: CartService,
-    public authService: AuthService) {
+    public authService: AuthService,
+    private tokenStorageService: TokenStorageService,
+    private router: Router) {
   }
 
   ngOnInit(): void {
@@ -41,5 +45,8 @@ export class HeaderComponent implements OnInit {
       error: err => console.log(`Errors occurred when searching products: ${err.message}`)
     })
   }
-
+  onLogout() {
+    this.tokenStorageService.signOut()
+    this.router.navigate(['/'])
+  }
 }

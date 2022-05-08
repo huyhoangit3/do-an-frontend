@@ -4,13 +4,13 @@
       <div class="card shadow">
         <div class="card-body">
           <h3 class="card-title text-center">Login</h3>
-          <form>
+          <form [formGroup]="loginForm">
             <div class="mb-3">
-              <label>Email</label>
-              <input type="text" class="form-control" formControlName="email"/>
+              <label>Tên tài khoản</label>
+              <input type="text" class="form-control" formControlName="username"/>
             </div>
             <div class="mb-3">
-              <label>Password</label>
+              <label>Mật khẩu</label>
               <input
                 type="password"
                 class="form-control"
@@ -21,12 +21,12 @@
               <button type="button"
                       (click)="onLogin()"
                       class="btn btn-primary">
-                Login
+                Đăng nhập
               </button>&nbsp;
 
               <button
                 class="btn btn-danger">
-                Back
+                Quay lại
               </button>
             </div>
           </form>
