@@ -1,4 +1,3 @@
-<h3 class="text-center my-3">Danh sách đơn hàng</h3>
 <div class="event-schedule-area-two bg-color pad100 mt-3" style="min-height: 600px;">
   <div class="container">
     <div class="row">
@@ -16,18 +15,13 @@
           </thead>
           <tbody>
             <tr class="table-success"
-              *ngFor="let invoice of invoiceService.invoices | paginate: {itemsPerPage, currentPage}"
-              >
+              *ngFor="let invoice of invoiceService.invoices | paginate: {itemsPerPage, currentPage}">
               <th> {{ invoice.id}}</th>
-              <td> <select class="form-control form-control-sm" name="testsss" [(ngModel)]="invoice.status">
-                  <option *ngFor="let status of invoiceStatus" (ngModelChange)="onStatusChange($event)" [value]="status.code">
-                    {{status.status}}
-                  </option>
-                </select></td>
+              <td> {{ invoice.status | status}}</td>
               <td>{{ invoice.bookingTime | date: 'short': 'UTC'}}</td>
               <td> {{ invoice.orderAddress}}</td>
               <td>
-                <button class="btn btn-success" (click)="onViewInvoiceDetails(invoice.id)">Chi tiết</button>&nbsp;
+                <button class="btn btn-success" [routerLink]="['/admin/invoice-details', invoice.id]"><i class="fa-solid fa-eye"></i> Chi tiết</button>&nbsp;
               </td>
             </tr>
           </tbody>

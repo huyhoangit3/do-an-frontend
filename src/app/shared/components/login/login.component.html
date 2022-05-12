@@ -1,31 +1,24 @@
-<div class="container my-5">
+<div class="container my-5" style="min-height: 487px">
   <div class="row">
     <div class="col-md-6 offset-md-3">
       <div class="card shadow">
         <div class="card-body">
-          <h3 class="card-title text-center">Login</h3>
+          <h4 class="card-title text-center">Đăng nhập</h4>
           <form [formGroup]="loginForm">
             <div class="mb-3">
               <label>Tên tài khoản</label>
-              <input type="text" class="form-control" formControlName="username"/>
+              <input type="text" class="form-control" formControlName="username" />
             </div>
             <div class="mb-3">
               <label>Mật khẩu</label>
-              <input
-                type="password"
-                class="form-control"
-                formControlName="password"
-              />
+              <input type="password" class="form-control" formControlName="password" />
             </div>
             <div class="mb-3 text-center">
-              <button type="button"
-                      (click)="onLogin()"
-                      class="btn btn-primary">
+              <button type="button" (click)="onLogin()" class="btn btn-primary">
                 Đăng nhập
               </button>&nbsp;
 
-              <button
-                class="btn btn-danger">
+              <button class="btn btn-danger">
                 Quay lại
               </button>
             </div>
@@ -35,6 +28,3 @@
     </div>
   </div>
 </div>
-
-
-

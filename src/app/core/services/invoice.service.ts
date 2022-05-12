@@ -18,11 +18,21 @@ export class InvoiceService {
     return firstValueFrom(this.http.get<any[]>(INVOICE_API_URL, {params}))
   }
 
+  getInvoiceById(invoiceId: any): Promise<any> {
+    return firstValueFrom(this.http.get<any>(`${INVOICE_API_URL}/${invoiceId}`))
+  }
+
   getProductsInInvoice(id: number): Promise<any> {
     return firstValueFrom(this.http.get<any[]>(`${INVOICE_API_URL}/${id}/products`))
   }
 
   getAllInvoices(): Promise<any> {
     return firstValueFrom(this.http.get<any[]>(`${INVOICE_API_URL}`))
+  }
+
+  updateStatus(invoiceId: number, status: number) {
+    let params = new HttpParams()
+    params = params.append('status', status)
+    return firstValueFrom(this.http.get<any[]>(`${INVOICE_API_URL}/${invoiceId}`, {params}))
   }
 }

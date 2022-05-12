@@ -38,7 +38,7 @@ export class CartComponent implements OnInit, AfterViewInit {
     const currentUser = this.tokenStorage.getUser()
 
     if(currentUser) {
-      this.customerService.getCustomer(currentUser.id).then(res => {
+      this.customerService.getCustomerByAccountId(currentUser.id).then(res => {
         this.customerDetailsForm.patchValue({
           customerName: res.fullName, 
           phoneNumber: res.phone,

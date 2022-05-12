@@ -8,6 +8,7 @@ import { CategoryComponent } from './components/category/category.component';
 import { HomeComponent } from './components/home/home.component';
 import { InvoiceComponent } from './components/invoice/invoice.component';
 import { ProductsComponent } from './components/products/products.component';
+import { InvoiceDetailsComponent } from './components/invoice-details/invoice-details.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { ProductsComponent } from './components/products/products.component';
     CategoryComponent,
     InvoiceComponent,
     AccountComponent,
+    InvoiceDetailsComponent,
 
   ],
   imports: [
