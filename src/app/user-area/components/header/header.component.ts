@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
     public cartService: CartService,
     public invoiceService: InvoiceService,
     public authService: AuthService,
-    private tokenStorageService: TokenStorageService,
+    public tokenStorageService: TokenStorageService,
     private router: Router) {
   }
 

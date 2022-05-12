@@ -1,7 +1,6 @@
 import { HttpClient } from "@angular/common/http"
 import { Injectable } from "@angular/core"
 import { firstValueFrom } from "rxjs"
-import { Category } from "src/app/models/category.model"
 
 const ORDER_API_URL = `http://localhost:8080/api/orders`
 @Injectable({
@@ -13,5 +12,8 @@ export class OrderService {
 
   order(data: any): Promise<any> {
     return firstValueFrom(this.http.post<any[]>(ORDER_API_URL, data))
+  }
+  cancelOrder(orderId: number) {
+    return firstValueFrom(this.http.get<any>(`${ORDER_API_URL}/cancelOrder/${orderId}`))
   }
 }

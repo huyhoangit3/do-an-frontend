@@ -11,6 +11,8 @@ import { Product } from 'src/app/models/product.model';
 export class OrderDetailsComponent implements OnInit {
 
   products: Product[] = []
+  currentPage = 1
+  itemsPerPage = 5
 
   constructor(private invoiceService: InvoiceService,
     private route: ActivatedRoute) {

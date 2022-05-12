@@ -16,4 +16,5 @@ export class CustomerService {
     params = params.append('accountId', accountId)
     return firstValueFrom(this.http.get<any[]>(CUSTOMER_API_URL, {params}))
   }
+  
 }

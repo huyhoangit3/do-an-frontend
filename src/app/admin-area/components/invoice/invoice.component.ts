@@ -19,7 +19,7 @@ export class InvoiceComponent implements OnInit {
     {code: 2, status: 'Đang lấy hàng'},
     {code: 3, status: 'Đang vận chuyển'},
     {code: 4, status: 'Đã giao'},
-    {code: 4, status: 'Hủy'},
+    {code: 5, status: 'Hủy'},
   ]
 
   constructor(public invoiceService: InvoiceService) { }
