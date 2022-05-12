@@ -25,7 +25,7 @@ const routes: Routes = [
       { path: 'signup', component: SignupComponent },
       { path: 'profile', component: ProfileComponent },
       { path: 'orders', component: OrderComponent },
-      { path: 'orders/details/:id', component: OrderDetailsComponent },
+      { path: 'order-details/:id', component: OrderDetailsComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
         path: '**',

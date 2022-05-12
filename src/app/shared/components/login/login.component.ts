@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { TokenStorageService } from 'src/app/core/services/auth/token-storage.service';
+import { InvoiceService } from 'src/app/core/services/invoice.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,7 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private tokenStorageService: TokenStorageService,
     private router: Router,
-    private activatedRoute: ActivatedRoute) {
+    private activatedRoute: ActivatedRoute, private invoiceService: InvoiceService) {
   }
 
   ngOnInit(): void {
@@ -47,6 +48,15 @@ export class LoginComponent implements OnInit {
 
     await this.authService.getCurrentUser().then(res => {
       this.tokenStorageService.saveUser(res)
+      this.invoiceService.getInvoices(res.id)
+        .then(res => {
+          this.invoiceService.invoices = res
+        }).catch(err => {
+          this.toast.error({
+            detail: " Thông báo", summary: 'Lấy thông tin đơn hàng thất bại!!!', sticky: false,
+            duration: 3000, position: 'br'
+          })
+        })
     }).catch(err => {
       this.toast.error({
         detail: " Thông báo", summary: 'Lấy thông tin người dùng thất bại', sticky: false,
@@ -55,7 +65,6 @@ export class LoginComponent implements OnInit {
       console.log(`Error occurs when fetching current logged in user: ${err.message}!`)
       return
     })
-
     if (this.retUrl !== null) {
       this.router.navigate([this.retUrl]);
     } else {

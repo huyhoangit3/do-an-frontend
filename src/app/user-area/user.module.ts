@@ -1,8 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { NgToastModule } from 'ng-angular-popup';
-import { NgxPaginationModule } from 'ngx-pagination';
-import { ImagePipe } from '../core/pipes/image.pipe';
 import { SharedModule } from '../shared/shared.module';
 import { CartComponent } from './components/cart/cart.component';
 import { FooterComponent } from "./components/footer/footer.component";

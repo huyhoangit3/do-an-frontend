@@ -6,42 +6,25 @@
 
         <table class="table table-hover">
           <thead class="thead-dark">
-          <tr>
-            <th scope="col">Mã đơn hàng</th>
-            <th scope="col">Ngày đặt</th>
-            <th scope="col">Tổng tiền</th>
-            <th scope="col">Tình trạng</th>
-            <th scope="col">Hành động</th>
-          </tr>
+            <tr>
+              <th scope="col">Mã đơn hàng</th>
+              <th scope="col">Tình trạng</th>
+              <th scope="col">Ngày đặt</th>
+              <th scope="col">Địa chỉ nhận</th>
+              <th scope="col">Hành động</th>
+            </tr>
           </thead>
           <tbody>
-          <tr class="table-danger" [routerLink]="['details', 1]">
-            <th>1</th>
-            <td>{{ currentTime | date }}</td>
-            <td>300.000 VNĐ</td>
-            <td>Chờ xác nhận</td>
-            <td>
-              <button class="btn btn-primary">Hủy đơn hàng</button>
-            </td>
-          </tr>
-          <tr class="table-success">
-            <th>2</th>
-            <td>{{ currentTime | date }}</td>
-            <td>300.000 VNĐ</td>
-            <td>Chờ xác nhận</td>
-            <td>
-              <button class="btn btn-primary">Hủy đơn hàng</button>
-            </td>
-          </tr>
-          <tr class="table-info">
-            <th>3</th>
-            <td>{{ currentTime | date }}</td>
-            <td>300.000 VNĐ</td>
-            <td>Chờ xác nhận</td>
-            <td>
-              <button class="btn btn-primary">Hủy đơn hàng</button>
-            </td>
-          </tr>
+            <tr class="table-success" *ngFor="let invoice of invoiceService.invoices">
+              <th> {{ invoice.id}}</th>
+              <td> {{ invoice.status | status}}</td>
+              <td>{{ invoice.bookingTime | date: 'short': 'UTC'}}</td>
+              <td> {{ invoice.orderAddress}}</td>
+              <td>
+                <button class="btn btn-success" (click)="onViewInvoiceDetails(invoice.id)">Chi tiết</button>&nbsp;
+                <button class="btn btn-danger">Hủy đơn hàng</button>
+              </td>
+            </tr>
           </tbody>
         </table>
         <div class="primary-btn text-center">

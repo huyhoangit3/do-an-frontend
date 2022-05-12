@@ -28,7 +28,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="table-info" *ngFor="let product of productService.products| paginate: {itemsPerPage, currentPage}">
+                        <tr class="table-info" *ngFor="let product of productService.products | paginate: {itemsPerPage, currentPage}">
                             <td class="text-center align-middle">{{ product.id }}</td>
                             <td class="text-center align-middle"><img
                                     style="width: 65px; height: 65px; border-radius: 7px;"

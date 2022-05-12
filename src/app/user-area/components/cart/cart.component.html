@@ -53,26 +53,26 @@
   <div class="col-4">
     <div class="card mt-4" style="width: 25rem;">
       <div class="card-body">
-        <form>
+        <form [formGroup]="customerDetailsForm">
           <div class="form-group">
             <label for="exampleInputEmail1">Họ và tên</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Nhập họ tên">
+            <input type="text" formControlName="customerName" class="form-control" id="exampleInputEmail1" placeholder="Nhập họ tên">
             <small *ngIf="false" id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
               else.</small>
           </div>
           <div class="form-group">
             <label for="exampleInputPassword1">Số điện thoại</label>
-            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Nhập số điện thoại">
+            <input type="text" formControlName="phoneNumber" class="form-control" id="exampleInputPassword1" placeholder="Nhập số điện thoại">
           </div>
           <div class="form-group">
             <label>Địa chỉ nhận hàng</label>
-            <textarea class="form-control" rows="3" placeholder="Nhập địa chỉ nhận hàng"></textarea>
+            <textarea class="form-control" formControlName="address" rows="3" placeholder="Nhập địa chỉ nhận hàng"></textarea>
           </div>
           <div class="form-group">
             <label>Ghi chú</label>
-            <textarea class="form-control" rows="3" placeholder="Nhập ghi chú"></textarea>
+            <textarea class="form-control" formControlName="note" rows="3" placeholder="Nhập ghi chú"></textarea>
           </div>
-          <button class="btn btn-success">Đặt hàng</button>
+          <button class="btn btn-success" (click)="onOrder()">Đặt hàng</button>
         </form>
       </div>
     </div>

@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { TokenStorageService } from 'src/app/core/services/auth/token-storage.service';
 import { CartService } from 'src/app/core/services/cart.service';
 import { CategoryService } from 'src/app/core/services/category.service';
+import { InvoiceService } from 'src/app/core/services/invoice.service';
 import { ProductService } from 'src/app/core/services/product.service';
 
 @Component({
@@ -20,6 +21,7 @@ export class HeaderComponent implements OnInit {
   constructor(public productService: ProductService,
     public categoryService: CategoryService, 
     public cartService: CartService,
+    public invoiceService: InvoiceService,
     public authService: AuthService,
     private tokenStorageService: TokenStorageService,
     private router: Router) {
@@ -47,6 +49,8 @@ export class HeaderComponent implements OnInit {
   }
   onLogout() {
     this.tokenStorageService.signOut()
+    this.invoiceService.invoices = []
+    this.cartService.items = []
     this.router.navigate(['/'])
   }
 }

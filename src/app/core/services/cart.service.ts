@@ -23,11 +23,12 @@ export class CartService {
       } else {
         this.items[index].quantity = Number(this.items[index].quantity)
         if(this.items[index].quantity + quantity <= product.quantity) {
+          this.items[index].quantity += quantity
           this.toast.success({
             detail: "Thông báo", summary: 'Đã thêm vào giỏ hàng',
             sticky: false, duration: 1500, position: 'br'
           })
-          this.items[index].quantity += quantity
+          
         } else {
           this.toast.error({
             detail: "Thông báo", summary: 'Số lượng trong kho không đủ!!!',
@@ -58,4 +59,6 @@ export class CartService {
   setCartToLocalStorage() {
     window.localStorage.setItem('cart', JSON.stringify(this.items))
   }
+
+
 }

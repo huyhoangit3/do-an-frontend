@@ -26,6 +26,7 @@
                 <span class="text-decoration-line-through"><b>Nhà sản xuất: </b>{{ product.producer}}</span><br>
                 <span *ngIf="product.fragrant" class="text-decoration-line-through"><b>Mùi hương: </b>{{
                   product?.fragrant}}</span><br>
+                <span class="text-decoration-line-through"><b>Số lượng: </b> {{ product.quantity}}</span><br>
                 <span class="text-decoration-line-through"><b>Đã bán: </b> {{ product.sold}}</span><br>
                 <span class="text-decoration-line-through"><b>Giá: </b> {{product.price | number: '4.0'}} VNĐ</span><br>
                 <span class="text-decoration-line-through"><b>Trọng lượng: </b> {{ product.weight}}g</span>
