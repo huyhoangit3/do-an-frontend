@@ -7,11 +7,11 @@ import { TokenStorageService } from 'src/app/core/services/auth/token-storage.se
 import { InvoiceService } from 'src/app/core/services/invoice.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-admin-login',
+  templateUrl: './admin-login.component.html',
+  styleUrls: ['./admin-login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class AdminLoginComponent implements OnInit {
   loginForm: FormGroup
 
   constructor(private formBuilder: FormBuilder,
@@ -42,17 +42,17 @@ export class LoginComponent implements OnInit {
     })
 
     await this.authService.getCurrentUser().then(res => {
-      this.router.navigate(['home']);
-      this.tokenStorageService.saveUser(res)
-      this.invoiceService.getInvoices(res.id)
-        .then(res => {
-          this.invoiceService.invoices = res
-        }).catch(err => {
-          this.toast.error({
-            detail: " Thông báo", summary: 'Lấy thông tin đơn hàng thất bại!!!', sticky: false,
-            duration: 3000, position: 'br'
-          })
+
+      if(res.roles[0].name === 'ROLE_ADMIN' || res.roles[0].name === 'ROLE_MODERATOR' || res.roles[0].name === 'ROLE_USER') {
+        this.router.navigate(['/admin/home'])
+        this.tokenStorageService.saveUser(res)
+      } else {
+        this.tokenStorageService.signOut()
+        this.toast.error({
+          detail: " Thông báo", summary: 'Không có quyền truy cập!', sticky: false,
+          duration: 3000, position: 'br'
         })
+      }
     }).catch(err => {
       this.toast.error({
         detail: " Thông báo", summary: 'Lấy thông tin người dùng thất bại', sticky: false,

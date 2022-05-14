@@ -1,6 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgToastModule } from 'ng-angular-popup';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthGuardService } from "./core/services/auth/auth-guard.service";
@@ -16,6 +17,7 @@ import { UserModule } from "./user-area/user.module";
     AppRoutingModule,
     UserModule,
     HttpClientModule,
+    NgToastModule
   ],
   providers: [AuthGuardService],
   bootstrap: [AppComponent]

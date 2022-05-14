@@ -1,7 +1,8 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {AdminComponent} from "./admin-area/admin.component";
-import {AuthGuardService} from "./core/services/auth/auth-guard.service";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AdminComponent } from "./admin-area/admin.component";
+import { AuthGuardService } from "./core/services/auth/auth-guard.service";
+import { AdminLoginComponent } from './shared/components/admin-login/admin-login.component';
 
 
 const routes: Routes = [{
@@ -15,10 +16,11 @@ const routes: Routes = [{
   // prevent unauthorized user load lazy modules.
   canActivate: [AuthGuardService]
 
-}];
+},
+{ path: 'admin-login', component: AdminLoginComponent }];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {onSameUrlNavigation: 'reload'})],
+  imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

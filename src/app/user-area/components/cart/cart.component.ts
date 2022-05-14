@@ -52,6 +52,15 @@ export class CartComponent implements OnInit, AfterViewInit {
       })
     }
   }
+  get customerName() {
+    return this.customerDetailsForm.get('customerName')
+  }
+  get phoneNumber() {
+    return this.customerDetailsForm.get('phoneNumber')
+  }
+  get address() {
+    return this.customerDetailsForm.get('address')
+  }
 
   onRemoveItem(productId: number) {
     this.cartService.removeItem(productId)
@@ -132,6 +141,9 @@ export class CartComponent implements OnInit, AfterViewInit {
       })
     })
   }
+
+
+
   ngAfterViewInit(): void {
   }
 

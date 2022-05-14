@@ -46,7 +46,6 @@ export class InvoiceDetailsComponent implements OnInit {
         this.getData(this.invoiceId)
       },
       error: err => {
-
       }
     })
     this.statusDropdown.valueChanges.subscribe({

@@ -14,11 +14,11 @@
               <input type="password" class="form-control" formControlName="password" />
             </div>
             <div class="mb-3 text-center">
-              <button type="button" [disabled]="loginForm.invalid" (click)="onLogin()" class="btn btn-primary">
+              <button type="button" (click)="onLogin()" class="btn btn-primary">
                 Đăng nhập
               </button>&nbsp;
 
-              <button class="btn btn-danger" [routerLink]="['/']">
+              <button class="btn btn-danger">
                 Quay lại
               </button>
             </div>

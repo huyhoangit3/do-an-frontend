@@ -9,9 +9,10 @@ import { ImagePipe } from "../core/pipes/image.pipe";
 import { OrderStatusPipe } from "../core/pipes/order-status.pipe";
 import { LoginComponent } from "./components/login/login.component";
 import { NotfoundComponent } from "./components/notfound/notfound.component";
+import { AdminLoginComponent } from './components/admin-login/admin-login.component';
 
 @NgModule({
-  declarations: [ImagePipe, OrderStatusPipe, LoginComponent, NotfoundComponent],
+  declarations: [ImagePipe, OrderStatusPipe, LoginComponent, NotfoundComponent, AdminLoginComponent],
   imports: [
     FormsModule,
     RouterModule,
