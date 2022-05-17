@@ -1,5 +1,5 @@
 <div class="event-schedule-area-two bg-color">
-    <div class="container">
+    <div class="container" style="margin-top: -20px;">
         <div class="d-flex mb-2">
             <div>
                 <button type="button" class="btn btn-success" (click)="onAddButtonClicked()" data-toggle="modal"
@@ -37,7 +37,7 @@
                             </td>
                             <td class="text-center align-middle"> {{ product.name }} </td>
                             <td class="text-center align-middle">{{ product.producer }}</td>
-                            <td class="text-center align-middle">{{ product.price }}</td>
+                            <td class="text-center align-middle">{{ product.price | number: '4.0'}} VNĐ</td>
                             <td class="text-center align-middle">{{ product.quality }}</td>
                             <td class="text-center align-middle">
                                 <button class="btn btn-primary" (click)="onUpdateBtnClicked(product.id)"

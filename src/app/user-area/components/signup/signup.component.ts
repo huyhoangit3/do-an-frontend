@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
-import { FileUploadService } from 'src/app/core/services/file-storage/file-storage.service';
+import { FileUploadService } from 'src/app/core/services/file-storage/file.service';
 
 @Component({
   selector: 'user-signup',

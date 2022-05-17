@@ -1,17 +1,26 @@
 import { HttpClient, HttpParams } from "@angular/common/http"
 import { Injectable } from "@angular/core"
 import { firstValueFrom } from "rxjs"
-import { Category } from "src/app/models/category.model"
+import { API } from "src/app/apiURL"
 
-const ACCOUNT_API_URL = `http://localhost:8080/api/accounts`
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
 
+  accounts: any[] = []
+
   constructor(private http: HttpClient) { }
 
+  getAllAccounts() {
+    return firstValueFrom(this.http.get<any>(`${API.ACCOUNT}`))
+  }
   updateAccount(accountId: number, profileForm: any): Promise<any> {
-    return firstValueFrom(this.http.put<any[]>(`${ACCOUNT_API_URL}/${accountId}/update`, profileForm.value))
+    return firstValueFrom(this.http.put<any>(`${API.ACCOUNT}/${accountId}/update`, profileForm.value))
+  }
+  updateAccountStatus(accountId: number, status: boolean): Promise<any> {
+    let params = new HttpParams()
+    params = params.append('status', status === true ? 1 : 0)
+    return firstValueFrom(this.http.put<any>(`${API.ACCOUNT}/${accountId}`, null, {params}))
   }
 }

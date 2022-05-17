@@ -15,6 +15,8 @@ export class OrderComponent implements OnInit {
   currentPage = 1
   itemsPerPage = 5
 
+  cancelOrderId: number
+
   constructor(public invoiceService: InvoiceService,
     private router: Router, 
     private orderService: OrderService,
@@ -29,13 +31,18 @@ export class OrderComponent implements OnInit {
   onViewInvoiceDetails(id: number) {
     this.router.navigate(['order-details', id])
   }
-  onCancelOrder(orderId: number) {
-    this.orderService.cancelOrder(orderId).then(res => {
+
+  onCancelOrderButtonClicked(orderId: number) {
+    this.cancelOrderId = orderId
+  }
+
+  onCancelOrder() {
+    this.orderService.cancelOrder(this.cancelOrderId).then(res => {
       this.toast.success({
         detail: "Thông báo", summary: 'Hủy đơn hàng thành công',
         sticky: false, duration: 3000, position: 'br'
       })
-      this.invoiceService.getInvoices(this.tokenStorage.getUser().id).then(res => {
+      this.invoiceService.getInvoicesByAccountId(this.tokenStorage.getCurrentUser().id).then(res => {
         this.invoiceService.invoices = res
       }).catch(err => {
         

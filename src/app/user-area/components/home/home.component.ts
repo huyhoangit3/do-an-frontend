@@ -29,10 +29,6 @@ export class HomeComponent implements OnInit {
   }
 
   onAddToCart(product: Product, quantity: number) {
-    this.toast.success({
-      detail: "Thông báo", summary: 'Đã thêm vào giỏ hàng',
-      sticky: false, duration: 1500, position: 'br'
-    })
     this.cartService.addToCart(product, quantity)
   }
 }

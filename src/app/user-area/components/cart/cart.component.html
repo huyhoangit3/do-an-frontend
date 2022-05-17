@@ -20,7 +20,7 @@
             <div style="display: inline-flex;">
               <input class="form-control quantity" #ipQuantity (ngModelChange)="onQuantityChange(item.product.id, $event, ipQuantity)"
                 type="number" [(ngModel)]="item.quantity" min="1" [max]="item.product.quantity"
-                style="max-width: 5rem; font-size: 13px;" />
+                style="width: 6rem; font-size: 13px;" />
               <span style="display: inline-block; font-size: 20px; padding: 0 5px">/</span>
               <input class="form-control quantity me-3" type="text" [value]="item.product.quantity"
                 style="max-width: 4rem; font-size: 13px;" disabled />
@@ -30,7 +30,15 @@
           <div class="px-2 my-2 text-center">
             <div class="cart-item-label">Đơn giá</div>
             <span style="font-size: 15px;" class=""> {{ item.product.price | number: '4.0'}} VNĐ</span>
-          </div>
+          </div><ng-template class="container" #hideCart>
+            <div class="container" style="min-height: 75vh;">
+              <div style="text-align: center;">
+                <img style="width: 330px; height: 330px;" src="https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-2130356-1800917.png" alt="">
+                <h4>Bạn chưa có sản phẩm nào trong giỏ hàng:((</h4>
+                <button class="btn btn-primary" [routerLink]="['/']">Tiếp tục mua sắm</button>
+              </div>  
+            </div>
+          </ng-template>
           <div class="px-2 my-2 text-center">
             <div class="cart-item-label">Tổng</div>
             <span style="font-size: 15px;" class="">{{ item.quantity * item.product.price | number: '4.0'}}
@@ -77,9 +85,9 @@
             </div>
             <div class="form-group">
               <label>Địa chỉ nhận hàng</label>
-              <textarea class="form-control" formControlName="address" rows="3" placeholder="Nhập địa chỉ nhận hàng"></textarea>
-              <ng-container *ngIf="!address?.valid && (address?.dirty ||address?.touched)">
-                <span [hidden]="!address?.errors?.['required']"
+              <textarea class="form-control" formControlName="deliveryAddress" rows="3" placeholder="Nhập địa chỉ nhận hàng"></textarea>
+              <ng-container *ngIf="!deliveryAddress?.valid && (deliveryAddress?.dirty ||deliveryAddress?.touched)">
+                <span [hidden]="!deliveryAddress?.errors?.['required']"
                     style="color: red; font-size: small;">
                     Địa chỉ là bắt buộc
                 </span>
@@ -89,7 +97,7 @@
               <label>Ghi chú</label>
               <textarea class="form-control" formControlName="note" rows="3" placeholder="Nhập ghi chú"></textarea>
             </div>
-            <button class="btn btn-success" [disabled]="customerDetailsForm.invalid" (click)="onOrder()">Đặt hàng</button>
+            <button class="btn btn-success" [disabled]="customerDetailsForm.invalid || cartService.items.length === 0" (click)="onOrder()">Đặt hàng</button>
           </form>
         </div>
       </div>

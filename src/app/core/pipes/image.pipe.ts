@@ -1,4 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { API } from 'src/app/apiURL';
+import { environment } from 'src/environments/environment';
 
 @Pipe({
   name: 'image'
@@ -6,7 +8,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class ImagePipe implements PipeTransform {
 
   transform(value: string, ...args: unknown[]): string {
-    return `http://localhost:8080/api/files/${value}`;
+    return `${API.FILE}/${value}`
   }
-
 }

@@ -1,41 +1,89 @@
-<div class="event-schedule-area-two bg-color" style="min-height: 570px;">
-  <div class="container">
-    <div class="d-flex mt-4">
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <table class="table table-hover">
-          <thead class="thead-dark">
-            <tr class="text-center">
-              <th>Mã sản phẩm</th>
-              <th>Hình ảnh</th>
-              <th>Tên sản phẩm</th>
-              <th>Số lượng</th>
-              <th>Giá</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="table-info" *ngFor="let product of products | paginate: {itemsPerPage, currentPage}">
-              <td class="text-center align-middle">{{ product.id }}</td>
-              <td class="text-center align-middle"><img style="width: 65px; height: 65px; border-radius: 7px;"
-                  [src]="product.imgUrl | image" class="card-img-top mx-auto d-block" alt="Anh minh hoa" />
-              </td>
-              <td class="text-center align-middle"> {{ product.name }} </td>
-              <td class="text-center align-middle">{{ product.quantity }}</td>
-              <td class="text-center align-middle">{{ product.price | number: '4.0' }} VNĐ</td>
-            </tr>
-          </tbody>
-        </table>
+<ng-container *ngIf="invoice && customer && products">
+  <div class="event-schedule-area-two bg-color" style="min-height: 570px;">
+    <div class="container">
+      <div class="card my-3">
+        <div class="card-block m-2">
+          <div class="row">
+            <div class="col-6">
+              <div class="form-group">
+                <label>Mã đơn hàng</label>
+                <input type="email" disabled="disabled" class="form-control" [value]="invoice.id">
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label>Tên khách hàng</label>
+                <input type="email" disabled="disabled" class="form-control" [value]="customer.fullName">
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group" style="display: inline-block;width: 50%;">
+                <label>Ngày đặt hàng</label>
+                <input type="email" disabled="disabled" class="form-control"
+                  [value]="invoice.bookingTime | date: 'short': 'UTC'">
+              </div>
+              <div style="display: inline-block; width: 5%;"></div>
+              <div class="form-group" style="display: inline-block;width: 45%;">
+                <label>Số điện thoại</label>
+                <input type="email" disabled="disabled" class="form-control" [value]="customer.phone">
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label>Trạng thái</label>
+                <input type="email" disabled="disabled" class="form-control" [value]="invoice.status | status">
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label>Địa chỉ nhận hàng</label>
+                <textarea rows="2" disabled="disabled" class="form-control" [value]="invoice.deliveryAddress"></textarea>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="form-group">
+                <label>Ghi chú</label>
+                <textarea rows="2" disabled="disabled" class="form-control" [value]="invoice.note"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="d-flex justify-content-between">
-      <div>
-        <button class="btn btn-danger" [routerLink]="['/orders']">Quay lại</button>
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-hover">
+            <thead class="thead-dark">
+              <tr class="text-center">
+                <th>Mã sản phẩm</th>
+                <th>Hình ảnh</th>
+                <th>Tên sản phẩm</th>
+                <th>Số lượng</th>
+                <th>Giá</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table-info" *ngFor="let product of products | paginate: {itemsPerPage, currentPage}">
+                <td class="text-center align-middle">{{ product.id }}</td>
+                <td class="text-center align-middle"><img style="width: 65px; height: 65px; border-radius: 7px;"
+                    [src]="product.imgUrl | image" class="card-img-top mx-auto d-block" alt="Anh minh hoa" />
+                </td>
+                <td class="text-center align-middle"> {{ product.name }} </td>
+                <td class="text-center align-middle">{{ product.quantity }}</td>
+                <td class="text-center align-middle">{{ product.price | number: '4.0' }} VNĐ</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-      <div>
-        <pagination-controls class="my-pagination" (pageChange)="currentPage = $event" previousLabel="Trước"
-          nextLabel="Sau"></pagination-controls>
+      <div class="d-flex justify-content-between">
+        <div>
+          <button class="btn btn-danger" [routerLink]="['/orders']">Quay lại</button>
+        </div>
+        <div>
+          <pagination-controls class="my-pagination" (pageChange)="currentPage = $event" previousLabel="Trước"
+            nextLabel="Sau"></pagination-controls>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</ng-container>

@@ -1,11 +1,10 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { firstValueFrom, Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { TokenStorageService } from './token-storage.service';
+import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { firstValueFrom } from 'rxjs';
+import { API } from 'src/app/apiURL';
+import { TokenStorageService, TOKEN_KEY, USER_KEY } from './token-storage.service';
 
-const AUTH_API_URL = environment.baseApiUrl + '/auth'
 
 @Injectable({
   providedIn: 'root',
@@ -17,18 +16,41 @@ export class AuthService {
 
 
   signUp(signUpForm: FormGroup): Promise<any> {
-    return firstValueFrom(this.http.post(`${AUTH_API_URL}/signup`, signUpForm.value))
+    return firstValueFrom(this.http.post<any>(`${API.AUTH}/signup`, signUpForm.value))
   }
 
-  generateToken(loginForm: FormGroup): Promise<any> {
-    return firstValueFrom(this.http.post(`${environment.baseApiUrl}/auth/signin`, loginForm.value))
+  signIn(loginForm: FormGroup): Promise<any> {
+    return firstValueFrom(this.http.post<any>(`${API.AUTH}/signin`, loginForm.value))
+  }
+
+  signOut(): void {
+    localStorage.removeItem(TOKEN_KEY)
+    localStorage.removeItem(USER_KEY)
   }
 
   isLoggedIn(): boolean {
-    let token = this.tokenStorageService.getToken()
-    return token === null ? false : true
+    const currentUser = this.tokenStorageService.getCurrentUser()
+    return currentUser === null ? false : true
   }
   getCurrentUser(): Promise<any> {
-    return firstValueFrom(this.http.get(`${environment.baseApiUrl}/auth/current-user`))
+    return firstValueFrom(this.http.get<any>(`${API.AUTH}/current-user`))
+  }
+
+  isAdmin(currentUser: any): boolean {
+    const roles = currentUser.roles
+    for(let role of roles) {
+      if(role.name === 'ROLE_ADMIN')
+        return true
+    }
+    return false
+  }
+
+  isModerator(currentUser: any): boolean {
+    const roles = currentUser.roles
+    for(let role of roles) {
+      if(role.name === 'ROLE_MODERATOR')
+        return true
+    }
+    return false
   }
 }

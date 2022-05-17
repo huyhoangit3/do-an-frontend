@@ -30,7 +30,7 @@ export class AdminLoginComponent implements OnInit {
   }
 
   async onLogin() {
-    await this.authService.generateToken(this.loginForm).then(res => {
+    await this.authService.signIn(this.loginForm).then(res => {
       this.tokenStorageService.saveToken(res.token)
     }).catch(err => {
       console.log(`Error occurs when getting JWT token ${err.message}`);
@@ -43,7 +43,7 @@ export class AdminLoginComponent implements OnInit {
 
     await this.authService.getCurrentUser().then(res => {
 
-      if(res.roles[0].name === 'ROLE_ADMIN' || res.roles[0].name === 'ROLE_MODERATOR' || res.roles[0].name === 'ROLE_USER') {
+      if(this.authService.isAdmin(res) || this.authService.isModerator(res)) {
         this.router.navigate(['/admin/home'])
         this.tokenStorageService.saveUser(res)
       } else {

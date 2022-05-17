@@ -53,7 +53,7 @@
         <div *ngIf="authService.isLoggedIn()" class="dropdown">
           <a style="color: white; padding-right: 0;" class="nav-link dropdown-toggle" href="#"
             id="account-navbarDropdown1" role="button" data-toggle="dropdown">
-            <img [src]="tokenStorageService.getUser().imgUrl | image" class="rounded-circle"
+            <img [src]="tokenStorageService.getCurrentUser().imgUrl | image" class="rounded-circle"
               style="width: 37px; height: 37px;" alt="Avatar" loading="lazy" />
           </a>
           <div class="dropdown-menu" aria-labelledby="account-navbarDropdown">

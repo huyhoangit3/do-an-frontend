@@ -31,7 +31,6 @@ import { UserComponent } from './user.component';
     OrderDetailsComponent
   ],
   imports: [
-    CommonModule,
     UserRoutingModule,
     SharedModule
   ],

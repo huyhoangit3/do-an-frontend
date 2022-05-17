@@ -1,8 +1,9 @@
 import { HttpClient } from "@angular/common/http"
 import { Injectable } from "@angular/core"
 import { firstValueFrom } from "rxjs"
+import { API } from "src/app/apiURL"
+import { environment } from "src/environments/environment"
 
-const ORDER_API_URL = `http://localhost:8080/api/orders`
 @Injectable({
   providedIn: 'root'
 })
@@ -11,9 +12,9 @@ export class OrderService {
   constructor(private http: HttpClient) { }
 
   order(data: any): Promise<any> {
-    return firstValueFrom(this.http.post<any[]>(ORDER_API_URL, data))
+    return firstValueFrom(this.http.post<any[]>(API.ORDER, data))
   }
   cancelOrder(orderId: number) {
-    return firstValueFrom(this.http.get<any>(`${ORDER_API_URL}/cancelOrder/${orderId}`))
+    return firstValueFrom(this.http.get<any>(`${API.ORDER}/cancelOrder/${orderId}`))
   }
 }

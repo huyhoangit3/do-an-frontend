@@ -1,10 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { firstValueFrom, Observable } from 'rxjs';
+import { API } from 'src/app/apiURL';
 import { Product } from 'src/app/models/product.model';
-import { environment } from 'src/environments/environment';
-
-const PRODUCT_API_URL = environment.baseApiUrl + '/products'
 
 @Injectable({
   providedIn: 'root'
@@ -16,31 +14,36 @@ export class ProductService {
   constructor(private http: HttpClient) { }
 
   getAllProducts(): Promise<Product[]> {
-    return firstValueFrom(this.http.get<Product[]>(PRODUCT_API_URL))
+    return firstValueFrom(this.http.get<Product[]>(API.PRODUCT))
   }
   getTopProducts(): Promise<Product[]> {
-    return firstValueFrom(this.http.get<Product[]>(`${PRODUCT_API_URL}/top-products`))
+    return firstValueFrom(this.http.get<Product[]>(`${API.PRODUCT}/top-products`))
   }
   getProductById(productId: number): Promise<Product> {
-    return firstValueFrom(this.http.get<Product>(`${PRODUCT_API_URL}/${productId}`))
+    return firstValueFrom(this.http.get<Product>(`${API.PRODUCT}/${productId}`))
+  }
+  getProductsInInvoice(invoiceId: number): Promise<any> {
+    let queryParams = new HttpParams()
+    queryParams = queryParams.append('invoiceId', invoiceId)
+    return firstValueFrom(this.http.get<any>(`${API.PRODUCT}`, {params: queryParams}))
   }
   findProductsByName(keyword: string): Observable<Product[]> {
     let queryParams = new HttpParams()
     queryParams = queryParams.append('keyword', keyword)
-    return this.http.get<Product[]>(`${PRODUCT_API_URL}/search`, { params: queryParams })
+    return this.http.get<Product[]>(`${API.PRODUCT}/search`, { params: queryParams })
   }
   findProductsByCategoryId(categoryId: number): Promise<Product[]> {
     let queryParams = new HttpParams()
     queryParams = queryParams.append('categoryId', categoryId)
-    return firstValueFrom(this.http.get<Product[]>(`${PRODUCT_API_URL}`, { params: queryParams }))
+    return firstValueFrom(this.http.get<Product[]>(`${API.PRODUCT}`, { params: queryParams }))
   }
   addProduct(product: Product): Promise<Product> {
-    return firstValueFrom(this.http.post<Product>(PRODUCT_API_URL, product))
+    return firstValueFrom(this.http.post<Product>(API.PRODUCT, product))
   }
   updateProduct(productId: number, product: Product): Promise<Product> {
-    return firstValueFrom(this.http.put<Product>(`${PRODUCT_API_URL}/${productId}`, product))
+    return firstValueFrom(this.http.put<Product>(`${API.PRODUCT}/${productId}`, product))
   }
   deleteProduct(productId: number): Promise<void> {
-    return firstValueFrom(this.http.delete<void>(`${PRODUCT_API_URL}/${productId}`))
+    return firstValueFrom(this.http.delete<void>(`${API.PRODUCT}/${productId}`))
   }
 }

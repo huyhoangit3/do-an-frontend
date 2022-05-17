@@ -2,9 +2,11 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
 import { AccountService } from 'src/app/core/services/account.service';
+import { CustomerService } from 'src/app/core/services/customer.service';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { TokenStorageService } from 'src/app/core/services/auth/token-storage.service';
-import { FileUploadService } from 'src/app/core/services/file-storage/file-storage.service';
+import { FileUploadService } from 'src/app/core/services/file-storage/file.service';
+import { API } from 'src/app/apiURL';
 
 @Component({
   selector: 'app-profile',
@@ -15,6 +17,7 @@ export class ProfileComponent implements OnInit {
 
 
   currentUser: any
+  currentCustomer: any;
   profileForm: FormGroup
   // file will be uploaded
   uploadedFile: File
@@ -26,18 +29,29 @@ export class ProfileComponent implements OnInit {
     private formBuilder: FormBuilder,
     private toast: NgToastService,
     private fileService: FileUploadService,
+    private customerService: CustomerService,
     private accountService: AccountService, private authService: AuthService) {
   }
 
   ngOnInit(): void {
-    this.currentUser = this.tokenStorage.getUser()
-    this.imageSrc = 'http://localhost:8080/api/files/' + this.currentUser.imgUrl
+    this.initData()
+  }
+
+  async initData() {
+    this.currentUser = this.tokenStorage.getCurrentUser()
+    await this.customerService.getCustomerByAccountId(this.currentUser.id)
+    .then(res => {
+      this.currentCustomer = res
+    }).catch(err => {
+
+    })
+    this.imageSrc = `${API.FILE}/${this.currentUser.imgUrl}`
     this.profileForm = this.formBuilder.group({
       userName: [this.currentUser.userName, Validators.required],
       email: [this.currentUser.email, Validators.required],
-      fullName: [this.currentUser.customer.fullName, Validators.required],
-      address: [this.currentUser.customer.address, Validators.required],
-      phoneNumber: [this.currentUser.customer.phone, Validators.required],
+      fullName: [this.currentCustomer.fullName, Validators.required],
+      address: [this.currentCustomer.address, Validators.required],
+      phoneNumber: [this.currentCustomer.phone, Validators.required],
       imgUrl: [this.currentUser.imgUrl],
     })
     this.profileForm.disable()
@@ -99,5 +113,21 @@ export class ProfileComponent implements OnInit {
     }
   }
   // end choose file feature
+
+  get userName() {
+    return this.profileForm.get('userName')
+  }
+  get email() {
+    return this.profileForm.get('email')
+  }
+  get fullName() {
+    return this.profileForm.get('fullName')
+  }
+  get address() {
+    return this.profileForm.get('address')
+  }
+  get phoneNumber() {
+    return this.profileForm.get('phoneNumber')
+  }
 
 }

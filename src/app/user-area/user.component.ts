@@ -12,7 +12,6 @@ import { ProductService } from '../core/services/product.service';
 })
 export class UserComponent implements OnInit {
   constructor(private categoryService: CategoryService, 
-    private productService: ProductService, 
     private authService: AuthService,
     private invoiceService: InvoiceService,
     private tokenService: TokenStorageService) {}
@@ -24,13 +23,8 @@ export class UserComponent implements OnInit {
       console.log(`Errors occurred when fetching all categories ${err.message}`);
     })
 
-    // this.productService.getAllProducts().then(res => {
-    //   this.productService.products = res
-    // }).catch(err => {
-    //   console.log(`Errors occurred when fetching all products ${err.message}`);
-    // })
     if(this.authService.isLoggedIn()) {
-      this.invoiceService.getInvoices(this.tokenService.getUser().id)
+      this.invoiceService.getInvoicesByAccountId(this.tokenService.getCurrentUser().id)
         .then(res => {
           this.invoiceService.invoices = res
         }).catch(err => {

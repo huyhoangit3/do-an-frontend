@@ -4,44 +4,44 @@
       <div class="col-6">
         <div class="form-group">
           <label>Mã đơn hàng</label>
-          <input type="email" class="form-control" [(ngModel)]="invoice.id">
+          <input type="email" disabled="disabled" class="form-control" [(ngModel)]="invoice.id">
         </div>
       </div>
       <div class="col-6">
         <div class="form-group">
           <label>Tên khách hàng</label>
-          <input type="email" class="form-control" [value]="customer.fullName">
+          <input type="email" disabled="disabled" class="form-control" [value]="customer.fullName">
         </div>
       </div>
       <div class="col-6">
           <div class="form-group" style="display: inline-block;width: 50%;">
             <label>Ngày đặt hàng</label>
-            <input type="email" class="form-control" [value]="invoice.bookingTime | date: 'short': 'UTC'">
+            <input type="email" disabled="disabled" class="form-control" [value]="invoice.bookingTime | date: 'short': 'UTC'">
           </div>
           <div style="display: inline-block; width: 5%;"></div>
           <div class="form-group" style="display: inline-block;width: 45%;">
             <label>Số điện thoại</label>
-            <input type="email" class="form-control" [value]="customer.phone">
+            <input type="email" disabled="disabled" class="form-control" [value]="customer.phone">
           </div>
       </div>
       <div class="col-6">
         <div class="form-group">
           <label>Trạng thái</label>
           <select [formControl]="statusDropdown" class="form-control">
-            <option *ngFor="let s of invoiceStatus" [ngValue]="s.code">{{s.status}}</option>
+            <option *ngFor="let s of invoiceStatus" [disabled]="s.code < statusDropdown.value" [ngValue]="s.code">{{s.status}}</option>
           </select>
         </div>
       </div>
       <div class="col-6">
         <div class="form-group">
           <label>Địa chỉ nhận hàng</label>
-          <textarea rows="2" class="form-control" [(ngModel)]="invoice.orderAddress"></textarea>
+          <textarea rows="2" disabled="disabled" class="form-control" [value]="invoice.deliveryAddress"></textarea>
         </div>
       </div>
       <div class="col-6">
         <div class="form-group">
           <label>Ghi chú</label>
-          <textarea rows="2" class="form-control" [value]="invoice.note"></textarea>
+          <textarea rows="2" disabled="disabled" class="form-control" [value]="invoice.note"></textarea>
         </div>
       </div>
     </div>

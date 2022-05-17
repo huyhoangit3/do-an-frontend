@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 import { debounceTime, distinctUntilChanged, map, Subscription, switchMap, tap } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { TokenStorageService } from 'src/app/core/services/auth/token-storage.service';
@@ -24,7 +25,7 @@ export class HeaderComponent implements OnInit {
     public invoiceService: InvoiceService,
     public authService: AuthService,
     public tokenStorageService: TokenStorageService,
-    private router: Router) {
+    private router: Router, private toast: NgToastService ) {
   }
 
   ngOnInit(): void {
@@ -48,9 +49,13 @@ export class HeaderComponent implements OnInit {
     })
   }
   onLogout() {
-    this.tokenStorageService.signOut()
+    this.authService.signOut()
     this.invoiceService.invoices = []
     this.cartService.items = []
     this.router.navigate(['/'])
+    this.toast.success({
+      detail: "Thông báo", summary: 'Đăng xuất thành công',
+      sticky: false, duration: 2000, position: 'br'
+    })
   }
 }

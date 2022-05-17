@@ -23,7 +23,6 @@ import { InvoiceDetailsComponent } from './components/invoice-details/invoice-de
   ],
   imports: [
     AdminRoutingModule,
-    CommonModule,
     SharedModule
   ],
 

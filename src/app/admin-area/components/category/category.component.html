@@ -1,5 +1,5 @@
 <div class="event-schedule-area-two bg-color pad100" style="min-height: 600px;">
-    <div class="container">
+    <div class="container" style="margin-top: -20px;">
         <div class="d-flex mb-2">
             <div>
                 <button type="button" (click)="onAddButtonClicked()" class="btn btn-success" data-toggle="modal" data-target="#categoryModal">
@@ -19,7 +19,7 @@
             <div class="col-md-12">
                 <table class="table table-hover">
                     <thead class="thead-dark">
-                        <tr>
+                        <tr class="text-center">
                             <th>Mã danh mục</th>
                             <th>Tên danh mục</th>
                             <th>Ngày tạo</th>
@@ -30,11 +30,11 @@
                     <tbody>
                         <tr *ngFor="let category of categoryService.categories| paginate: {itemsPerPage, currentPage}"
                             class="table-info">
-                            <th>{{ category.id }}</th>
-                            <td>{{ category.name }}</td>
-                            <td>{{ category.createAt |date }}</td>
-                            <td>{{ category.modifiedAt | date }}</td>
-                            <td>
+                            <td class="text-center align-middle">{{ category.id }}</td>
+                            <td class="text-center align-middle">{{ category.name }}</td>
+                            <td class="text-center align-middle">{{ category.createAt |date : 'short' :'UTC+7'}}</td>
+                            <td class="text-center align-middle">{{ category.modifiedAt | date }}</td>
+                            <td class="text-center align-middle">
                                 <button class="btn btn-primary" data-toggle="modal" data-target="#categoryModal"
                                     (click)="onUpdateButtonClicked(category.id)">
                                     <i class="fa-solid fa-pen"></i>

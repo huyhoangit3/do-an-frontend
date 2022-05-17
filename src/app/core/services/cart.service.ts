@@ -15,11 +15,18 @@ export class CartService {
   addToCart(product: Product, quantity: number) {
     if (this.items.length === 0) {
       this.items.push({ product, quantity })
-      this.setCartToLocalStorage()
+      this.toast.success({
+        detail: "Thông báo", summary: 'Đã thêm vào giỏ hàng',
+        sticky: false, duration: 1500, position: 'br'
+      })
     } else {
       let index = this.items.findIndex(item => item.product.id === product.id)
       if (index === -1) {
         this.items.push({ product, quantity })
+        this.toast.success({
+          detail: "Thông báo", summary: 'Đã thêm vào giỏ hàng',
+          sticky: false, duration: 1500, position: 'br'
+        })
       } else {
         this.items[index].quantity = Number(this.items[index].quantity)
         if(this.items[index].quantity + quantity <= product.quantity) {
@@ -59,6 +66,4 @@ export class CartService {
   setCartToLocalStorage() {
     window.localStorage.setItem('cart', JSON.stringify(this.items))
   }
-
-
 }

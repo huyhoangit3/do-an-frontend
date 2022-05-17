@@ -1,6 +1,6 @@
 
 <div class="event-schedule-area-two bg-color pad100 mt-3" style="min-height: 600px;">
-  <div class="container">
+  <div class="container"  *ngIf="invoiceService.invoices.length !== 0; else emptyOrder">
     <div class="d-flex justify-content-between">
       <div>
         <h5 class="text-center">Danh sách đơn hàng của bạn</h5>
@@ -32,7 +32,8 @@
               <td> {{ invoice.orderAddress}}</td>
               <td>
                 <button class="btn btn-success" (click)="onViewInvoiceDetails(invoice.id)"><i class="fa-solid fa-eye"></i> Chi tiết</button>&nbsp;
-                <button class="btn btn-danger" *ngIf="invoice.status == 0" (click)="onCancelOrder(invoice.id)"><i class="fa-solid fa-xmark"></i> Hủy đơn hàng</button>
+                <button class="btn btn-danger" *ngIf="invoice.status == 0" data-toggle="modal" data-target="#confirmModal" 
+                (click)="onCancelOrderButtonClicked(invoice.id)"><i class="fa-solid fa-xmark"></i> Hủy đơn hàng</button>
               </td>
             </tr>
           </tbody>
@@ -48,5 +49,39 @@
         </div>
       </div>
     </div>
+  </div>
+
+
+  <ng-template class="container" #emptyOrder>
+    <div class="container" style="min-height: 75vh;">
+      <div style="text-align: center;">
+        <img style="width: 330px; height: 330px;" src="https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-2130356-1800917.png" alt="">
+        <h4>Bạn chưa có đơn hàng nào:((</h4>
+        <button class="btn btn-primary" [routerLink]="['/']">Mua sắm thôi. Gét gô</button>
+      </div>  
+    </div>
+  </ng-template>
+
+</div>
+
+<!-- Confirm Modal -->
+<div class="modal fade" id="confirmModal" data-backdrop="static" data-keyboard="false" tabindex="-2" role="dialog">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Cảnh báo</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <h6>Bạn có chắc chắc muốn hủy đơn hàng này?</h6>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-success" data-dismiss="modal">Hủy</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal"
+                  (click)="onCancelOrder()">Đồng ý</button>
+          </div>
+      </div>
   </div>
 </div>

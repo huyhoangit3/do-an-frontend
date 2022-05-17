@@ -6,15 +6,10 @@ import { AdminLoginComponent } from './shared/components/admin-login/admin-login
 
 
 const routes: Routes = [{
-  // admin not to be preload
-  // config for lazy loading
   path: 'admin',
   component: AdminComponent,
   loadChildren: () => import('./admin-area/admin.module').then(m => m.AdminModule),
-  // custom preloading stratery
-  // data: {preload: true, delay: 3000},
-  // prevent unauthorized user load lazy modules.
-  canActivate: [AuthGuardService]
+  // canActivate: [AuthGuardService]
 
 },
 { path: 'admin-login', component: AdminLoginComponent }];

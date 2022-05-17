@@ -30,8 +30,28 @@ export class LoginComponent implements OnInit {
   }
 
   async onLogin() {
-    await this.authService.generateToken(this.loginForm).then(res => {
+    await this.authService.signIn(this.loginForm).then(res => {
       this.tokenStorageService.saveToken(res.token)
+      this.authService.getCurrentUser().then(res => {
+        this.router.navigate(['home']);
+        this.tokenStorageService.saveUser(res)
+        this.invoiceService.getInvoicesByAccountId(res.id)
+          .then(res => {
+            this.invoiceService.invoices = res
+          }).catch(err => {
+            this.toast.error({
+              detail: " Thông báo", summary: 'Lấy thông tin đơn hàng thất bại!!!', sticky: false,
+              duration: 3000, position: 'br'
+            })
+          })
+      }).catch(err => {
+        this.toast.error({
+          detail: " Thông báo", summary: 'Lấy thông tin người dùng thất bại', sticky: false,
+          duration: 3000, position: 'br'
+        })
+        console.log(`Error occurs when fetching current logged in user: ${err.message}!`)
+        return
+      })
     }).catch(err => {
       console.log(`Error occurs when getting JWT token ${err.message}`);
       this.toast.error({
@@ -40,34 +60,14 @@ export class LoginComponent implements OnInit {
       })
       return
     })
-
-    await this.authService.getCurrentUser().then(res => {
-      this.router.navigate(['home']);
-      this.tokenStorageService.saveUser(res)
-      this.invoiceService.getInvoices(res.id)
-        .then(res => {
-          this.invoiceService.invoices = res
-        }).catch(err => {
-          this.toast.error({
-            detail: " Thông báo", summary: 'Lấy thông tin đơn hàng thất bại!!!', sticky: false,
-            duration: 3000, position: 'br'
-          })
-        })
-    }).catch(err => {
-      this.toast.error({
-        detail: " Thông báo", summary: 'Lấy thông tin người dùng thất bại', sticky: false,
-        duration: 3000, position: 'br'
-      })
-      console.log(`Error occurs when fetching current logged in user: ${err.message}!`)
-      return
-    })
   }
+
   get username() {
-    return this.loginForm.get('username');
+    return this.loginForm.get('username')
   }
 
   get password() {
-    return this.loginForm.get('password');
+    return this.loginForm.get('password')
   }
 
 }

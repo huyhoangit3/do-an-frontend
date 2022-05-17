@@ -1,12 +1,14 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
 import { debounceTime, distinctUntilChanged, map, Subscription, switchMap, tap } from 'rxjs';
+import { API } from 'src/app/apiURL';
 import { CategoryService } from 'src/app/core/services/category.service';
-import { FileUploadService } from 'src/app/core/services/file-storage/file-storage.service';
+import { FileUploadService } from 'src/app/core/services/file-storage/file.service';
 import { ProductService } from 'src/app/core/services/product.service';
 import { Category } from 'src/app/models/category.model';
 import { Product } from 'src/app/models/product.model';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-admin-products',
@@ -18,10 +20,10 @@ export class ProductsComponent implements OnInit, OnDestroy {
   modalMode = 'add'
 
   // list of categories
-  categories: Category[]
+  categories: Category[] = []
 
   // list of products
-  products: Product[]
+  products: Product[] = []
   // this variable is used to stored product will be updated 
   product: Product
   // this variable is used to stored name of chosen file
@@ -35,7 +37,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   // file will be uploaded
   uploadedFile: File
 
-  imageSrc = 'http://localhost:8080/api/files/notfound.png'
+  imageSrc = `${environment.baseApiUrl}/images/notfound.png`
 
   currentPage = 1
   itemsPerPage = 5
@@ -43,7 +45,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   // id of product will be deleted.
   deletedProductId: number
 
-  constructor(private fileService: FileUploadService, public categoryService:
+  constructor(public fileService: FileUploadService, public categoryService:
     CategoryService, private formBuilder: FormBuilder,
     public productService: ProductService, private toast: NgToastService) {
   }
@@ -132,7 +134,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.modalMode = 'add'
     this.productForm.reset()
     this.productForm.get('category')?.reset()
-    this.imageSrc = 'http://localhost:8080/api/files/notfound.png'
+    this.imageSrc = `${environment.baseApiUrl}/images/notfound.png`
     this.getAllCategories()
 
   }
@@ -141,7 +143,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
     await this.fileService.uploadFile(this.uploadedFile).then(
       res => this.productForm.patchValue({ imgUrl: res.filename })
     ).catch(err => {
-      console.log('Upload file failed!')
+      console.log('Upload file failed!', err.message)
       this.toast.error({
         detail: "Cảnh báo", summary: 'Lỗi tải lên file',
         sticky: false, duration: 3000, position: 'br'
@@ -172,7 +174,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.product = await this.productService.getProductById(productId)
     this.chosenFile = this.product.imgUrl
     this.productForm.patchValue(this.product)
-    this.imageSrc = 'http://localhost:8080/api/files/' + this.product.imgUrl
+    this.imageSrc = `${API.FILE}/${this.product.imgUrl}`
     this.modalMode = 'update'
   }
 

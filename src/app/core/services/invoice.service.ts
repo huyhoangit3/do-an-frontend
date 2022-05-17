@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from "@angular/common/http"
 import { Injectable } from "@angular/core"
 import { firstValueFrom } from "rxjs"
+import { API } from "src/app/apiURL"
 
-const INVOICE_API_URL = `http://localhost:8080/api/invoices`
 @Injectable({
   providedIn: 'root'
 })
@@ -12,27 +12,22 @@ export class InvoiceService {
 
   constructor(private http: HttpClient) { }
 
-  getInvoices(accountId: any): Promise<any> {
+  getAllInvoices(): Promise<any> {
+    return firstValueFrom(this.http.get<any[]>(`${API.INVOICE}`))
+  }
+  getInvoicesByAccountId(accountId: any): Promise<any> {
     let params = new HttpParams()
     params = params.append('accountId', accountId)
-    return firstValueFrom(this.http.get<any[]>(INVOICE_API_URL, {params}))
+    return firstValueFrom(this.http.get<any>(API.INVOICE, { params }))
   }
 
   getInvoiceById(invoiceId: any): Promise<any> {
-    return firstValueFrom(this.http.get<any>(`${INVOICE_API_URL}/${invoiceId}`))
-  }
-
-  getProductsInInvoice(id: number): Promise<any> {
-    return firstValueFrom(this.http.get<any[]>(`${INVOICE_API_URL}/${id}/products`))
-  }
-
-  getAllInvoices(): Promise<any> {
-    return firstValueFrom(this.http.get<any[]>(`${INVOICE_API_URL}`))
+    return firstValueFrom(this.http.get<any>(`${API.INVOICE}/${invoiceId}`))
   }
 
   updateStatus(invoiceId: number, status: number) {
     let params = new HttpParams()
     params = params.append('status', status)
-    return firstValueFrom(this.http.get<any[]>(`${INVOICE_API_URL}/${invoiceId}`, {params}))
+    return firstValueFrom(this.http.get<any>(`${API.INVOICE}/${invoiceId}`, { params }))
   }
 }

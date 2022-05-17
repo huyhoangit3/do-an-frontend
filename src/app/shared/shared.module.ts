@@ -10,6 +10,7 @@ import { OrderStatusPipe } from "../core/pipes/order-status.pipe";
 import { LoginComponent } from "./components/login/login.component";
 import { NotfoundComponent } from "./components/notfound/notfound.component";
 import { AdminLoginComponent } from './components/admin-login/admin-login.component';
+import { CommonModule } from "@angular/common";
 
 @NgModule({
   declarations: [ImagePipe, OrderStatusPipe, LoginComponent, NotfoundComponent, AdminLoginComponent],
@@ -20,6 +21,7 @@ import { AdminLoginComponent } from './components/admin-login/admin-login.compon
     HttpClientModule,
     NgToastModule,
     NgxPaginationModule,
+    CommonModule
   ],
   // exports is required so you can access your 
   // component/pipe in other modules
@@ -31,6 +33,7 @@ import { AdminLoginComponent } from './components/admin-login/admin-login.compon
     NgToastModule, 
     RouterModule,
     NgxPaginationModule,
+    CommonModule
   ],
   providers: [authInterceptorProviders]
 })

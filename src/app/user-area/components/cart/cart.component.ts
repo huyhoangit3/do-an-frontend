@@ -26,23 +26,23 @@ export class CartComponent implements OnInit, AfterViewInit {
     private orderService: OrderService, private invoiceService: InvoiceService) {
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
     this.customerDetailsForm = this.formBuilder.group({
       customerName: ['', Validators.required],
       phoneNumber: ['', Validators.required],
-      address: ['', Validators.required],
+      deliveryAddress: ['', Validators.required],
       note: [''],
       accountId: ['']
     })
 
-    const currentUser = this.tokenStorage.getUser()
+    const currentUser = this.tokenStorage.getCurrentUser()
 
     if(currentUser) {
       this.customerService.getCustomerByAccountId(currentUser.id).then(res => {
         this.customerDetailsForm.patchValue({
           customerName: res.fullName, 
           phoneNumber: res.phone,
-          address: res.address,
+          deliveryAddress: res.address,
         })
       }).catch(err => {
         this.toast.error({
@@ -58,8 +58,8 @@ export class CartComponent implements OnInit, AfterViewInit {
   get phoneNumber() {
     return this.customerDetailsForm.get('phoneNumber')
   }
-  get address() {
-    return this.customerDetailsForm.get('address')
+  get deliveryAddress() {
+    return this.customerDetailsForm.get('deliveryAddress')
   }
 
   onRemoveItem(productId: number) {
@@ -108,17 +108,19 @@ export class CartComponent implements OnInit, AfterViewInit {
     if (!this.authService.isLoggedIn()) {
       this.customerDetailsForm.patchValue({ accountId: 0 })
     } else {
-      this.customerDetailsForm.patchValue({ accountId: this.tokenStorage.getUser().id })
+      this.customerDetailsForm.patchValue({ accountId: this.tokenStorage.getCurrentUser().id })
     }
 
     const params = {
       products,
       customerDetails: this.customerDetailsForm.value
-    }
+    }    
+    console.log(params);
+    
 
     this.orderService.order(params).then(res => {
       if(this.authService.isLoggedIn()) {
-        this.invoiceService.getInvoices(this.tokenStorage.getUser().id)
+        this.invoiceService.getInvoicesByAccountId(this.tokenStorage.getCurrentUser().id)
         .then(res => {
           this.invoiceService.invoices = res
         }).catch(err => {

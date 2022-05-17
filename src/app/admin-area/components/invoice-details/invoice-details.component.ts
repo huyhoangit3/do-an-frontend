@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
 import { CustomerService } from 'src/app/core/services/customer.service';
 import { InvoiceService } from 'src/app/core/services/invoice.service';
+import { ProductService } from 'src/app/core/services/product.service';
 import { Product } from 'src/app/models/product.model';
 
 @Component({
@@ -25,15 +26,16 @@ export class InvoiceDetailsComponent implements OnInit {
   count: number
 
   invoiceStatus = [
-    {code: 0, status: 'Chờ xác nhận'},
-    {code: 1, status: 'Đã xác nhận'},
-    {code: 2, status: 'Đang lấy hàng'},
-    {code: 3, status: 'Đang vận chuyển'},
-    {code: 4, status: 'Đã giao'},
-    {code: 5, status: 'Hủy'},
+    { code: 0, status: 'Chờ xác nhận' },
+    { code: 1, status: 'Đã xác nhận' },
+    { code: 2, status: 'Đang lấy hàng' },
+    { code: 3, status: 'Đang vận chuyển' },
+    { code: 4, status: 'Đã giao' },
+    { code: 5, status: 'Hủy' },
   ]
 
   constructor(private activatedRoute: ActivatedRoute,
+    private productService: ProductService,
     private invoiceService: InvoiceService,
     private customerService: CustomerService,
     private toast: NgToastService) { }
@@ -50,7 +52,7 @@ export class InvoiceDetailsComponent implements OnInit {
     })
     this.statusDropdown.valueChanges.subscribe({
       next: data => {
-        if(this.count != 0) {
+        if (this.count != 0) {
           this.invoiceService.updateStatus(this.invoiceId, data).then(res => {
             this.toast.success({
               detail: "Thông báo", summary: 'Cập nhật trạng thái đơn hàng thành công',
@@ -64,8 +66,8 @@ export class InvoiceDetailsComponent implements OnInit {
           })
         }
         this.count++;
-        
-      },error: err => {
+
+      }, error: err => {
       }
     })
 
@@ -80,7 +82,7 @@ export class InvoiceDetailsComponent implements OnInit {
 
     })
 
-    await this.invoiceService.getProductsInInvoice(invoiceId).then(res => {
+    await this.productService.getProductsInInvoice(invoiceId).then(res => {
       this.products = res
     }).catch(err => {
 
