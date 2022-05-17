@@ -16,7 +16,7 @@
       <div class="col-6">
           <div class="form-group" style="display: inline-block;width: 50%;">
             <label>Ngày đặt hàng</label>
-            <input type="email" disabled="disabled" class="form-control" [value]="invoice.bookingTime | date: 'short': 'UTC'">
+            <input type="email" disabled="disabled" class="form-control" [value]="invoice.bookingTime | customDate">
           </div>
           <div style="display: inline-block; width: 5%;"></div>
           <div class="form-group" style="display: inline-block;width: 45%;">

@@ -32,8 +32,8 @@
                             class="table-info">
                             <td class="text-center align-middle">{{ category.id }}</td>
                             <td class="text-center align-middle">{{ category.name }}</td>
-                            <td class="text-center align-middle">{{ category.createAt |date : 'short' :'UTC+7'}}</td>
-                            <td class="text-center align-middle">{{ category.modifiedAt | date }}</td>
+                            <td class="text-center align-middle">{{ category.createAt | customDate}}</td>
+                            <td class="text-center align-middle">{{ category.modifiedAt | customDate }}</td>
                             <td class="text-center align-middle">
                                 <button class="btn btn-primary" data-toggle="modal" data-target="#categoryModal"
                                     (click)="onUpdateButtonClicked(category.id)">

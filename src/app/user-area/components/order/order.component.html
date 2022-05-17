@@ -28,7 +28,7 @@
               *ngFor="let invoice of invoiceService.invoices | paginate: {itemsPerPage, currentPage}">
               <th> {{ invoice.id}}</th>
               <td> {{ invoice.status | status}}</td>
-              <td>{{ invoice.bookingTime | date: 'short': 'UTC'}}</td>
+              <td>{{ invoice.bookingTime | customDate}}</td>
               <td> {{ invoice.orderAddress}}</td>
               <td>
                 <button class="btn btn-success" (click)="onViewInvoiceDetails(invoice.id)"><i class="fa-solid fa-eye"></i> Chi tiết</button>&nbsp;

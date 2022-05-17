@@ -11,9 +11,12 @@ import { LoginComponent } from "./components/login/login.component";
 import { NotfoundComponent } from "./components/notfound/notfound.component";
 import { AdminLoginComponent } from './components/admin-login/admin-login.component';
 import { CommonModule } from "@angular/common";
+import { CustomeDate } from "../core/pipes/mydate.pipe";
 
 @NgModule({
-  declarations: [ImagePipe, OrderStatusPipe, LoginComponent, NotfoundComponent, AdminLoginComponent],
+  declarations: [ImagePipe, OrderStatusPipe, 
+    LoginComponent, NotfoundComponent, 
+    AdminLoginComponent, CustomeDate],
   imports: [
     FormsModule,
     RouterModule,
@@ -28,6 +31,7 @@ import { CommonModule } from "@angular/common";
   exports: [
     ImagePipe, 
     OrderStatusPipe,
+    CustomeDate,
     FormsModule,
     ReactiveFormsModule,
     NgToastModule, 
