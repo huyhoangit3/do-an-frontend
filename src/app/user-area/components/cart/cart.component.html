@@ -65,7 +65,7 @@
           <form [formGroup]="customerDetailsForm">
             <div class="form-group">
               <label for="exampleInputEmail1">Họ và tên</label>
-              <input type="text" formControlName="customerName" class="form-control" id="exampleInputEmail1" placeholder="Nhập họ tên">
+              <input type="text" [attr.disabled]="tokenStorage.getCurrentUser()" formControlName="customerName" class="form-control" id="exampleInputEmail1" placeholder="Nhập họ tên">
               <ng-container *ngIf="!customerName?.valid && (customerName?.dirty ||customerName?.touched)">
                 <span [hidden]="!customerName?.errors?.['required']"
                     style="color: red; font-size: small;">
@@ -75,7 +75,7 @@
             </div>
             <div class="form-group">
               <label for="exampleInputPassword1">Số điện thoại</label>
-              <input type="text" formControlName="phoneNumber" class="form-control" id="exampleInputPassword1" placeholder="Nhập số điện thoại">
+              <input type="text" [attr.disabled]="tokenStorage.getCurrentUser()" formControlName="phoneNumber" class="form-control" id="exampleInputPassword1" placeholder="Nhập số điện thoại">
               <ng-container *ngIf="!phoneNumber?.valid && (phoneNumber?.dirty ||phoneNumber?.touched)">
                 <span [hidden]="!phoneNumber?.errors?.['required']"
                     style="color: red; font-size: small;">

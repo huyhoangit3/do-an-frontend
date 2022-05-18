@@ -29,38 +29,41 @@ export class AdminLoginComponent implements OnInit {
     })
   }
 
-  async onLogin() {
-    await this.authService.signIn(this.loginForm).then(res => {
+  onLogin() {
+    this.authService.signIn(this.loginForm).then(res => {
       this.tokenStorageService.saveToken(res.token)
+      this.authService.getCurrentUser().then(res => {
+        if(this.authService.isAdmin(res) || this.authService.isModerator(res)) {
+          this.router.navigate(['/admin/home'])
+          this.tokenStorageService.saveUser(res)
+          this.toast.success({
+            detail: " Thông báo", summary: 'Đăng nhập thành công với quyền quản trị', sticky: false,
+            duration: 3000, position: 'br'
+          })
+        } else {
+          this.tokenStorageService.signOut()
+          this.toast.error({
+            detail: " Thông báo", summary: 'Không có quyền truy cập!', sticky: false,
+            duration: 3000, position: 'br'
+          })
+        }
+      }).catch(err => {
+        this.toast.error({
+          detail: " Thông báo", summary: 'Lấy thông tin tài khoản thất bại', sticky: false,
+          duration: 3000, position: 'br'
+        })
+        console.log(`Error occurs when fetching current logged in user: ${err.message}!`)
+      })
+      
     }).catch(err => {
       console.log(`Error occurs when getting JWT token ${err.message}`);
       this.toast.error({
-        detail: " Thông báo", summary: 'Đăng nhập không thành công', sticky: false,
+        detail: " Thông báo", summary: 'Thông tin đăng nhập không chính xác!', sticky: false,
         duration: 3000, position: 'br'
       })
-      return
     })
 
-    await this.authService.getCurrentUser().then(res => {
-
-      if(this.authService.isAdmin(res) || this.authService.isModerator(res)) {
-        this.router.navigate(['/admin/home'])
-        this.tokenStorageService.saveUser(res)
-      } else {
-        this.tokenStorageService.signOut()
-        this.toast.error({
-          detail: " Thông báo", summary: 'Không có quyền truy cập!', sticky: false,
-          duration: 3000, position: 'br'
-        })
-      }
-    }).catch(err => {
-      this.toast.error({
-        detail: " Thông báo", summary: 'Lấy thông tin người dùng thất bại', sticky: false,
-        duration: 3000, position: 'br'
-      })
-      console.log(`Error occurs when fetching current logged in user: ${err.message}!`)
-      return
-    })
+    
   }
   get username() {
     return this.loginForm.get('username');

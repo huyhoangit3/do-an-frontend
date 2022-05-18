@@ -14,8 +14,14 @@ export class AuthInterceptor implements HttpInterceptor {
     //handle your auth error or rethrow
     if (err.status === 401 || err.status === 403) {
       this.tokenStorageService.signOut()
-      //navigate /delete cookies or whatever
-      this.router.navigate(['/login'], { queryParams: { retUrl: this.router.url } })
+      if (this.router.url.includes('admin')) {
+        //navigate /delete cookies or whatever
+        this.router.navigate(['/admin-login'])
+      } else {
+        //navigate /delete cookies or whatever
+        this.router.navigate(['/login'])
+      }
+
       // if you've caught / handled the error, you don't want to rethrow it unless you also want downstream consumers to have to handle it as well.
       return of(err.message); // or EMPTY may be appropriate here
     }
@@ -40,7 +46,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
 export const authInterceptorProviders = [
   {
-    provide: HTTP_INTERCEPTORS, 
+    provide: HTTP_INTERCEPTORS,
     useFactory: function (tokenStorageService: TokenStorageService, router: Router) {
       return new AuthInterceptor(tokenStorageService, router);
     },

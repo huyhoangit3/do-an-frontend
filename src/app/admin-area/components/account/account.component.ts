@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
 import { AccountService } from 'src/app/core/services/account.service';
+import { TokenStorageService } from 'src/app/core/services/auth/token-storage.service';
+import { FileUploadService } from 'src/app/core/services/file-storage/file.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -27,9 +29,25 @@ export class AccountComponent implements OnInit {
   ]
 
   constructor(public accountService: AccountService,
+    public tokenService: TokenStorageService,
+    private fileService: FileUploadService,
     private toast: NgToastService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
+    
+    this.getAllAccounts()
+
+    this.accountForm = this.formBuilder.group({
+      userName: ['', Validators.required],
+      password: ['', Validators.required],
+      email: ['', Validators.required],
+      status: [true],
+      privilege: [''],
+      imgUrl: ['']
+    })
+  }
+
+  getAllAccounts() {
     this.accountService.getAllAccounts().then(res => {
       this.accountService.accounts = res
     }).catch(err => {
@@ -38,14 +56,6 @@ export class AccountComponent implements OnInit {
         detail: "Cảnh báo", summary: 'Lỗi xảy ra khi lấy danh sách tài khoản',
         sticky: false, duration: 3000, position: 'br'
       })
-    })
-
-    this.accountForm = this.formBuilder.group({
-      userName: ['', Validators.required],
-      password: ['', Validators.required],
-      email: ['', Validators.required],
-      status: [true],
-      priviledge: [''],
     })
   }
   
@@ -88,9 +98,31 @@ export class AccountComponent implements OnInit {
 
   }
 
-  onAddAccount() {
-    console.log(this.accountForm.value);
-    
+  async onAddAccount() {
+    await this.fileService.uploadFile(this.uploadedFile).then(
+      res => this.accountForm.patchValue({ imgUrl: res.filename })
+    ).catch(err => {
+      console.log('Upload file failed!', err.message)
+      this.toast.error({
+        detail: "Cảnh báo", summary: 'Lỗi tải lên file',
+        sticky: false, duration: 3000, position: 'br'
+      })
+      return
+    })
+    this.accountService.addAccount(this.accountForm).then(res => {
+      this.getAllAccounts()
+      this.toast.success({
+        detail: "Thông báo", summary: 'Thêm tài khoản thành công',
+        sticky: false, duration: 3000, position: 'br'
+      })
+      console.log('New account has added')
+    }).catch(err => {
+      console.log(`Errors occurred when adding new account: ${err.message}`)
+      this.toast.error({
+        detail: "Cảnh báo", summary: 'Lỗi xảy ra khi thêm mới tài khoản',
+        sticky: false, duration: 3000, position: 'br'
+      })
+    })
   }
 
   get userName() {
@@ -105,8 +137,8 @@ export class AccountComponent implements OnInit {
   get status() {
     return this.accountForm.get('status')
   }
-  get priviledge() {
-    return this.accountForm.get('priviledge')
+  get privilege() {
+    return this.accountForm.get('privilege')
   }
 
 }

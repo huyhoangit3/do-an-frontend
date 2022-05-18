@@ -33,7 +33,7 @@
               </td>
               <td class="text-center align-middle"> {{ account.userName}}</td>
               <td class="text-center align-middle">
-                <label class="switch">
+                <label *ngIf="account.userName !== tokenService.getCurrentUser().userName" class="switch">
                   <input type="checkbox" (change)="onStatusChange($event)" (click)="onRowClick(account.id)"
                     [value]="account.status" [checked]="account.status">
                   <span class="slider round"></span>
@@ -71,13 +71,13 @@
             <div class="col-7">
               <div class="form-group">
                 <label for="formGroupExampleInput">Quyền tài khoản <span style="color: red;">(*)</span></label>
-                <select class="form-control form-control-sm" formControlName="priviledge">
+                <select class="form-control form-control-sm" formControlName="privilege">
                   <option *ngFor="let r of accountRoles" [ngValue]="r.code">
                     {{r.value}}
                   </option>
                 </select>
-                <div *ngIf="!priviledge?.valid && (priviledge?.dirty ||priviledge?.touched)">
-                  <span [hidden]="!priviledge?.errors?.['required']" style="color: red; font-size: small;">
+                <div *ngIf="!privilege?.valid && (privilege?.dirty ||privilege?.touched)">
+                  <span [hidden]="!privilege?.errors?.['required']" style="color: red; font-size: small;">
                     Quyền tài khoản là bắt buộc
                   </span>
                 </div>

@@ -53,4 +53,12 @@ export class AuthService {
     }
     return false
   }
+  isUser(currentUser: any): boolean {
+    const roles = currentUser.roles
+    for(let role of roles) {
+      if(role.name === 'ROLE_USER')
+        return true
+    }
+    return false
+  }
 }

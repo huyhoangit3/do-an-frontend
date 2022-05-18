@@ -21,7 +21,7 @@ export class CartComponent implements OnInit, AfterViewInit {
   constructor(public cartService: CartService,
     private toast: NgToastService, private formBuilder: FormBuilder,
     private authService: AuthService, private router: Router,
-    private tokenStorage: TokenStorageService,
+    public tokenStorage: TokenStorageService,
     private customerService: CustomerService,
     private orderService: OrderService, private invoiceService: InvoiceService) {
   }

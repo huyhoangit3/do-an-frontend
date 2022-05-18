@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from "@angular/common/http"
 import { Injectable } from "@angular/core"
+import { FormGroup } from "@angular/forms"
 import { firstValueFrom } from "rxjs"
 import { API } from "src/app/apiURL"
 
@@ -14,6 +15,9 @@ export class AccountService {
 
   getAllAccounts() {
     return firstValueFrom(this.http.get<any>(`${API.ACCOUNT}`))
+  }
+  addAccount(accountForm: FormGroup) {
+    return firstValueFrom(this.http.post<any>(`${API.ACCOUNT}`, accountForm.value))
   }
   updateAccount(accountId: number, profileForm: any): Promise<any> {
     return firstValueFrom(this.http.put<any>(`${API.ACCOUNT}/${accountId}/update`, profileForm.value))

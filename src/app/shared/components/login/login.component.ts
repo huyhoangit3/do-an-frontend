@@ -33,17 +33,32 @@ export class LoginComponent implements OnInit {
     await this.authService.signIn(this.loginForm).then(res => {
       this.tokenStorageService.saveToken(res.token)
       this.authService.getCurrentUser().then(res => {
-        this.router.navigate(['home']);
-        this.tokenStorageService.saveUser(res)
-        this.invoiceService.getInvoicesByAccountId(res.id)
-          .then(res => {
-            this.invoiceService.invoices = res
-          }).catch(err => {
-            this.toast.error({
-              detail: " Thông báo", summary: 'Lấy thông tin đơn hàng thất bại!!!', sticky: false,
-              duration: 3000, position: 'br'
-            })
+        if (this.authService.isUser(res)) {
+          this.router.navigate(['home']);
+          this.tokenStorageService.saveUser(res)
+          this.toast.success({
+            detail: " Thông báo", summary: 'Đăng nhập thành công', sticky: false,
+            duration: 3000, position: 'br'
           })
+          if(!this.authService.isAdmin(res) && !this.authService.isModerator(res)) {
+            this.invoiceService.getInvoicesByAccountId(res.id)
+            .then(res => {
+              this.invoiceService.invoices = res
+            }).catch(err => {
+              this.toast.error({
+                detail: " Thông báo", summary: 'Lấy thông tin đơn hàng thất bại!!!', sticky: false,
+                duration: 3000, position: 'br'
+              })
+            })
+          }
+        } else {
+          this.tokenStorageService.signOut()
+          this.toast.error({
+            detail: " Thông báo", summary: 'Đăng nhập không thành công', sticky: false,
+            duration: 3000, position: 'br'
+          })
+        }
+
       }).catch(err => {
         this.toast.error({
           detail: " Thông báo", summary: 'Lấy thông tin người dùng thất bại', sticky: false,

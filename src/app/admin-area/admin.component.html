@@ -7,31 +7,31 @@
       </div>
   
       <ul class="list-unstyled components">
-        <li [ngClass]="this.sidebarIndex === 1 ? 'active' : ''" [routerLink]="['home']" (click)="this.sidebarIndex=1">
+        <li [ngClass]="this.breadCrumb.sidebarIndex === 1 ? 'active' : ''" [routerLink]="['home']" (click)="this.breadCrumb.sidebarIndex=1">
           <a>
             <i class="fas fa-home"></i>
             Dashboard
           </a>
         </li>
-        <li [ngClass]="this.sidebarIndex === 2 ? 'active' : ''" [routerLink]="['categories']" (click)="this.sidebarIndex=2">
+        <li [ngClass]="this.breadCrumb.sidebarIndex === 2 ? 'active' : ''" [routerLink]="['categories']" (click)="this.breadCrumb.sidebarIndex=2">
           <a>
             <i class="fa-solid fa-c"></i>
             Danh mục
           </a>
         </li>
-        <li [ngClass]="this.sidebarIndex === 3 ? 'active' : ''" [routerLink]="['products']" (click)="this.sidebarIndex=3">
+        <li [ngClass]="this.breadCrumb.sidebarIndex === 3 ? 'active' : ''" [routerLink]="['products']" (click)="this.breadCrumb.sidebarIndex=3">
           <a>
             <i class="fa-brands fa-product-hunt"></i>
             Sản phẩm
           </a>
         </li>
-        <li [ngClass]="this.sidebarIndex === 4 ? 'active' : ''" [routerLink]="['invoices']" (click)="this.sidebarIndex=4">
+        <li [ngClass]="this.breadCrumb.sidebarIndex === 4 ? 'active' : ''" [routerLink]="['invoices']" (click)="this.breadCrumb.sidebarIndex=4">
           <a>
             <i class="fa-solid fa-file-invoice-dollar"></i>
             Đơn hàng
           </a>
         </li>
-        <li [ngClass]="this.sidebarIndex === 5 ? 'active' : ''" [routerLink]="['accounts']" (click)="this.sidebarIndex=5">
+        <li *ngIf="authService.isAdmin(this.tokenStorageService.getCurrentUser())" [ngClass]="this.breadCrumb.sidebarIndex === 5 ? 'active' : ''" [routerLink]="['accounts']" (click)="this.breadCrumb.sidebarIndex=5">
           <a>
             <i class="fa-solid fa-user-group"></i>
             Tài khoản
@@ -48,17 +48,16 @@
             <i *ngIf="!isSidebarCollapsed" class="fa-solid fa-angles-left"></i>
             <i *ngIf="isSidebarCollapsed" class="fa-solid fa-angles-right"></i>
           </button>
+          <h5>{{breadCrumb.displayTitle()}}</h5>
           <div *ngIf="true" class="dropdown" style="position: relative; right: 50px;">
             <div class="dropdown-menu">
               <a class="dropdown-item" [routerLink]="['profile']">Tài khoản</a>
-              <a class="dropdown-item" [routerLink]="['orders']">Đơn hàng của tôi</a>
-              <a class="dropdown-item" href="#">Đổi mật khẩu</a>
               <a class="dropdown-item" (click)="onLogout()">Đăng xuất</a>
             </div>
             <a style="color: #4668f0; padding-right: 40px;" class="nav-link dropdown-toggle" href="#"
                id="account-navbarDropdown1" role="button" data-toggle="dropdown">
               <img
-                src="https://www.w3schools.com/howto/img_avatar2.png"
+                [src]="this.tokenStorageService.getCurrentUser().imgUrl | image"
                 class="rounded-circle" height="37" alt="Avatar" loading="lazy"/>
             </a>
           </div>

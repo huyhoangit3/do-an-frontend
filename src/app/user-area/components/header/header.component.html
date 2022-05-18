@@ -57,8 +57,10 @@
               style="width: 37px; height: 37px;" alt="Avatar" loading="lazy" />
           </a>
           <div class="dropdown-menu" aria-labelledby="account-navbarDropdown">
-            <a class="dropdown-item" style="cursor: pointer;" [routerLink]="['profile']">Tài khoản</a>
-            <a class="dropdown-item" style="cursor: pointer;" [routerLink]="['orders']">Đơn hàng của tôi</a>
+            <a *ngIf="!this.authService.isAdmin(this.tokenStorageService.getCurrentUser()) && 
+            !this.authService.isModerator(this.tokenStorageService.getCurrentUser())" class="dropdown-item" style="cursor: pointer;" [routerLink]="['profile']">Tài khoản</a>
+            <a *ngIf="!this.authService.isAdmin(this.tokenStorageService.getCurrentUser()) && 
+            !this.authService.isModerator(this.tokenStorageService.getCurrentUser())" class="dropdown-item" style="cursor: pointer;" [routerLink]="['orders']">Đơn hàng của tôi</a>
             <a class="dropdown-item" style="cursor: pointer;" (click)="onLogout()">Đăng xuất</a>
           </div>
         </div>
