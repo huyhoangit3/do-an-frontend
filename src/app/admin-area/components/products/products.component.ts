@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgToastService } from 'ng-angular-popup';
+import { OrderPipe } from 'ngx-order-pipe';
 import { debounceTime, distinctUntilChanged, map, Subscription, switchMap, tap } from 'rxjs';
 import { API } from 'src/app/apiURL';
 import { CategoryService } from 'src/app/core/services/category.service';
@@ -42,11 +43,15 @@ export class ProductsComponent implements OnInit, OnDestroy {
   currentPage = 1
   itemsPerPage = 5
 
+  sortKey: string
+  reverse: boolean
+
   // id of product will be deleted.
   deletedProductId: number
 
   constructor(public fileService: FileUploadService, public categoryService:
     CategoryService, private formBuilder: FormBuilder,
+    private orderPipe: OrderPipe,
     public productService: ProductService, private toast: NgToastService) {
   }
 
@@ -86,7 +91,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
     ).subscribe({
       next: res => {
         this.productService.products = res
-        if(res.length === 0) {
+        if (res.length === 0) {
           setTimeout(() => {
             this.toast.error({
               detail: "Thông báo", summary: 'Không tìm thấy sản phẩm nào',
@@ -136,7 +141,12 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this.productForm.get('category')?.reset()
     this.imageSrc = `${environment.baseApiUrl}/images/notfound.png`
     this.getAllCategories()
+  }
 
+  sort(key: string) {
+    this.sortKey = key
+    this.reverse = !this.reverse
+    this.productService.products = this.orderPipe.transform(this.productService.products, this.sortKey, this.reverse)
   }
 
   async onAddProduct() {
@@ -252,9 +262,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
   // end delete feature
 
   ngOnDestroy(): void {
-      if(this.searchSubscription) {
-        this.searchSubscription.unsubscribe()
-      }
+    if (this.searchSubscription) {
+      this.searchSubscription.unsubscribe()
+    }
   }
 
   get categoryId() {

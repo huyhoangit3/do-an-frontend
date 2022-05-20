@@ -25,7 +25,7 @@ export class ProductService {
   getProductsInInvoice(invoiceId: number): Promise<any> {
     let queryParams = new HttpParams()
     queryParams = queryParams.append('invoiceId', invoiceId)
-    return firstValueFrom(this.http.get<any>(`${API.PRODUCT}`, {params: queryParams}))
+    return firstValueFrom(this.http.get<any>(`${API.PRODUCT}`, { params: queryParams }))
   }
   findProductsByName(keyword: string): Observable<Product[]> {
     let queryParams = new HttpParams()
@@ -45,5 +45,14 @@ export class ProductService {
   }
   deleteProduct(productId: number): Promise<void> {
     return firstValueFrom(this.http.delete<void>(`${API.PRODUCT}/${productId}`))
+  }
+
+  isHotProduct(productId: number): boolean {
+    const temp = [...this.products]
+    const sortedProduct = temp.sort((a, b) => {
+      return b.sold - a.sold
+    })
+    const topProduct = sortedProduct.slice(0, 7)
+    return topProduct.map(p => p.id).includes(productId)
   }
 }

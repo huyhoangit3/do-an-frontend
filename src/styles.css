@@ -4,5 +4,9 @@ body {
 }
 
 .my-pagination .ngx-pagination .current {
-  background-color: #da6ace;
+  background-color: #764AF1;
+}
+
+.form-control {
+  box-shadow: none;
 }

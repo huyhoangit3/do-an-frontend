@@ -1,6 +1,6 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
+import { AboutUsComponent } from './components/about-us/about-us.component';
 import { CartComponent } from './components/cart/cart.component';
 import { FooterComponent } from "./components/footer/footer.component";
 import { HeaderComponent } from "./components/header/header.component";
@@ -28,7 +28,8 @@ import { UserComponent } from './user.component';
     SignupComponent,
     ProfileComponent,
     OrderComponent,
-    OrderDetailsComponent
+    OrderDetailsComponent,
+    AboutUsComponent
   ],
   imports: [
     UserRoutingModule,

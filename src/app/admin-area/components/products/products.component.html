@@ -8,7 +8,7 @@
                     Thêm sản phẩm
                 </button>
             </div>&nbsp;
-            <div><button class="btn btn-warning">
+            <div><button class="btn btn-primary">
                     <i class="fa-solid fa-file-excel"></i>
                     Xuất excel</button></div>
             <div class="ml-auto"><input type="text" class="form-control" [formControl]="searchKeyword" placeholder="Nhập từ khóa tìm kiếm"></div>
@@ -18,11 +18,11 @@
                 <table class="table table-hover">
                     <thead class="thead-dark">
                         <tr class="text-center">
-                            <th>Mã sản phẩm</th>
+                            <th (click)="sort('id')">Mã sản phẩm <i class="fa fa-sort"></i></th>
                             <th>Hình ảnh</th>
-                            <th>Tên sản phẩm</th>
-                            <th>Nhà sản xuất</th>
-                            <th>Giá bán</th>
+                            <th (click)="sort('name')">Tên sản phẩm <i class="fa fa-sort"></i></th>
+                            <th (click)="sort('producer')">Nhà sản xuất <i class="fa fa-sort"></i></th>
+                            <th (click)="sort('price')">Giá bán <i class="fa fa-sort"></i></th>
                             <th>Chất lượng</th>
                             <th>Hành động</th>
                         </tr>

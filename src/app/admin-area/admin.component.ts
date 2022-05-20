@@ -30,4 +30,10 @@ export class AdminComponent {
     this.tokenStorageService.signOut()
     this.router.navigate(['/'])
   }
+  calMarginLeft(): string {
+    if(this.isSidebarCollapsed) {
+      return '80px'
+    }
+    return '220px'
+  }
 }

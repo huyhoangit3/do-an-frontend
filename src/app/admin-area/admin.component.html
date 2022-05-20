@@ -1,6 +1,6 @@
 <div class="wrapper">
     <!-- Sidebar  -->
-    <nav id="sidebar" style="overflow-y: hidden;" [ngClass]="isSidebarCollapsed === true ? 'active' : ''">
+    <nav id="sidebar" style="overflow: hidden; position: fixed; top: 0; bottom: 0" [ngClass]="isSidebarCollapsed === true ? 'active' : ''">
       <div class="sidebar-header text-center">
         <h3>Admin dashboard</h3>
         <strong>AD</strong>
@@ -41,7 +41,7 @@
     </nav>
   
     <!-- Page Content  -->
-    <div id="content" class="mt-1">
+    <div id="content" class="mt-1" [ngStyle]="{'margin-left': calMarginLeft()}">
       <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding: 0;">
         <div class="container-fluid">
           <button type="button" id="sidebarCollapse" class="btn btn-info" (click)="onToggleSidebar()">

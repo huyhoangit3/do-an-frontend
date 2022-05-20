@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from "../shared/components/login/login.component";
 import { NotfoundComponent } from '../shared/components/notfound/notfound.component';
+import { AboutUsComponent } from './components/about-us/about-us.component';
 import { CartComponent } from "./components/cart/cart.component";
 import { HomeComponent } from './components/home/home.component';
 import { OrderDetailsComponent } from './components/order-details/order-details.component';
@@ -19,6 +20,7 @@ const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'products', component: ProductComponent },
       { path: 'support', component: SupportComponent },
+      { path: 'about-us', component: AboutUsComponent },
       { path: 'products/:id/details', component: ProductDetailsComponent },
       { path: 'cart', component: CartComponent },
       { path: 'login', component: LoginComponent },

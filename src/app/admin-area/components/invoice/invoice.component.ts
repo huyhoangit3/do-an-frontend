@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { OrderPipe } from 'ngx-order-pipe';
 import { InvoiceService } from 'src/app/core/services/invoice.service';
 
 @Component({
@@ -12,6 +13,9 @@ export class InvoiceComponent implements OnInit {
   currentPage = 1
   itemsPerPage = 5
 
+  sortKey: string
+  reverse: boolean
+
 
   invoiceStatus = [
     {code: 0, status: 'Chờ xác nhận'},
@@ -22,7 +26,8 @@ export class InvoiceComponent implements OnInit {
     {code: 5, status: 'Hủy'},
   ]
 
-  constructor(public invoiceService: InvoiceService) { }
+  constructor(public invoiceService: InvoiceService,
+    private orderPipe: OrderPipe) { }
 
   ngOnInit(): void {
     this.invoiceService.getAllInvoices().then(res => {
@@ -31,13 +36,11 @@ export class InvoiceComponent implements OnInit {
 
     })
   }
-  onViewInvoiceDetails(id: number) {
 
-  }
-
-  onStatusChange(event) {
-    console.log(event);
-    
+  sort(key: string) {
+    this.sortKey = key
+    this.reverse = !this.reverse
+    this.invoiceService.invoices = this.orderPipe.transform(this.invoiceService.invoices, this.sortKey, this.reverse)
   }
 
 }

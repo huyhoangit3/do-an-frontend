@@ -21,3 +21,9 @@
 hr {
   margin: 0;
 }
+.mybadge {
+  width: 35px;
+  position: absolute;
+  top: 10px;
+  left: 175px;
+}

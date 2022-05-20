@@ -11,6 +11,17 @@ hr {
   margin: 0;
 }
 
+.mybadge {
+  width: 40px;
+  position: absolute;
+  top: 10px;
+  left: 330px;
+}
+.hot-product:hover {
+  background-color: rgb(18, 134, 235);
+  color: white;
+}
+
 .card {
   position: relative;
   display: -webkit-box;

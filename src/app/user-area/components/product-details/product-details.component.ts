@@ -22,7 +22,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   
 
   constructor(private activatedRoute: ActivatedRoute,
-    private productService: ProductService,
+    public productService: ProductService,
     private toast: NgToastService,
     public cartService: CartService) {
   }
