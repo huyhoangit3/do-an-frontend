@@ -23,6 +23,8 @@ export class BreadcrumbService {
         return 'Quản lý đơn hàng'
       case 5:
         return 'Quản lý tài khoản'
+      case 6:
+        return 'Báo cáo'
       default:
         return 'Unknown'
     }

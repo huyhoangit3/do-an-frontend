@@ -6,6 +6,7 @@ import {HomeComponent} from "./components/home/home.component";
 import { InvoiceDetailsComponent } from './components/invoice-details/invoice-details.component';
 import { InvoiceComponent } from './components/invoice/invoice.component';
 import {ProductsComponent} from './components/products/products.component';
+import { ReportComponent } from './components/report/report.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,7 @@ const routes: Routes = [
       {path: 'home', component: HomeComponent},
       {path: 'products', component: ProductsComponent},
       {path: 'categories', component: CategoryComponent},
+      {path: 'report', component: ReportComponent},
       {path: 'invoices', component: InvoiceComponent},
       {path: 'invoice-details/:id', component: InvoiceDetailsComponent},
       {path: 'accounts', component: AccountComponent},

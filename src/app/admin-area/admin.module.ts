@@ -8,6 +8,7 @@ import { HomeComponent } from './components/home/home.component';
 import { InvoiceDetailsComponent } from './components/invoice-details/invoice-details.component';
 import { InvoiceComponent } from './components/invoice/invoice.component';
 import { ProductsComponent } from './components/products/products.component';
+import { ReportComponent } from './components/report/report.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,7 @@ import { ProductsComponent } from './components/products/products.component';
     InvoiceComponent,
     AccountComponent,
     InvoiceDetailsComponent,
-
+    ReportComponent
   ],
   imports: [
     AdminRoutingModule,

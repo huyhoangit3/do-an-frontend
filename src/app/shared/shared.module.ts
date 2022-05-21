@@ -4,6 +4,7 @@ import { NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { NgToastModule } from "ng-angular-popup";
+import { NgChartsModule } from "ng2-charts";
 import { NgxPaginationModule } from "ngx-pagination";
 import { authInterceptorProviders } from "../core/interceptors/auth-interceptor";
 import { ImagePipe } from "../core/pipes/image.pipe";
@@ -24,7 +25,9 @@ import { NotfoundComponent } from "./components/notfound/notfound.component";
     HttpClientModule,
     NgToastModule,
     NgxPaginationModule,
-    CommonModule
+    CommonModule,
+    NgChartsModule
+  
   ],
   // exports is required so you can access your 
   // component/pipe in other modules
@@ -37,7 +40,8 @@ import { NotfoundComponent } from "./components/notfound/notfound.component";
     NgToastModule,
     RouterModule,
     NgxPaginationModule,
-    CommonModule
+    CommonModule,
+    NgChartsModule
   ],
   providers: [authInterceptorProviders]
 })
