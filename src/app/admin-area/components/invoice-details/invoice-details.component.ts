@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -38,6 +39,7 @@ export class InvoiceDetailsComponent implements OnInit {
     private productService: ProductService,
     private invoiceService: InvoiceService,
     private customerService: CustomerService,
+    private location: Location,
     private toast: NgToastService) { }
 
   ngOnInit(): void {
@@ -70,8 +72,6 @@ export class InvoiceDetailsComponent implements OnInit {
       }, error: err => {
       }
     })
-
-
   }
   async getData(invoiceId) {
     await this.invoiceService.getInvoiceById(invoiceId).then(res => {
@@ -95,4 +95,7 @@ export class InvoiceDetailsComponent implements OnInit {
     })
   }
 
+  onBack() {
+    this.location.back()
+  }
 }

@@ -2,14 +2,14 @@
   <div class="container" style="margin-top: -20px;">
     <div class="d-flex mb-2">
       <div>
-        <button type="button" class="btn btn-success" (click)="onAddAccountClicked()" data-toggle="modal"
+        <button type="button" class="btn btn-primary" (click)="onAddAccountClicked()" data-toggle="modal"
           data-target="#accountModal">
           <i class="fa-solid fa-plus"></i>
           Thêm tài khoản
         </button>
       </div>&nbsp;
 
-      <div class="ml-auto"><input type="text" class="form-control" placeholder="Nhập từ khóa tìm kiếm"></div>
+      <div class="ml-auto"><input type="text" class="form-control" [formControl]="searchKeyword" placeholder="Nhập từ khóa tìm kiếm"></div>
     </div>
     <div class="row">
       <div class="col-lg-12">
@@ -25,23 +25,28 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="table-success"
+            <ng-container
               *ngFor="let account of accountService.accounts | paginate: {itemsPerPage, currentPage}">
-              <td class="text-center align-middle"> {{ account.id}}</td>
-              <td class="text-center align-middle"><img style="width: 65px; height: 65px; border-radius: 7px;"
-                  [src]="account.imgUrl | image" class="card-img-top mx-auto d-block" alt="Anh minh hoa" />
-              </td>
-              <td class="text-center align-middle"> {{ account.userName}}</td>
-              <td class="text-center align-middle">
-                <label *ngIf="account.userName !== tokenService.getCurrentUser().userName" class="switch">
-                  <input type="checkbox" (change)="onStatusChange($event)" (click)="onRowClick(account.id)"
-                    [value]="account.status" [checked]="account.status">
-                  <span class="slider round"></span>
-                </label>
-              </td>
-              <td class="text-center align-middle">{{ account.email }}</td>
-              <td class="text-center align-middle"> {{ account.createAt | customDate}}</td>
-            </tr>
+              <tr [ngClass]="account.status ? 'table-primary' : 'table-danger'">
+                <td class="text-center align-middle"> {{ account.id}}</td>
+                <td class="text-center align-middle"><img style="width: 65px; height: 65px; border-radius: 7px;"
+                    [src]="account.imgUrl | image" class="card-img-top mx-auto d-block" alt="Anh minh hoa" />
+                </td>
+                <td class="text-center align-middle"> {{ account.userName}}</td>
+                <td class="text-center align-middle">
+                  <label *ngIf="account.userName !== tokenService.getCurrentUser().userName" class="switch">
+                    <input type="checkbox" (change)="onStatusChange($event)" (click)="onRowClick(account.id)"
+                      [value]="account.status" [checked]="account.status">
+                    <span class="slider round"></span>
+                  </label>
+                  <span *ngIf="account.userName === tokenService.getCurrentUser().userName">
+                    <i class="fa-solid fa-circle-check fa-2xl" style="color: blue;"></i>
+                  </span>
+                </td>
+                <td class="text-center align-middle">{{ account.email }}</td>
+                <td class="text-center align-middle"> {{ account.createAt | customDate}}</td>
+              </tr>
+            </ng-container>
           </tbody>
         </table>
         <div class="primary-btn text-center">

@@ -10,6 +10,10 @@ export class CustomerService {
 
   constructor(private http: HttpClient) { }
 
+  getAllCustomers(): Promise<any> {
+    return firstValueFrom(this.http.get<any>(API.CUSTOMER))
+  }
+
   getCustomerByAccountId(accountId: number): Promise<any> {
     let params = new HttpParams()
     params = params.append('accountId', accountId)

@@ -18,12 +18,12 @@ export class InvoiceComponent implements OnInit {
 
 
   invoiceStatus = [
-    {code: 0, status: 'Chờ xác nhận'},
-    {code: 1, status: 'Đã xác nhận'},
-    {code: 2, status: 'Đang lấy hàng'},
-    {code: 3, status: 'Đang vận chuyển'},
-    {code: 4, status: 'Đã giao'},
-    {code: 5, status: 'Hủy'},
+    { code: 0, status: 'Chờ xác nhận' },
+    { code: 1, status: 'Đã xác nhận' },
+    { code: 2, status: 'Đang lấy hàng' },
+    { code: 3, status: 'Đang vận chuyển' },
+    { code: 4, status: 'Đã giao' },
+    { code: 5, status: 'Hủy' },
   ]
 
   constructor(public invoiceService: InvoiceService,
@@ -43,4 +43,20 @@ export class InvoiceComponent implements OnInit {
     this.invoiceService.invoices = this.orderPipe.transform(this.invoiceService.invoices, this.sortKey, this.reverse)
   }
 
+  getColorRow(status: number) {
+    switch (status) {
+      case 0:
+        return 'table-primary'
+      case 1:
+      case 2:
+      case 3:
+        return 'table-warning'
+      case 4:
+        return 'table-success'
+      case 5:
+        return 'table-danger'
+      default:
+        return 'table-danger'
+    }
+  }
 }

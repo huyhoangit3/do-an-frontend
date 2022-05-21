@@ -4,8 +4,8 @@
             <div class="card bg-c-blue order-card">
                 <div class="card-block">
                     <h6 class="m-b-20">Tổng đơn hàng</h6>
-                    <h2 class="text-right"><i class="fa fa-cart-plus f-left"></i><span>486</span></h2>
-                    <p class="m-b-0">Đã giao<span class="f-right">351</span></p>
+                    <h2 class="text-right"><i class="fa fa-cart-plus f-left"></i><span>{{ invoices.length}}</span></h2>
+                    <p class="m-b-0">Đã giao<span class="f-right">{{ getSuccessInvoices().length}}</span></p>
                 </div>
             </div>
         </div>
@@ -14,7 +14,7 @@
             <div class="card bg-c-green order-card">
                 <div class="card-block">
                     <h6 class="m-b-20">Tổng số danh mục</h6>
-                    <h2 class="text-right"><i class="fa fa-rocket f-left"></i><span>486</span></h2>
+                    <h2 class="text-right"><i class="fa fa-rocket f-left"></i><span>{{ categories.length }}</span></h2>
                 </div>
             </div>
         </div>
@@ -23,8 +23,8 @@
             <div class="card bg-c-yellow order-card">
                 <div class="card-block">
                     <h6 class="m-b-20">Tổng số tài khoản</h6>
-                    <h2 class="text-right"><span></span><i class="fa-solid fa-user-group f-left"></i><span>486</span></h2>
-                    <p class="m-b-0">Đang hoạt động<span class="f-right">351</span></p>
+                    <h2 class="text-right"><span></span><i class="fa-solid fa-user-group f-left"></i><span>{{ accounts.length }}</span></h2>
+                    <p class="m-b-0">Đang hoạt động<span class="f-right">{{ getActiveAccounts().length }}</span></p>
                 </div>
             </div>
         </div>
@@ -33,7 +33,16 @@
             <div class="card bg-c-pink order-card">
                 <div class="card-block">
                     <h6 class="m-b-20">Tổng số khách hàng</h6>
-                    <h2 class="text-right"><i class="fa-solid fa-user-check f-left"></i><span>486</span></h2>
+                    <h2 class="text-right"><i class="fa-solid fa-user-check f-left"></i><span>{{ customers.length }}</span></h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-xl-3">
+            <div class="card bg-c-pink order-card">
+                <div class="card-block">
+                    <h6 class="m-b-20">Tổng số sản phẩm</h6>
+                    <h2 class="text-right"><i class="fa-brands fa-product-hunt f-left"></i><span>{{ getTotalProduct() }}</span></h2>
                 </div>
             </div>
         </div>

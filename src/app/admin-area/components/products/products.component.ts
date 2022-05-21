@@ -10,6 +10,7 @@ import { ProductService } from 'src/app/core/services/product.service';
 import { Category } from 'src/app/models/category.model';
 import { Product } from 'src/app/models/product.model';
 import { environment } from 'src/environments/environment';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-admin-products',
@@ -22,6 +23,11 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   // list of categories
   categories: Category[] = []
+
+  // data export
+  dataExport = []
+  dataLabel = ['Mã sản phẩm', 'Tên sản phẩm', 'Tên danh mục',
+    'Nhà sản xuất', 'Giá bán', 'Chất lượng', 'Số lượng', 'Đã bán', 'Trọng lượng', 'Mùi hương']
 
   // list of products
   products: Product[] = []
@@ -237,6 +243,31 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   onDetailsBtnClicked(productId: number) {
 
+  }
+
+  onExportExcel() {
+    this.productService.products.forEach(p => {
+      this.dataExport.push({
+        'Mã sản phẩm': p.id,
+        'Tên sản phẩm': p.name,
+        'Tên danh mục': p.category.name,
+        'Nhà sản xuất': p.producer,
+        'Giá bán': p.price,
+        'Chất lượng': p.quality,
+        'Số lượng': p.quantity,
+        'Đã bán': p.sold,
+        'Trọng lượng': p.weight,
+        'Mùi hương': p.fragrant
+      })
+    })
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.dataExport);
+
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    XLSX.writeFile(wb, 'products.xlsx')
   }
 
   // start delete feature

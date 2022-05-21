@@ -13,16 +13,18 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="table-success"
-              *ngFor="let invoice of invoiceService.invoices | paginate: {itemsPerPage, currentPage}">
-              <td class="text-center align-middle"> {{ invoice.id}}</td>
-              <td class="text-center align-middle"> {{ invoice.status | status}}</td>
-              <td class="text-center align-middle">{{ invoice.bookingTime | customDate}}</td>
-              <td class="text-center align-middle"> {{ invoice.deliveryAddress}}</td>
-              <td class="text-center align-middle">
-                <button class="btn btn-success" [routerLink]="['/admin/invoice-details', invoice.id]"><i class="fa-solid fa-eye"></i> Chi tiết</button>&nbsp;
-              </td>
-            </tr>
+            <ng-container *ngFor="let invoice of invoiceService.invoices | paginate: {itemsPerPage, currentPage}">
+              <tr [ngClass]="getColorRow(invoice.status)">
+                <td class="text-center align-middle"> {{ invoice.id}}</td>
+                <td class="text-center align-middle"> {{ invoice.status | status}}</td>
+                <td class="text-center align-middle">{{ invoice.bookingTime | customDate}}</td>
+                <td class="text-center align-middle"> {{ invoice.deliveryAddress}}</td>
+                <td class="text-center align-middle">
+                  <button class="btn btn-primary" [routerLink]="['/admin/invoice-details', invoice.id]"><i
+                      class="fa-solid fa-eye"></i> Chi tiết</button>&nbsp;
+                </td>
+              </tr>
+            </ng-container>
           </tbody>
         </table>
         <div class="primary-btn text-center">
