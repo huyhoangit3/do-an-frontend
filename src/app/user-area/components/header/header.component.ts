@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
-import { debounceTime, distinctUntilChanged, map, Subscription, switchMap, tap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, of, switchMap, tap } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { TokenStorageService } from 'src/app/core/services/auth/token-storage.service';
 import { CartService } from 'src/app/core/services/cart.service';
@@ -18,19 +18,30 @@ import { ProductService } from 'src/app/core/services/product.service';
 export class HeaderComponent implements OnInit {
 
   searchControl = new FormControl('')
-  
+  categoryId: any
+
   constructor(public productService: ProductService,
-    public categoryService: CategoryService, 
+    public categoryService: CategoryService,
     public cartService: CartService,
     public invoiceService: InvoiceService,
     public authService: AuthService,
+    private activatedRoute: ActivatedRoute,
     public tokenStorageService: TokenStorageService,
-    private router: Router, private toast: NgToastService ) {
+    private router: Router, private toast: NgToastService) {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe({
+      next: params => {
+        if (params['categoryId']) {
+          this.categoryId = params['categoryId']
+        } else {
+          this.categoryId = null
+        }
+      }
+    })
     this.searchControl.valueChanges.pipe(
-      tap(() => {}),
+      tap(() => { }),
       map(key => key.trim()),
       debounceTime(300),
       distinctUntilChanged(),
@@ -43,7 +54,11 @@ export class HeaderComponent implements OnInit {
       })
     ).subscribe({
       next: res => {
-        this.productService.products = res
+        if(this.categoryId) {
+          this.productService.products = res.filter(p => p.category.id == this.categoryId)
+        } else {
+          this.productService.products = res
+        }
       },
       error: err => console.log(`Errors occurred when searching products: ${err.message}`)
     })

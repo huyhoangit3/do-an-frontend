@@ -4,24 +4,11 @@
       <div class="col-md-8" style="padding-left: 70px;">
         <div class="row">
           <div class="col-md-4">
-            <select class="form-control">
-              <option value="abc" selected>Tìm theo danh mục</option>
-              <option value="abc">ABC</option>
-              <option value="def">DEF</option>
-            </select>
-          </div>
-          <div class="col-md-4">
-            <select class="form-control">
-              <option value="abc" selected>Tìm theo giá bán</option>
-              <option value="abc">ABC</option>
-              <option value="def">DEF</option>
-            </select>
-          </div>
-          <div class="col-md-4">
-            <select class="form-control">
-              <option value="abc" selected>Tìm theo loại hương</option>
-              <option value="abc">ABC</option>
-              <option value="def">DEF</option>
+            <select class="form-control" [formControl]="filterOption">
+              <option value="0" [selected]="true">Tất cả sản phẩm</option>
+              <option value="1">Sản phẩm bán chạy</option>
+              <option value="2">Giá từ thấp đến cao</option>
+              <option value="3">Giá từ cao xuống thấp</option>
             </select>
           </div>
         </div>

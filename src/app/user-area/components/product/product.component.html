@@ -1,10 +1,14 @@
 <section style="background-color: #eee;">
   <div class="container-fluid" style="min-height: 80vh;">
+    <div class="pl-5 mt-3">
+      <h6 class="pl-2"><b>TINH DẦU THIÊN NHIÊN HƯƠNG SẮC VIỆT - 100% TỰ NHIÊN, NGUYÊN CHẤT</b></h6>
+      <p class="pl-2">Hương Sắc Việt là cửa hàng bán tinh dầu thiên nhiên, tinh dầu thơm uy tín tại Tp.HCM, Hà Nội. Tinh
+        dầu La Champa Pháp, thương hiệu tinh dầu thiên nhiên số 1 Việt Nam.</p>
+    </div>
     <div class="row justify-content-center">
       <div *ngFor="let product of productService.products | paginate: {itemsPerPage, currentPage}"
         class="col-12 col-md-2 col-lg-2 col-xl-2 my-3" style="padding: 0; margin: 0 10px;">
         <div class="card text-black" [routerLink]="['/products', product.id, 'details']">
-          <span class="mybadge badge badge-danger">Hot</span>
           <img style="padding: 5px;" [src]="product.imgUrl | image" class="card-img-top mx-auto d-block"
             alt="Product image" />
           <hr>
