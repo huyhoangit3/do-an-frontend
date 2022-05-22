@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
@@ -19,6 +20,7 @@ export class OrderComponent implements OnInit {
 
   constructor(public invoiceService: InvoiceService,
     private router: Router, 
+    private location: Location,
     private orderService: OrderService,
     private tokenStorage: TokenStorageService,
     private toast: NgToastService) {
@@ -55,4 +57,7 @@ export class OrderComponent implements OnInit {
     })
   }
 
+  onBack() {
+    this.location.back()
+  }
 }

@@ -37,6 +37,13 @@ export class ProductService {
     queryParams = queryParams.append('categoryId', categoryId)
     return firstValueFrom(this.http.get<Product[]>(`${API.PRODUCT}`, { params: queryParams }))
   }
+
+  async findProductsByCategoryIdAsync(categoryId: number): Promise<Product[]> {
+    let queryParams = new HttpParams()
+    queryParams = queryParams.append('categoryId', categoryId)
+    return await firstValueFrom(this.http.get<Product[]>(`${API.PRODUCT}`, { params: queryParams }))
+  }
+
   addProduct(product: Product): Promise<Product> {
     return firstValueFrom(this.http.post<Product>(API.PRODUCT, product))
   }

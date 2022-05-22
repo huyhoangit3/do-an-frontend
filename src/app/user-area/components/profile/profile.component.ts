@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { TokenStorageService } from 'src/app/core/services/auth/token-storage.service';
 import { FileUploadService } from 'src/app/core/services/file-storage/file.service';
 import { API } from 'src/app/apiURL';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-profile',
@@ -28,6 +29,7 @@ export class ProfileComponent implements OnInit {
   constructor(public tokenStorage: TokenStorageService,
     private formBuilder: FormBuilder,
     private toast: NgToastService,
+    private location: Location,
     private fileService: FileUploadService,
     private customerService: CustomerService,
     private accountService: AccountService, private authService: AuthService) {
@@ -113,6 +115,10 @@ export class ProfileComponent implements OnInit {
     }
   }
   // end choose file feature
+
+  onBack() {
+    this.location.back()
+  }
 
   get userName() {
     return this.profileForm.get('userName')

@@ -40,7 +40,7 @@
         </table>
         <div class="d-flex justify-content-between">
           <div>
-            <button class="btn btn-danger" [routerLink]="['/']">Quay lại</button>
+            <button class="btn btn-danger" (click)="onBack()">Quay lại</button>
           </div>
           <div>
             <pagination-controls class="my-pagination" (pageChange)="currentPage = $event" previousLabel="Trước"

@@ -18,6 +18,10 @@ export class CategoryService {
     return firstValueFrom(this.http.get<Category[]>(API.CATEGORY))
   }
 
+  async getAllCategoriesAsync(): Promise<Category[]> {
+    return await firstValueFrom(this.http.get<Category[]>(API.CATEGORY))
+  }
+
   findCategoryByName(keyword: string): Observable<Category[]> {
     let queryParams = new HttpParams()
     queryParams = queryParams.append('keyword', keyword)
