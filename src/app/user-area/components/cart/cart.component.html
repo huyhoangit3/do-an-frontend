@@ -1,4 +1,4 @@
-<div class="container-fluid" style="min-height: 565px;">
+<div class="container-fluid" style="min-height: 600px;">
   <div class="row">
     <div class="col-8" style="padding-left: 20px;">
       <div *ngIf="cartService.items.length !== 0;else hideCart" class="container" style="min-height: 75vh;">
@@ -33,7 +33,7 @@
           </div><ng-template class="container" #hideCart>
             <div class="container" style="min-height: 75vh;">
               <div style="text-align: center;">
-                <img style="width: 330px; height: 330px;" src="https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-2130356-1800917.png" alt="">
+                <img style="width: 330px; height: 330px;" src="../../../../assets/images/empty-cart-2130356-1800917.png" alt="">
                 <h4>Bạn chưa có sản phẩm nào trong giỏ hàng:((</h4>
                 <button class="btn btn-primary" [routerLink]="['/']">Tiếp tục mua sắm</button>
               </div>  
