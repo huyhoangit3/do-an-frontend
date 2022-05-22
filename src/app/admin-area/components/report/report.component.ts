@@ -15,8 +15,10 @@ export class ReportComponent implements OnInit {
   isShowProductReport = false
   isShowCategoryReport = false
   isShowRevenue = false
-  top6Products: any
-  categories: any
+  top6Products = []
+  categories = []
+  products = []
+  arr = []
   invoices = []
 
   // bar chart
@@ -44,6 +46,9 @@ export class ReportComponent implements OnInit {
   // pie chart
   public pieChartOptions: ChartOptions = {
     responsive: true,
+    animation: {
+      duration: 0
+    },
     plugins: {
       legend: {
         display: true,
@@ -68,11 +73,10 @@ export class ReportComponent implements OnInit {
   // line chart
   lineChartData: any = [
     {
-      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label: 'Số sản phẩm đã bán',
+      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label: 'Doanh thu',
       borderColor: 'rgba(148,159,177,1)', pointBackgroundColor: 'red', backgroundColor: 'rgba(148,159,177,0.2)',
       fill: 'origin'
     },
-
   ];
 
 
@@ -81,6 +85,11 @@ export class ReportComponent implements OnInit {
     'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
   lineChartOptions = {
     responsive: true,
+    scales: {
+      y: {
+        beginAtZero: true,
+      }
+    }
   };
   lineChartColors = [
     {
@@ -124,37 +133,22 @@ export class ReportComponent implements OnInit {
     })
   }
 
-  getCategoryReport() {
-    let arr = []
-    this.categoryService.getAllCategories().then(
-      res => {
-        this.categories = res
-        res.forEach(c => {
-          this.pieChartData.labels.push(c.name)
-          this.productService.findProductsByCategoryId(c.id).then(res => {
-            let total: number = 0
-            res.forEach(e => {
-              total += e.quantity
-            })
-            arr.push(total)
-          })
-        })
-        setTimeout(() => {
-          let sumArr = arr.reduce((a, b) => a + b, 0)
-          arr.forEach(e => {
-            this.pieChartData.datasets[0].data.push(e / sumArr * 100)
-          })
-          this.isShowCategoryReport = true
-        }, 200)
-
-      }
-    ).catch(err => {
-      console.log(`Can not get list of categories: ${err.message}`)
-      this.toast.error({
-        detail: "Cảnh báo", summary: 'Lỗi không thể lấy danh sách danh mục',
-        sticky: false, duration: 3000, position: 'br'
+  async getCategoryReport() {
+    this.categories = await this.categoryService.getAllCategoriesAsync()
+    for (let i = 0; i < this.categories.length; i++) {
+      this.pieChartData.labels.push(this.categories[i].name)
+      this.products = await this.productService.findProductsByCategoryIdAsync(this.categories[i].id)
+      let total: number = 0
+      this.products.forEach(e => {
+        total += e.quantity
       })
+      this.arr.push(total)
+    }
+    let sumArr = this.arr.reduce((a, b) => a + b, 0)
+    this.arr.forEach(e => {
+      this.pieChartData.datasets[0].data.push(e / sumArr * 100)
     })
+    this.isShowCategoryReport = true
   }
 
   getInvoiceReport() {
@@ -172,7 +166,7 @@ export class ReportComponent implements OnInit {
           if (month === i) {
             this.productService.getProductsInInvoice(this.invoices[j].id).then(
               res => {
-                res.forEach(e => this.lineChartData[0].data[i] += e.quantity)
+                res.forEach(e => this.lineChartData[0].data[i] += e.quantity * e.price)
               }
             )
           }
