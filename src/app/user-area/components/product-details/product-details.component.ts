@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
@@ -24,7 +25,8 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   constructor(private activatedRoute: ActivatedRoute,
     public productService: ProductService,
     private toast: NgToastService,
-    public cartService: CartService) {
+    public cartService: CartService,
+    private location: Location) {
   }
 
   ngOnInit(): void {
@@ -54,6 +56,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       
       this.cartService.addToCart(product, quantity)
     
+  }
+
+  onBack() {
+    this.location.back()
   }
 
   ngOnDestroy(): void {

@@ -44,7 +44,7 @@
           Tài khoản
         </a>
       </li>
-      <li (click)="this.breadCrumb.sidebarIndex=6" [ngClass]="this.breadCrumb.sidebarIndex === 6 ? 'active' : ''"
+      <li *ngIf="authService.isAdmin(this.tokenStorageService.getCurrentUser())" (click)="this.breadCrumb.sidebarIndex=6" [ngClass]="this.breadCrumb.sidebarIndex === 6 ? 'active' : ''"
         [routerLink]="['report']" (click)="this.breadCrumb.sidebarIndex=6">
         <a>
           <i class="fa-solid fa-chart-column"></i>

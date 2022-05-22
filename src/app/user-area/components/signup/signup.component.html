@@ -81,7 +81,7 @@
             </div>
             <div class="row d-flex justify-content-center">
               <button class="btn btn-primary" (click)="onRegisterUser()" [disabled]="!signUpForm.valid">Đăng ký</button>
-              <button class="btn btn-danger ml-3" [routerLink]="['/']">Quay lại</button>
+              <button class="btn btn-danger ml-3" (click)="onBack()">Quay lại</button>
             </div>
           </form>
         </div>

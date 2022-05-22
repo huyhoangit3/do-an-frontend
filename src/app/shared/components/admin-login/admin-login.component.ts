@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,6 +20,7 @@ export class AdminLoginComponent implements OnInit {
     private authService: AuthService,
     private tokenStorageService: TokenStorageService,
     private router: Router,
+    private location: Location,
     private activatedRoute: ActivatedRoute, private invoiceService: InvoiceService) {
   }
 
@@ -62,8 +64,9 @@ export class AdminLoginComponent implements OnInit {
         duration: 3000, position: 'br'
       })
     })
-
-    
+  }
+  onBack() {
+    this.location.back()
   }
   get username() {
     return this.loginForm.get('username');

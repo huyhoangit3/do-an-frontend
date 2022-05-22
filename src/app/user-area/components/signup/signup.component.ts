@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -23,6 +24,7 @@ export class SignupComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private authService: AuthService, 
     private toast: NgToastService,
+    private location: Location,
     private router: Router, private fileService: FileUploadService) {
   }
 
@@ -77,6 +79,9 @@ export class SignupComponent implements OnInit {
         sticky: false, duration: 2000, position: 'br'
       })
     })
+  }
+  onBack() {
+    this.location.back()
   }
 
   get userName() {

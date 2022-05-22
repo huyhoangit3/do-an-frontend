@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ChartOptions, ChartType } from 'chart.js';
+import { ChartOptions, ChartType, Color } from 'chart.js';
 import { NgToastService } from 'ng-angular-popup';
 import { CategoryService } from 'src/app/core/services/category.service';
+import { InvoiceService } from 'src/app/core/services/invoice.service';
 import { ProductService } from 'src/app/core/services/product.service';
 
 @Component({
@@ -13,8 +14,10 @@ export class ReportComponent implements OnInit {
 
   isShowProductReport = false
   isShowCategoryReport = false
+  isShowRevenue = false
   top6Products: any
   categories: any
+  invoices = []
 
   // bar chart
   barChartOptions: ChartOptions = {
@@ -62,11 +65,51 @@ export class ReportComponent implements OnInit {
   public pieChartLegend = true;
   public pieChartPlugins = [];
 
-  constructor(public productService: ProductService, private toast: NgToastService,
+  // line chart
+  lineChartData: any = [
+    {
+      data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], label: 'Số sản phẩm đã bán',
+      borderColor: 'rgba(148,159,177,1)', pointBackgroundColor: 'red', backgroundColor: 'rgba(148,159,177,0.2)',
+      fill: 'origin'
+    },
+
+  ];
+
+
+
+  lineChartLabels = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8',
+    'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
+  lineChartOptions = {
+    responsive: true,
+  };
+  lineChartColors = [
+    {
+      borderColor: 'black',
+      backgroundColor: 'rgba(255,255,0,0.28)',
+    },
+  ];
+  lineChartLegend = true;
+  lineChartPlugins = [];
+  lineChartType = 'line';
+
+  //========================
+
+  constructor(public productService: ProductService,
+    private invoiceService: InvoiceService,
+    private toast: NgToastService,
     private categoryService: CategoryService) {
   }
 
   ngOnInit(): void {
+
+    this.getTop6Products()
+
+    this.getCategoryReport()
+
+    this.getInvoiceReport()
+  }
+
+  getTop6Products() {
     this.productService.getTopProducts().then(res => {
       let i = 0
       this.top6Products = res
@@ -79,19 +122,21 @@ export class ReportComponent implements OnInit {
       });
       this.isShowProductReport = true
     })
-
-    this.getAllCategories()
   }
 
-  getAllCategories() {
+  getCategoryReport() {
     let arr = []
     this.categoryService.getAllCategories().then(
       res => {
         this.categories = res
-        this.categories.forEach(c => {
+        res.forEach(c => {
           this.pieChartData.labels.push(c.name)
           this.productService.findProductsByCategoryId(c.id).then(res => {
-            arr.push(res.length)
+            let total: number = 0
+            res.forEach(e => {
+              total += e.quantity
+            })
+            arr.push(total)
           })
         })
         setTimeout(() => {
@@ -109,6 +154,31 @@ export class ReportComponent implements OnInit {
         detail: "Cảnh báo", summary: 'Lỗi không thể lấy danh sách danh mục',
         sticky: false, duration: 3000, position: 'br'
       })
+    })
+  }
+
+  getInvoiceReport() {
+    // lay tat ca don hang
+    this.invoiceService.getAllInvoices().then(res => {
+      this.invoices = res.filter(e => e.status === 4)
+      this.invoices.sort((a, b) => {
+        let aMonth = new Date(a.bookingTime).getMonth() + 1
+        let bMonth = new Date(b.bookingTime).getMonth() + 1
+        return aMonth - bMonth
+      })
+      for (let i = 0; i < 12; ++i) {
+        for (let j = 0; j < this.invoices.length; j++) {
+          let month = new Date(this.invoices[j].bookingTime).getMonth()
+          if (month === i) {
+            this.productService.getProductsInInvoice(this.invoices[j].id).then(
+              res => {
+                res.forEach(e => this.lineChartData[0].data[i] += e.quantity)
+              }
+            )
+          }
+        }
+      }
+      this.isShowRevenue = true
     })
   }
 }
