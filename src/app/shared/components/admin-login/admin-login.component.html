@@ -27,8 +27,7 @@
               <button type="button" [disabled]="loginForm.invalid" (click)="onLogin()" class="btn btn-primary">
                 Đăng nhập
               </button>&nbsp;
-
-              <button class="btn btn-danger" [routerLink]="['/']">
+              <button class="btn btn-danger" (click)="onBack()">
                 Quay lại
               </button>
             </div>
