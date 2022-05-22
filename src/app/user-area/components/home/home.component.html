@@ -25,14 +25,14 @@
     </div>
     <div class="row justify-content-center">
       <div *ngFor="let product of productService.products | paginate: {itemsPerPage, currentPage}"
-        class="col-12 col-md-2 col-lg-2 col-xl-2 my-3" style="padding: 0; margin: 0 10px;">
+        class="col-12 col-md-2 col-lg-2 col-xl-2 my-3" style="padding: 0; margin: 0 10px; min-height: fit-content;">
         <div class="card text-black" [routerLink]="['/products', product.id, 'details']">
           <span class="mybadge badge badge-danger" *ngIf="productService.isHotProduct(product.id)">Hot</span>
           <img style="padding: 5px;" [src]="product.imgUrl | image" class="card-img-top mx-auto d-block"
             alt="Product image" />
           <hr>
           <div class="card-body">
-            <div class="text-center">
+            <div class="text-center text-truncate">
               <p class="card-title">{{ product.name }}</p>
               <span><b>{{ product.price | number: '4.0' }} VNĐ</b></span>
             </div>
